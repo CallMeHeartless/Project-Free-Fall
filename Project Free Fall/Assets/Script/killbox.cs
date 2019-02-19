@@ -17,9 +17,21 @@ public class killbox : MonoBehaviour
     }
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "charter")
+        Debug.Log(collision.gameObject.tag);
+        if (collision.gameObject.tag == "Player")
         {
+            Debug.Log("destorying");
             Destroy(collision.gameObject);
+            Debug.Log("destoryed");
         }
     }
+    void OnCollisionExit(Collision collision)
+    {
+        Debug.Log(collision.gameObject.tag);
+    }
+    void OnCollisionStay(Collision collision)
+    {
+        Debug.Log(collision.gameObject.tag);
+    }
+
 }

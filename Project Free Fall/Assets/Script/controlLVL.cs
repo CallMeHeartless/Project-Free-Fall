@@ -24,9 +24,9 @@ public class controlLVL : MonoBehaviour
             }
             else
             {
-                Debug.Log("hello");
+               
                 circles[counter].GetComponent<Drop>().destoying = true;
-                Debug.Log("good");
+               
                 counter--;
                 timer = 40;
 
