@@ -4,13 +4,11 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: polySurface167
     400000: //RootNode
-    400002: polySurface167
-    2100000: lambert2
-    2300000: polySurface167
-    3300000: polySurface167
-    4300000: polySurface167
+    2100000: lambert1
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: FloorTile
   externalObjects: {}
   materials:
     importMaterials: 1
