@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     // Player movement variables
     [SerializeField]
-    private float moveSpeed = 100.0f;
+    private float moveSpeed;
     private Rigidbody rb;
     private Vector3 movement;
 
