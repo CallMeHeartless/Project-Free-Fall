@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class Drop : MonoBehaviour
 {
-    public char lettter;
     public int timer;
-    bool destoying = false;
+    public bool destoying = false;
     // Start is called before the first frame update
     void Start()
     {
