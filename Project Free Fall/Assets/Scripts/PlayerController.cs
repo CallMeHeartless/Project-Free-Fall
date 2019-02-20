@@ -9,10 +9,13 @@ public class PlayerController : MonoBehaviour
     private int playerID;
     private string playerLeftXAxis;
     private string playerLeftYAxis;
+    private string playerRightXAxis;
 
     // Player movement variables
     [SerializeField]
     private float moveSpeed;
+    [SerializeField]
+    private float turnSpeed;
     private Rigidbody rb;
     private Vector3 movement;
 
@@ -26,7 +29,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        movement = new Vector3();
         MovementInput();
+        RotatePlayer();
     }
 
     void FixedUpdate() {
@@ -39,6 +44,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Assigned ID " + _playerID.ToString() + " to player");
         playerLeftXAxis = "Controller_" + _playerID.ToString() + "_Left_X_Axis";
         playerLeftYAxis = "Controller_" + _playerID.ToString() + "_Left_Y_Axis";
+        playerRightXAxis = "Controller_" + _playerID.ToString() + "_Right_X_Axis";
 
     }
 
@@ -52,5 +58,10 @@ public class PlayerController : MonoBehaviour
     void MoveBody()
     {
         rb.AddForce(moveSpeed * movement, ForceMode.VelocityChange);
+    }
+
+    void RotatePlayer()
+    {
+        transform.Rotate(transform.up, turnSpeed * Input.GetAxis(playerRightXAxis));
     }
 }
