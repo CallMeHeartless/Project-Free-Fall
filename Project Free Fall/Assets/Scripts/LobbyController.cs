@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class LobbyController : MonoBehaviour
 {
-
     public GameObject lobbyUI;
     private string[] joysticks;
-    private bool[] readyStatus;
+    private static bool[] readyStatus = new bool[4];
 
     // Start is called before the first frame update
     void Start()
     {
-        readyStatus = new bool[4];
+        //readyStatus = new bool[4];
         lobbyUI = GameObject.Find("LobbyUI");
         joysticks = Input.GetJoystickNames();
     }
@@ -22,6 +21,7 @@ public class LobbyController : MonoBehaviour
     // Update is called once per frame
     void Update() {
         CheckReadyStatus();
+        CheckForReturnToMainMenu();
         CheckForGameStart();
     }
 
@@ -64,7 +64,28 @@ public class LobbyController : MonoBehaviour
             if(readyCount > 1) {
                 // Start game
                 Debug.Log("Game Started");
+                SceneManager.LoadScene("Kerry Test Scene");
+                
             }
         }
     }
+
+    void CheckForReturnToMainMenu() {
+        if (Input.GetKeyDown(KeyCode.Joystick1Button1)) {
+            Debug.Log("Returning to main menu");
+            //SceneManager.LoadScene("MainMenu");
+        }
+    }
+
+    public static bool[] GetReadyStatus() {
+        return readyStatus;
+    }
+
+    public static void ClearReadyStatus() {
+        for(int i = 0; i < 4; ++i) {
+            readyStatus[i] = false;
+        }
+    }
+
+
 }
