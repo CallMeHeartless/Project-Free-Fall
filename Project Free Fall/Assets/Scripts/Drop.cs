@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Drop : MonoBehaviour
 {
-    public int timer;
+    public float timer;
     public bool destoying = false;
     // Start is called before the first frame update
     void Start()
@@ -15,15 +15,13 @@ public class Drop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            destoying = true;
-        }
+       
         if (destoying == true)
         {
-            if (timer !=0)
+            if (timer >=0)
             {
-                timer--;
+                timer -= Time.deltaTime;
+                
                 gameObject.transform.Translate(0, -0.1f, 0);
             }
             else
