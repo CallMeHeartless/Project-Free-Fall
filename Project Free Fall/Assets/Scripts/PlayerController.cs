@@ -57,11 +57,18 @@ public class PlayerController : MonoBehaviour
 
     void MoveBody()
     {
-        rb.AddForce(moveSpeed * movement, ForceMode.VelocityChange);
+        if(movement != Vector3.zero) {
+            rb.MovePosition(transform.position + moveSpeed * movement * Time.fixedDeltaTime);
+        }
+
     }
 
     void RotatePlayer()
     {
         transform.Rotate(transform.up, turnSpeed * Input.GetAxis(playerRightXAxis));
+    }
+
+    public void AddImpulse(Vector3 impulse) {
+        rb.AddForce(impulse, ForceMode.Impulse);
     }
 }
