@@ -49,6 +49,11 @@ public class PlayerController : MonoBehaviour
 
             Move(x,y);
         
+        if (Input.GetKey(KeyCode.UpArrow)) // Change input key
+        {
+            _animator.SetTrigger("Dash");
+        }
+        
     }
 
     void FixedUpdate() {
