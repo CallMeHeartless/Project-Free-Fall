@@ -10,12 +10,19 @@ public class PlayerController : MonoBehaviour
     private string playerLeftXAxis;
     private string playerLeftYAxis;
     private string playerRightXAxis;
+    private string playerAButton;
+    private string playerBButton;
+    private string playerL1Button;
+    private string playerL2Button;
+    private string playerTriggers;
 
     // Player movement variables
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
     private float turnSpeed;
+    [SerializeField]
+    private float jumpForce;
     private Rigidbody rb;
     private Vector3 movement;
 
@@ -25,10 +32,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start(){
         rb = GetComponent<Rigidbody>();
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
         AssignPlayerID(playerID); // Change this later
-
-        
     }
 
     // Update is called once per frame
@@ -36,10 +41,11 @@ public class PlayerController : MonoBehaviour
         movement = Vector3.zero;
         MovementInput();
         RotatePlayer();
+        Jump();
         
-        if (Input.GetKey(KeyCode.UpArrow)) {// Change input key
-            anim.SetTrigger("Dash");
-        }
+        //if (Input.GetKey(KeyCode.UpArrow)) {// Change input key
+        //    anim.SetTrigger("Dash");
+        //}
         
     }
 
@@ -54,7 +60,11 @@ public class PlayerController : MonoBehaviour
         playerLeftXAxis = "Controller_" + _playerID.ToString() + "_Left_X_Axis";
         playerLeftYAxis = "Controller_" + _playerID.ToString() + "_Left_Y_Axis";
         playerRightXAxis = "Controller_" + _playerID.ToString() + "_Right_X_Axis";
-
+        playerAButton = "Controller_" + _playerID.ToString() + "_A";
+        playerBButton = "Controller_" + _playerID.ToString() + "_B";
+        playerL1Button = "Controller_" + _playerID.ToString() + "_L1";
+        playerL2Button = "Controller_" + playerID.ToString() + "_R1";
+        playerTriggers = "Controller_" + _playerID.ToString() + "_L2R2";
     }
 
     // Gets player input and sets corresponding animation
@@ -65,7 +75,7 @@ public class PlayerController : MonoBehaviour
         // Movement animation
         if(anim != null) {
             anim.SetFloat("VelocityRight", movement.x);
-            anim.SetFloat("VelocityForward", movement.y);
+            anim.SetFloat("VelocityForward", movement.z);
         }
 
     }
@@ -75,7 +85,6 @@ public class PlayerController : MonoBehaviour
         if(movement != Vector3.zero) {
             rb.MovePosition(transform.position + moveSpeed * movement * Time.fixedDeltaTime);
         }
-        Debug.Log(movement);
     }
 
     // Rotates the player (and camera)
@@ -86,6 +95,13 @@ public class PlayerController : MonoBehaviour
     // Adds an impulse to the player (such as from a knock back effect)
     public void AddImpulse(Vector3 impulse) {
         rb.AddForce(impulse, ForceMode.Impulse);
+    }
+
+    // Basic jump - gives the player a slight grace if they have only just started falling
+    void Jump() {
+        if(Input.GetButtonDown(playerAButton) && rb.velocity.y <= 0.0f && rb.velocity.y >= -0.01f) {
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        }
     }
 
 }
