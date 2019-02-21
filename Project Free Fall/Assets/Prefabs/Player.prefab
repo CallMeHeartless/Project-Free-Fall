@@ -155,5 +155,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerID: 0
   moveSpeed: 10
-  turnSpeed: 15
+  turnSpeed: 45
   jumpForce: 8
