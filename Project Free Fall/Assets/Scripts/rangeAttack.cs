@@ -34,7 +34,7 @@ public class rangeAttack : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Debug.Log("push");
-            collision.rigidbody.velocity = (transform.forward * thrust) + new Vector3(0,1,0);
+            collision.rigidbody.velocity = (transform.forward * thrust) + new Vector3(0, Random.Range(0.5f, 1.0f), 0);
             //collision.gameObject.GetComponent<combat>().game = 3;//collision.gameObject.GetComponent<combat>().CurrentAction.stun;
             collision.gameObject.GetComponent<combat>().hitDelay = 3;
             Destroy(gameObject);

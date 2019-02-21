@@ -8,6 +8,7 @@ public class combat : MonoBehaviour
     {
         move,
         stun,
+        preDash,
         dashing,
         melee
     };
@@ -19,6 +20,7 @@ public class combat : MonoBehaviour
     public GameObject range;
     public bool grounded;
     public bool invincablty;
+    float dashCharge;
     float dashtimer;
     public float[] timersForCurrentAction;
     public CurrentAction game = CurrentAction.move;
@@ -73,7 +75,7 @@ public class combat : MonoBehaviour
             Instantiate(range, spawnPos, playerRotation);
 
             game = CurrentAction.melee;
-            hitDelay = timersForCurrentAction[3];
+            hitDelay = timersForCurrentAction[4];
         }
         //reset
         if (Input.GetKeyDown(KeyCode.R))
@@ -87,7 +89,32 @@ public class combat : MonoBehaviour
         //dash
         if (Input.GetKeyDown(KeyCode.Z))
         {
-           
+            dashCharge = 0;
+            game = CurrentAction.preDash;
+        }
+
+        if (Input.GetKey(KeyCode.Z))
+        {
+            if (dashCharge == 100)
+            {
+                //charge done add effects
+                dashCharge++;
+            }
+            else
+            {
+                if (dashCharge == 101)
+                {
+                    //charge done
+
+                }
+                dashCharge++;
+            }
+
+        }
+
+        if (Input.GetKeyUp(KeyCode.Z))
+        {
+
 
             Vector3 vector = Quaternion.Euler(0, transform.rotation.y, 0) * transform.forward;
             gameObject.GetComponent<Rigidbody>().velocity = vector * 10;
@@ -97,7 +124,7 @@ public class combat : MonoBehaviour
             //Instantiate(range, playerPos, playerRotation);
 
             game = CurrentAction.dashing;
-            hitDelay = timersForCurrentAction[2];
+            hitDelay = timersForCurrentAction[3];
         }
 
         ////dash action
@@ -130,24 +157,32 @@ public class combat : MonoBehaviour
             game = CurrentAction.move;
         }
     }
-        //dash hit 
-        void OnCollisionEnter(Collision collision)
+    //dash hit 
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
         {
-            if (collision.gameObject.CompareTag("Player"))
+            if ((game == CurrentAction.dashing) || (game == CurrentAction.preDash))
             {
-                if (game == CurrentAction.dashing)
+                if (collision.gameObject.GetComponent<combat>().invincablty == false)
                 {
-                    if (collision.gameObject.GetComponent<combat>().invincablty == false)
-                    {
-                        float thrust = 2;
-                        collision.rigidbody.velocity = (transform.forward * thrust) + new Vector3(0, 1, 0);
-                        game = CurrentAction.stun;
-                        collision.gameObject.GetComponent<combat>().hitDelay = 3;
-                    }
+                    float thrust = 2;
+                    collision.rigidbody.velocity = (transform.forward * thrust) + new Vector3(0, Random.Range(0.5f, 1.0f), 0);
+                    game = CurrentAction.stun;
+                    collision.gameObject.GetComponent<combat>().hitDelay = 3;
                 }
-
             }
-        }
 
-       
+        }
+    }
+
+    float randomDamage(float baseKnockback)
+    {
+        float dummy = Random.Range(0.5f, 1.0f);
+        if (true)
+        {
+
+        }
+        return 0;
+    } 
 }
