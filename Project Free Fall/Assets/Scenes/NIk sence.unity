@@ -7783,6 +7783,9 @@ MonoBehaviour:
   hitDelay: 0
   range: {fileID: 8970044223167049544, guid: bbb1562a7647ef54c887db84e6badd28, type: 3}
   grounded: 0
+  invincablty: 0
+  timersForCurrentAction: []
+  game: 0
 --- !u!65 &656951971
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8607,7 +8610,7 @@ GameObject:
   - component: {fileID: 721630380}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Pawn
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8630,6 +8633,13 @@ MonoBehaviour:
   hitDelay: 0
   range: {fileID: 8970044223167049544, guid: bbb1562a7647ef54c887db84e6badd28, type: 3}
   grounded: 0
+  invincablty: 0
+  timersForCurrentAction:
+  - 0
+  - 3
+  - 3
+  - 3
+  game: 0
 --- !u!65 &721630376
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9874,6 +9884,13 @@ MonoBehaviour:
   hitDelay: 0
   range: {fileID: 8970044223167049544, guid: bbb1562a7647ef54c887db84e6badd28, type: 3}
   grounded: 0
+  invincablty: 0
+  timersForCurrentAction:
+  - 0
+  - 3
+  - 3
+  - 3
+  game: 0
 --- !u!65 &811558094
 BoxCollider:
   m_ObjectHideFlags: 0

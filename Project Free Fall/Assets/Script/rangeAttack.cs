@@ -31,13 +31,15 @@ public class rangeAttack : MonoBehaviour
     {
         Debug.Log("hit");
         float thrust = 2;
-        if (collision.gameObject.tag == "Pawn")
+        if (collision.gameObject.CompareTag("Player"))
         {
             Debug.Log("push");
             collision.rigidbody.velocity = (transform.forward * thrust) + new Vector3(0,1,0);
+            //collision.gameObject.GetComponent<combat>().game = 3;//collision.gameObject.GetComponent<combat>().CurrentAction.stun;
             collision.gameObject.GetComponent<combat>().hitDelay = 3;
             Destroy(gameObject);
         }
+        
         if (collision.gameObject.tag == "Swing")
         {
             Destroy(gameObject);

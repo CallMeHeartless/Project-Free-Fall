@@ -4,13 +4,26 @@ using UnityEngine;
 
 public class combat : MonoBehaviour
 {
+    public enum CurrentAction
+    {
+        move,
+        stun,
+        dashing,
+        melee
+    };
+
     public Vector3 spawnPos;
     public float spawnRot;
     public float spawnDistance;
     public float hitDelay;
     public GameObject range;
     public bool grounded;
+    public bool invincablty;
     float dashtimer;
+    public float[] timersForCurrentAction;
+    public CurrentAction game = CurrentAction.move;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,80 +72,82 @@ public class combat : MonoBehaviour
 
             Instantiate(range, spawnPos, playerRotation);
 
-
+            game = CurrentAction.melee;
+            hitDelay = timersForCurrentAction[3];
         }
         //reset
         if (Input.GetKeyDown(KeyCode.R))
         {
             transform.position = spawnPos;
             transform.localEulerAngles = new Vector3(0, spawnRot, 0);
+
+            game = CurrentAction.move;
+            hitDelay = 0;
         }
         //dash
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Vector3 playerPos = transform.position;
-            Quaternion playerRotation = transform.rotation;
            
-            Vector3 vector = Quaternion.Euler(0, playerRotation.y, 0) * transform.forward;
+
+            Vector3 vector = Quaternion.Euler(0, transform.rotation.y, 0) * transform.forward;
             gameObject.GetComponent<Rigidbody>().velocity = vector * 10;
 
             dashtimer = 3;
+            invincablty = true;
             //Instantiate(range, playerPos, playerRotation);
 
+            game = CurrentAction.dashing;
+            hitDelay = timersForCurrentAction[2];
         }
-        if (dashtimer <= 0)
-        {
-            dashtimer -= Time.deltaTime;
-        }
-        else {
-            if(dashtimer >= 1)
-            {
-                gameObject.GetComponent<Rigidbody>().useGravity = true;
-            }
-        }
-        if (hitDelay >= 0)
-        {
-            if (hitDelay >= 1)
-            {
-                hitDelay -= Time.deltaTime;
-                gameObject.GetComponent<Rigidbody>().useGravity = true;
-            }
-            else
-            {
-                hitDelay -= Time.deltaTime;
-            }
-           
-        } 
-        
-        
-    }
-        //void OnCollisionStay(Collision collision)
+
+        ////dash action
+        //if (dashtimer <= 0)
         //{
-        //    Debug.Log("landing");
-        //    if (collision.gameObject.tag == "ground")
+        //    dashtimer -= Time.deltaTime;
+        //}
+        //else
+        //{
+        //    if (dashtimer >= 1)
         //    {
-        //        RaycastHit ray;
-        //        Vector2 positionToCheck = transform.position;
-        //        if(Physics.Raycast(transform.position, Vector3.down, 1))
-        //        {
-        //            grounded = true;
-        //            gameObject.GetComponent<Rigidbody>().useGravity = false;
-        //            gameObject.transform.parent = collision.transform;
-
-
-        //        }
-
+        //        gameObject.GetComponent<Rigidbody>().useGravity = true;
+        //    }
+        //    else
+        //    {
+        //        invincablty = false;
         //    }
         //}
 
-        ////call when jumping
-        //void OnCollisionExit(Collision collision)
-        //{
-        //    Debug.Log("bye");
-        //    grounded = false;
-        //    gameObject.GetComponent<Rigidbody>().useGravity = true;
-        //    transform.parent = null;
-        //}
+        // before player can recover
+        if (hitDelay >= 0)
+        {
+            //can't move or reduce movement (need to be added)
 
+            hitDelay -= Time.deltaTime;
 
+        }
+        else
+        {
+            game = CurrentAction.move;
+        }
     }
+        //dash hit 
+        void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                if (game == CurrentAction.dashing)
+                {
+                    if (collision.gameObject.GetComponent<combat>().invincablty == false)
+                    {
+                        float thrust = 2;
+                        collision.rigidbody.velocity = (transform.forward * thrust) + new Vector3(0, 1, 0);
+                        game = CurrentAction.stun;
+                        collision.gameObject.GetComponent<combat>().hitDelay = 3;
+                    }
+                }
+
+            }
+        }
+
+       
+}
