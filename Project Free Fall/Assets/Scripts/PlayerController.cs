@@ -19,19 +19,36 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Vector3 movement;
 
+    //Animation controller. adam
+    private Animator _animator;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         AssignPlayerID(playerID); // Change this later
+
+        _animator = GetComponent<Animator>(); //adam
     }
 
     // Update is called once per frame
     void Update()
+
+
     {
         movement = new Vector3();
         MovementInput();
         RotatePlayer();
+
+        //adam
+        
+            if (_animator == null) return;
+
+            var x = Input.GetAxis("Horizontal");
+            var y = Input.GetAxis("Vertical");
+
+            Move(x,y);
+        
     }
 
     void FixedUpdate() {
@@ -70,5 +87,12 @@ public class PlayerController : MonoBehaviour
 
     public void AddImpulse(Vector3 impulse) {
         rb.AddForce(impulse, ForceMode.Impulse);
+    }
+
+    //adam
+    private void Move(float x, float y)
+    {
+    _animator.SetFloat("VelocityRight", x);
+    _animator.SetFloat("VelocityForward", y);
     }
 }
