@@ -82,6 +82,8 @@ public class RoundManager : MonoBehaviour
             }
         }
 
+        Debug.Log("Player count: " + playerCount);
+
         // Define camera setup accordingly
         Transform cameras = GameObject.Find("Cameras").GetComponent<Transform>();
         if(playerCount > 2) {
