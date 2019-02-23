@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Pawn
+  - ground
+  - Swing
   layers:
   - Default
   - TransparentFX
@@ -14,10 +17,10 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
-  - 
-  - 
-  - 
+  - Camera_P0
+  - Camera_P1
+  - Camera_P2
+  - Camera_P3
   - 
   - 
   - 
