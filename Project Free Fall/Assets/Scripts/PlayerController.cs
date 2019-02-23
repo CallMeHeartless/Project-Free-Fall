@@ -67,6 +67,11 @@ public class PlayerController : MonoBehaviour
         playerTriggers = "Controller_" + _playerID.ToString() + "_L2R2";
     }
 
+    // Obtain the player ID
+    public int GetPlayerID() {
+        return playerID;
+    }
+
     // Gets player input and sets corresponding animation
     void MovementInput(){
         Vector3 right = transform.right * Input.GetAxis(playerLeftXAxis);
@@ -104,4 +109,5 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    
 }

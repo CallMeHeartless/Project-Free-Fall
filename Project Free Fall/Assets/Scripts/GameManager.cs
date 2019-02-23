@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static bool[] readyStatus = new bool[4];
     private static int[] playerScores = new int[4];
     private static bool inGame = false;
+    public static int winThreshold = 3;
 
     // Ensure that only one instance of the game manager exists, and that it persists between scenes
     private void Awake() {
@@ -30,14 +31,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-
-
-    // Checks to see if only one player remains alive
-    private bool CheckForLastStanding() {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        return players.Length == 1;
-    }
-
     public static bool[] GetReadyStatus() {
         return readyStatus;
     }
@@ -54,10 +47,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public static void AddToPlayerScore(int player) {
+        ++playerScores[player];
+    }
+
     public static void SetPlayerCount(int _count) {
         for(int i = 0; i < _count; ++i) {
             readyStatus[i] = true;
         }
+    }
+
+    public static bool CheckForGameOver() {
+        for(int i = 0; i < 4; ++i) {
+            if(playerScores[i] == winThreshold) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

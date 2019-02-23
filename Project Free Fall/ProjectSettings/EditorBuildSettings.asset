@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/PlayerReadyLobby.unity
     guid: 55ff02500cc02644092f6222dfaf624a
   - enabled: 1
+    path: Assets/Scenes/Arena_One/lvl_Arena_One.unity
+    guid: 5f14d96b27ec6b94eb095dea86a069b7
+  - enabled: 1
     path: Assets/Scenes/Kerry Test Scene.unity
     guid: 957485e0a08b4f64f91e73365b506d9d
   m_configObjects: {}
