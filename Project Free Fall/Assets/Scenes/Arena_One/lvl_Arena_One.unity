@@ -963,7 +963,7 @@ GameObject:
   - component: {fileID: 1354394140}
   - component: {fileID: 1354394139}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: ArenaCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1591,7 +1591,7 @@ GameObject:
   - component: {fileID: 1858669121}
   - component: {fileID: 1858669120}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: ArenaCameraScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
