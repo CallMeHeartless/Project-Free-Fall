@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // Individual player control variables
+    // Individual player controller input identifiers
     [SerializeField]
     private int playerID;
     private string playerLeftXAxis;
@@ -13,10 +13,11 @@ public class PlayerController : MonoBehaviour
     private string playerAButton;
     private string playerBButton;
     private string playerL1Button;
-    private string playerL2Button;
+    private string playerR1Button;
     private string playerTriggers;
 
-    // Player movement variables
+    
+    [Header("Movement")] // Player movement variables
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
@@ -26,26 +27,43 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Vector3 movement;
 
-    //Animation controller. adam
+    [Header("Combat")]
+    [SerializeField]
+    private float maxDashChargeTime = 2.5f;
+    private float dashChargeTimer = 0.0f;
+    [SerializeField]
+    private float maxChargeForce = 20.0f;
+    [SerializeField]
+    private float minChargeForce = 2.0f;
+    [SerializeField]
+    private float dashCooldown = 1.0f;
+    private bool canDash = true;
+    [SerializeField]
+    private float minimumMass = 1.0f;
+
+
+    //Animation controller
     private Animator anim;
 
-    // Start is called before the first frame update
     void Start(){
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         AssignPlayerID(playerID); // Change this later
     }
 
-    // Update is called once per frame
     void Update() {
         movement = Vector3.zero;
         MovementInput();
         RotatePlayer();
         Jump();
+
+        if (Input.GetButton(playerR1Button)) {
+            ChargeDash();
+        }
+        else if (Input.GetButtonUp(playerR1Button)) {
+            PerformDash();
+        }
         
-        //if (Input.GetKey(KeyCode.UpArrow)) {// Change input key
-        //    anim.SetTrigger("Dash");
-        //}
         
     }
 
@@ -63,8 +81,13 @@ public class PlayerController : MonoBehaviour
         playerAButton = "Controller_" + _playerID.ToString() + "_A";
         playerBButton = "Controller_" + _playerID.ToString() + "_B";
         playerL1Button = "Controller_" + _playerID.ToString() + "_L1";
-        playerL2Button = "Controller_" + playerID.ToString() + "_R1";
+        playerR1Button = "Controller_" + playerID.ToString() + "_R1";
         playerTriggers = "Controller_" + _playerID.ToString() + "_L2R2";
+    }
+
+    // Obtain the player ID
+    public int GetPlayerID() {
+        return playerID;
     }
 
     // Gets player input and sets corresponding animation
@@ -102,6 +125,35 @@ public class PlayerController : MonoBehaviour
         if(Input.GetButtonDown(playerAButton) && rb.velocity.y <= 0.0f && rb.velocity.y >= -0.01f) {
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         }
+    }
+
+    // Begin dash sequence
+    void ChargeDash() {
+        // Animation
+
+        dashChargeTimer += Time.deltaTime;
+        if(dashChargeTimer >= maxDashChargeTime) {
+            Debug.Log("Force Dash");
+            PerformDash();
+        }
+    }
+
+    // Execute Dash
+    void PerformDash() {
+        // Animation
+
+        // Set dash strength - SEND TO DASH BOX
+        float dashMagnitude = minChargeForce + maxChargeForce * (dashChargeTimer / maxDashChargeTime);
+        Debug.Log("Dash force: " + dashMagnitude);
+        // DEBUG
+        AddImpulse(transform.forward * dashMagnitude);
+
+        // Reset charge
+        dashChargeTimer = 0.0f;
+    }
+    
+    public void StopPlayer() {
+        rb.velocity = Vector3.zero;
     }
 
 }

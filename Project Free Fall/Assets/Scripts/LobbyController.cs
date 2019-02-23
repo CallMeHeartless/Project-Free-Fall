@@ -65,9 +65,7 @@ public class LobbyController : MonoBehaviour
             }
             if(readyCount > 1) {
                 // Start game
-                Debug.Log("Game Started");
-                SceneManager.LoadScene("Kerry Test Scene");
-                
+                SceneManager.LoadScene("lvl_Arena_One");
             }
         }
     }
