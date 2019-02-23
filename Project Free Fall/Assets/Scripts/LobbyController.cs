@@ -8,7 +8,7 @@ public class LobbyController : MonoBehaviour
 {
     public GameObject lobbyUI;
     private string[] joysticks;
-    private static bool[] readyStatus = new bool[4];
+    
 
     // Start is called before the first frame update
     void Start()
@@ -41,9 +41,10 @@ public class LobbyController : MonoBehaviour
     }
 
     void ToggleReady(int playerID) {
+        
         Transform playerUI = lobbyUI.transform.Find("Player"+playerID.ToString());
-        readyStatus[playerID] = !readyStatus[playerID];
-        if (readyStatus[playerID]){
+        GameManager.readyStatus[playerID] = !GameManager.readyStatus[playerID];
+        if (GameManager.readyStatus[playerID]){
             // Player has readied up, change their text
             playerUI.GetComponentInChildren<Text>().text = "READY";
         }
@@ -56,8 +57,9 @@ public class LobbyController : MonoBehaviour
     void CheckForGameStart() {
         if (Input.GetKeyDown(KeyCode.Joystick1Button7)) {
             int readyCount = 0;
+            bool[] playersReady = GameManager.GetReadyStatus();
             for(int i = 0; i < 4; ++i) {
-                if (readyStatus[i]) {
+                if (playersReady[i]) {
                     ++readyCount;
                 }
             }
@@ -76,16 +78,5 @@ public class LobbyController : MonoBehaviour
             //SceneManager.LoadScene("MainMenu");
         }
     }
-
-    public static bool[] GetReadyStatus() {
-        return readyStatus;
-    }
-
-    public static void ClearReadyStatus() {
-        for(int i = 0; i < 4; ++i) {
-            readyStatus[i] = false;
-        }
-    }
-
 
 }
