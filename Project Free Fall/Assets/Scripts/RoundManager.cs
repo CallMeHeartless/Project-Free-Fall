@@ -13,6 +13,7 @@ public class RoundManager : MonoBehaviour
     [Header("Arena Variables")]
     [SerializeField]
     private float ringFallInterval = 25.0f;
+    private float ringTimer = 0.0f;
     private int ringCount = 1;
     private bool roundWon = false;
 
@@ -32,9 +33,17 @@ public class RoundManager : MonoBehaviour
 
     // Update is called once per frame
     void Update(){
+        if (roundWon) {
+            return;
+        }
+
+        // Detach rings as needed
+        if(ringCount < 5) {
+            ProcessRingTimer();
+        }
 
         // End of round check
-        if (CheckForLastStanding() && !roundWon) {
+        if (CheckForLastStanding()) {
             roundWon = true;
             // Award the player one point
             GameManager.AddToPlayerScore(GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().GetPlayerID());
@@ -101,6 +110,23 @@ public class RoundManager : MonoBehaviour
         } else {
             SceneManager.LoadScene("lvl_Arena_One");
         }
+    }
+
+    // Updates the ring timer, dropping and resetting as needed
+    void ProcessRingTimer() {
+        if(ringTimer >= ringFallInterval) {
+            ringTimer = 0.0f;
+            DetachRing();
+        }
+        ringTimer += Time.deltaTime;
+        // Update countdown text or other visual effects
+    }
+
+    void DetachRing() {
+        Debug.Log("Detaching ring: " + ringCount.ToString());
+        GameObject ring = GameObject.Find("ArenaFloor_Stage0" + ringCount.ToString());
+        ring.GetComponent<ArenaRingController>().DropRing();
+        ++ringCount;
     }
 
 }

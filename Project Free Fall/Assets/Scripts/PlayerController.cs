@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     void Start(){
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
-        AssignPlayerID(playerID); // Change this later
+        //AssignPlayerID(playerID); // Change this later
     }
 
     // Update is called once per frame
