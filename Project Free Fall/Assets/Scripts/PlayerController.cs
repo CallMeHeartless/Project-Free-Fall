@@ -130,6 +130,9 @@ public class PlayerController : MonoBehaviour
     // Begin dash sequence
     void ChargeDash() {
         // Animation
+        if (!anim.GetBool("Dash")) {
+            anim.SetBool("Dash", true);
+        }
 
         dashChargeTimer += Time.deltaTime;
         if(dashChargeTimer >= maxDashChargeTime) {
@@ -141,6 +144,7 @@ public class PlayerController : MonoBehaviour
     // Execute Dash
     void PerformDash() {
         // Animation
+        anim.SetBool("Dash", false);
 
         // Set dash strength - SEND TO DASH BOX
         float dashMagnitude = minChargeForce + maxChargeForce * (dashChargeTimer / maxDashChargeTime);
@@ -150,6 +154,12 @@ public class PlayerController : MonoBehaviour
 
         // Reset charge
         dashChargeTimer = 0.0f;
+        StopAfterDelay(0.75f);
+    }
+
+    IEnumerator StopAfterDelay(float delay) {
+        yield return new WaitForSeconds(delay);
+        StopPlayer();
     }
     
     public void StopPlayer() {

@@ -159,6 +159,11 @@ MonoBehaviour:
   moveSpeed: 10
   turnSpeed: 10
   jumpForce: 5
+  maxDashChargeTime: 2.5
+  maxChargeForce: 50
+  minChargeForce: 20
+  dashCooldown: 1
+  minimumMass: 1
 --- !u!1 &5843925215607413162
 GameObject:
   m_ObjectHideFlags: 0
