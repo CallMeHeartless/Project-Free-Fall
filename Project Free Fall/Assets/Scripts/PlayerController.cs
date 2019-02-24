@@ -52,6 +52,11 @@ public class PlayerController : MonoBehaviour
         dashController = transform.Find("DashHitBox").GetComponent<DashHitboxController>();
 
         AssignPlayerID(playerID); // Change this later
+
+        string[] controllers = Input.GetJoystickNames();
+        for(int i = 0; i < controllers.Length; ++i) {
+            Debug.Log(controllers[i]);
+        }
     }
 
     void Update() {
@@ -98,7 +103,7 @@ public class PlayerController : MonoBehaviour
         Vector3 right = transform.right * Input.GetAxis(playerLeftXAxis);
         Vector3 forward = transform.forward * Input.GetAxis(playerLeftYAxis);
         movement = right + forward;
-
+        
         // Movement animation
         if(anim != null) {
             anim.SetFloat("VelocityRight", movement.x);
