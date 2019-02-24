@@ -52,11 +52,6 @@ public class PlayerController : MonoBehaviour
         dashController = transform.Find("DashHitBox").GetComponent<DashHitboxController>();
 
         AssignPlayerID(playerID); // Change this later
-
-        string[] controllers = Input.GetJoystickNames();
-        for(int i = 0; i < controllers.Length; ++i) {
-            Debug.Log(controllers[i]);
-        }
     }
 
     void Update() {
@@ -65,10 +60,14 @@ public class PlayerController : MonoBehaviour
         RotatePlayer();
         Jump();
 
-        if (Input.GetButton(playerR1Button)) {
+        if (Input.GetButtonDown(playerR1Button)) {
+            BasicAttack();
+        }
+
+        if (Input.GetButton(playerL1Button)) {
             ChargeDash();
         }
-        else if (Input.GetButtonUp(playerR1Button)) {
+        else if (Input.GetButtonUp(playerL1Button)) {
             PerformDash();
         }
         
@@ -141,11 +140,11 @@ public class PlayerController : MonoBehaviour
         // Animation
         if (!anim.GetBool("Dash")) {
             anim.SetBool("Dash", true);
+            // Play charge audio
         }
 
         dashChargeTimer += Time.deltaTime;
         if(dashChargeTimer >= maxDashChargeTime) {
-            Debug.Log("Force Dash");
             PerformDash();
         }
     }
@@ -154,16 +153,18 @@ public class PlayerController : MonoBehaviour
     void PerformDash() {
         // Animation
         anim.SetBool("Dash", false);
+        // Audio - stop charge, play dash
 
-        // Set dash strength - SEND TO DASH BOX
+        // Set dash strength
         float dashMagnitude = minChargeForce + maxChargeForce * (dashChargeTimer / maxDashChargeTime);
         dashController.SetForceStrength(dashMagnitude);
-        // DEBUG
+        
+        // Push player forward
         AddImpulse(transform.forward * dashMagnitude);
 
         // Reset charge
         dashChargeTimer = 0.0f;
-        StopAfterDelay(0.75f);
+        StopAfterDelay(0.5f);
     }
 
     IEnumerator StopAfterDelay(float delay) {
@@ -184,6 +185,10 @@ public class PlayerController : MonoBehaviour
     IEnumerator RemoveStun(float stunDuration) {
         yield return new WaitForSeconds(stunDuration);
         // Remove stun status 
+    }
+
+    void BasicAttack() {
+        anim.SetTrigger("Attack");
     }
 
 }
