@@ -174,7 +174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5338422971895893335}
   - component: {fileID: 4760236805347059096}
-  - component: {fileID: 4588903842529273711}
+  - component: {fileID: 8646617044352317823}
   m_Layer: 0
   m_Name: DashHitBox
   m_TagString: Untagged
@@ -209,7 +209,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 3, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4588903842529273711
+--- !u!114 &8646617044352317823
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5843925215607413162}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95dae522f3eebe54f9b294dd6966eae1, type: 3}
+  m_Script: {fileID: 11500000, guid: c146e49525b3f254c85f53594f245646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &606900426109910627

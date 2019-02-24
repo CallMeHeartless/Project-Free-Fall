@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DashHitboxController : MonoBehaviour
 {
+    float forceStrength = 5.0f;
+
     private void OnTriggerEnter(Collider other) {
 
         // Stop player
@@ -15,7 +17,14 @@ public class DashHitboxController : MonoBehaviour
         }
 
         if(other.CompareTag("Player") && other != this) {
-          //  other.GetComponent<PlayerController>().AddImpulse();
+            Vector3 direction = other.transform.position - transform.position;
+            direction.y = 0; // Remove vertical component to knock back
+            other.GetComponent<PlayerController>().AddImpulse(forceStrength * direction);
+            Debug.Log(forceStrength * direction);
         }
+    }
+
+    public void SetForceStrength(float magnitude) {
+        forceStrength = magnitude;
     }
 }

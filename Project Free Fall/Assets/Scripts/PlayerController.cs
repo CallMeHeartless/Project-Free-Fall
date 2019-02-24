@@ -42,12 +42,15 @@ public class PlayerController : MonoBehaviour
     private float minimumMass = 1.0f;
 
 
-    //Animation controller
+    // Other components
     private Animator anim;
+    private DashHitboxController dashController;
 
     void Start(){
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
+        dashController = transform.Find("DashHitBox").GetComponent<DashHitboxController>();
+
         AssignPlayerID(playerID); // Change this later
     }
 
@@ -95,6 +98,7 @@ public class PlayerController : MonoBehaviour
         Vector3 right = transform.right * Input.GetAxis(playerLeftXAxis);
         Vector3 forward = transform.forward * Input.GetAxis(playerLeftYAxis);
         movement = right + forward;
+
         // Movement animation
         if(anim != null) {
             anim.SetFloat("VelocityRight", movement.x);
@@ -148,7 +152,7 @@ public class PlayerController : MonoBehaviour
 
         // Set dash strength - SEND TO DASH BOX
         float dashMagnitude = minChargeForce + maxChargeForce * (dashChargeTimer / maxDashChargeTime);
-        Debug.Log("Dash force: " + dashMagnitude);
+        dashController.SetForceStrength(dashMagnitude);
         // DEBUG
         AddImpulse(transform.forward * dashMagnitude);
 
@@ -164,6 +168,17 @@ public class PlayerController : MonoBehaviour
     
     public void StopPlayer() {
         rb.velocity = Vector3.zero;
+    }
+
+    public void StunPlayer(float stunDuration) {
+        // Stun player
+        StopPlayer();
+        StartCoroutine(RemoveStun(stunDuration));
+    }
+
+    IEnumerator RemoveStun(float stunDuration) {
+        yield return new WaitForSeconds(stunDuration);
+        // Remove stun status 
     }
 
 }
