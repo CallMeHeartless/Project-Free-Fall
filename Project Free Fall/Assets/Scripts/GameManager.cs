@@ -4,34 +4,67 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public static GameManager instance = null;
+    public static bool[] readyStatus = new bool[4];
+    private static int[] playerScores = new int[4];
+    private static bool inGame = false;
+    public static int winThreshold = 3;
+
+    // Ensure that only one instance of the game manager exists, and that it persists between scenes
+    private void Awake() {
+        GameObject[] managers = GameObject.FindGameObjectsWithTag("GameManager");
+        if(managers.Length > 1) {
+            Destroy(this.gameObject);
+        }
+
+        DontDestroyOnLoad(this.gameObject);
+    }
+
     void Start()    {
-        InitialisePlayers();
-        LobbyController.ClearReadyStatus();// Change this to occur when the game is over
+       
+        //if(instance == null) {
+        //    instance = this;
+        //}
     }
-
-    // Update is called once per frame
+    
     void Update()    {
-        
+
     }
 
-    void InitialisePlayers() {
-        // Iterate through registered ready players and ready prefab instances for them
-        bool[] playersInGame = LobbyController.GetReadyStatus();
+    public static bool[] GetReadyStatus() {
+        return readyStatus;
+    }
+
+    public static void ClearReadyStatus() {
+        for (int i = 0; i < 4; ++i) {
+            readyStatus[i] = false;
+        }
+    }
+
+    static void ClearPlayerScores() {
         for(int i = 0; i < 4; ++i) {
-            // Currently assuming players exist in level prior to game
-            GameObject player = GameObject.Find("Player" + i.ToString());
-            if (playersInGame[i]) {
-                // Assign id to player instance
-                player.GetComponent<PlayerController>().AssignPlayerID(i);
-            } else {
-                if(player != null) {
-                    Destroy(player);
-                }
+            playerScores[i] = 0;
+        }
+    }
+
+    public static void AddToPlayerScore(int player) {
+        ++playerScores[player];
+    }
+
+    public static void SetPlayerCount(int _count) {
+        for(int i = 0; i < _count; ++i) {
+            readyStatus[i] = true;
+        }
+    }
+
+    public static bool CheckForGameOver() {
+        for(int i = 0; i < 4; ++i) {
+            if(playerScores[i] == winThreshold) {
+                return true;
             }
         }
 
-        
+        return false;
     }
 
 }
