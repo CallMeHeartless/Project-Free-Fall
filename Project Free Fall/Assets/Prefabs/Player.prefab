@@ -159,12 +159,12 @@ MonoBehaviour:
   moveSpeed: 10
   turnSpeed: 10
   jumpForce: 5
-  sideDashForce: 0
-  sideDashCooldown: 0
+  sideDashForce: 10
+  sideDashCooldown: 1
   maxDashChargeTime: 2.5
   maxChargeForce: 100
-  minChargeForce: 20
-  dashCooldown: 1
+  minChargeForce: 10
+  dashCooldown: 3
   knockbackMultiplier:
   - 1
   - 1.25
