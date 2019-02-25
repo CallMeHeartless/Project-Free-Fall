@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButton(playerL1Button)) {
             ChargeDash();
+            movement *= 0.25f;
         }
         else if (Input.GetButtonUp(playerL1Button)) {
             PerformDash();
