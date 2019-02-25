@@ -15,6 +15,8 @@ public class WeaponController : MonoBehaviour
             other.GetComponent<PlayerController>().AddImpulse(forceStrength * direction);
             other.GetComponent<PlayerController>().DamagePlayer(1);
 
+            gameObject.SetActive(false); // Current fix to prevent the damage being triggered twice
+
             // Hit player audio
         } else {
             // Hit object audio

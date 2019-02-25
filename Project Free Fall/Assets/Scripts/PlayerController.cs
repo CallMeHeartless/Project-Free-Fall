@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float[] knockbackMultiplier;
     private int knockbackIndex = 0;
-    [SerializeField]
+    [SerializeField][Tooltip("The number of hits needed to break armour")]
     private int knockbackIncrementThreshold;
     private int knockbackDamageCount = 0;
 
@@ -186,12 +186,12 @@ public class PlayerController : MonoBehaviour
         dashController.SetForceStrength(dashMagnitude);
         
         // Push player forward 
-        if(Input.GetAxis(playerLeftXAxis) != 0.0f) {
-            AddImpulse(transform.right * dashMagnitude * Input.GetAxisRaw(playerLeftXAxis));
-        } else {
-            AddImpulse(transform.forward * dashMagnitude);
-        }
-        
+        //if(Input.GetAxis(playerLeftXAxis) != 0.0f) {
+        //    AddImpulse(transform.right * dashMagnitude * Input.GetAxisRaw(playerLeftXAxis));
+        //} else {
+        //    AddImpulse(transform.forward * dashMagnitude);
+        //}
+        AddImpulse(transform.forward * dashMagnitude);
 
         // Reset charge
         dashChargeTimer = 0.0f;
@@ -252,9 +252,12 @@ public class PlayerController : MonoBehaviour
             return;
         }
         knockbackDamageCount += damageIncrement;
-        if(knockbackDamageCount > knockbackIncrementThreshold) {
+        Debug.Log(knockbackDamageCount);
+        if(knockbackDamageCount >= knockbackIncrementThreshold) {
             // Break armour
             ++knockbackIndex;
+            knockbackDamageCount = 0;
+            Debug.Log("Player " + playerID.ToString() + " force multiplier: " + knockbackMultiplier[knockbackIndex].ToString());
         }
     }
 
