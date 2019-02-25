@@ -108,6 +108,9 @@ public class RoundManager : MonoBehaviour
         yield return new WaitForSeconds(roundOverTimeDelay);
 
         if (GameManager.CheckForGameOver()) {
+            // Move these to be resolved after a 'game over' screen?
+            GameManager.ClearReadyStatus();
+            GameManager.ClearPlayerScores();
             SceneManager.LoadScene(0);
         } else {
             SceneManager.LoadScene("lvl_Arena_One");

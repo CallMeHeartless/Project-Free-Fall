@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
+    #region PlayerVariables
     // Individual player controller input identifiers
     [SerializeField]
     private int playerID;
@@ -41,10 +43,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float minimumMass = 1.0f;
 
+    private combat.CurrentAction currentState = combat.CurrentAction.move;
 
     // Other components
     private Animator anim;
     private DashHitboxController dashController;
+
+    #endregion
 
     void Start(){
         rb = GetComponent<Rigidbody>();
@@ -56,6 +61,10 @@ public class PlayerController : MonoBehaviour
 
     void Update() {
         movement = Vector3.zero;
+        if(currentState == combat.CurrentAction.stun) {
+            return;
+        }
+
         MovementInput();
         RotatePlayer();
         Jump();
@@ -177,14 +186,21 @@ public class PlayerController : MonoBehaviour
     }
 
     public void StunPlayer(float stunDuration) {
+        if(currentState == combat.CurrentAction.stun) {
+            return;
+        }
         // Stun player
         StopPlayer();
+        currentState = combat.CurrentAction.stun;
+        // Visual/Audio
         StartCoroutine(RemoveStun(stunDuration));
     }
 
     IEnumerator RemoveStun(float stunDuration) {
         yield return new WaitForSeconds(stunDuration);
         // Remove stun status 
+        currentState = combat.CurrentAction.move;
+        // Visual / Audio
     }
 
     void BasicAttack() {
