@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     private float minChargeForce = 2.0f;
     [SerializeField]
     private float dashCooldown = 1.0f;
-    private bool canDash = true;
+    private float dashCooldownTimer = 0.0f;
     //[SerializeField]
     //private float maxKnockbackMultiplier = 4.0f;
     [SerializeField]
@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         dashController = transform.Find("DashHitBox").GetComponent<DashHitboxController>();
 
+
         // DEBUG - assign IDs for test level
         if(GameObject.Find("RoundManager") == null) {
             AssignPlayerID(playerID); // Change this later
@@ -99,6 +100,9 @@ public class PlayerController : MonoBehaviour
             BasicAttack();
         }
 
+        if(dashCooldownTimer > 0) {
+            dashCooldownTimer -= Time.deltaTime;
+        }
         if (Input.GetButton(playerL1Button)) {
             ChargeDash();
             movement *= 0.25f;
@@ -172,6 +176,10 @@ public class PlayerController : MonoBehaviour
 
     // Begin dash sequence
     void ChargeDash() {
+        if(dashCooldownTimer > 0.0f) {
+            return;
+        }
+
         // Animation
         if (!anim.GetBool("Dash")) {
             anim.SetBool("Dash", true);
@@ -204,6 +212,7 @@ public class PlayerController : MonoBehaviour
 
         // Reset charge
         dashChargeTimer = 0.0f;
+        dashCooldownTimer = dashCooldown;
         StopAfterDelay(0.5f);
     }
 
@@ -311,6 +320,7 @@ public class PlayerController : MonoBehaviour
         victoryOrbTimer = 0.0f;
     }
 
+    // Tracks the player's progress towards winning with the orb - calling for the round to end if they have won
     void ProcessVictoryOrb() {
         victoryOrbTimer += Time.deltaTime;
         if(victoryOrbTimer >= victoryOrbWinTime) {

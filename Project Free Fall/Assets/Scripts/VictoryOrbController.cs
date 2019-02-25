@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class VictoryOrbController : MonoBehaviour
 {
-
-
-    // Update is called once per frame
-    void Update(){
-        
-    }
-
+    // The orb can be picked up when the player runs into it
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.CompareTag("Player")) {
             Debug.Log("Hit player");

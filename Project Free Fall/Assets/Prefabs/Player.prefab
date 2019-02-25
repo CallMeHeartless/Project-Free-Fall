@@ -127,6 +127,7 @@ MonoBehaviour:
   - 2.5
   - 2.75
   knockbackIncrementThreshold: 5
+  victoryOrbWinTime: 10
 --- !u!1 &5843925215607413162
 GameObject:
   m_ObjectHideFlags: 0

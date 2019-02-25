@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     public static bool[] readyStatus = new bool[4];
     private static int[] playerScores = new int[4];
-    private static bool inGame = false;
     public static int winThreshold = 3;
 
     // Ensure that only one instance of the game manager exists, and that it persists between scenes
