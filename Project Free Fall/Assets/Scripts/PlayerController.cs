@@ -26,6 +26,10 @@ public class PlayerController : MonoBehaviour
     private float turnSpeed;
     [SerializeField]
     private float jumpForce;
+    [SerializeField]
+    private float sideDashForce;
+    [SerializeField]
+    private float sideDashCooldown;
     private Rigidbody rb;
     private Vector3 movement;
 
@@ -40,8 +44,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float dashCooldown = 1.0f;
     private bool canDash = true;
+    //[SerializeField]
+    //private float maxKnockbackMultiplier = 4.0f;
     [SerializeField]
-    private float minimumMass = 1.0f;
+    private float[] knockbackMultiplier;
+    private int knockbackIndex = 0;
+    [SerializeField]
+    private int knockbackIncrementThreshold;
+    private int knockbackDamageCount = 0;
 
     private combat.CurrentAction currentState = combat.CurrentAction.move;
 
@@ -56,7 +66,11 @@ public class PlayerController : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         dashController = transform.Find("DashHitBox").GetComponent<DashHitboxController>();
 
-        AssignPlayerID(playerID); // Change this later
+        // DEBUG - assign IDs for test level
+        if(GameObject.Find("RoundManager") == null) {
+            AssignPlayerID(playerID); // Change this later
+        }
+
     }
 
     void Update() {
@@ -135,7 +149,7 @@ public class PlayerController : MonoBehaviour
 
     // Adds an impulse to the player (such as from a knock back effect)
     public void AddImpulse(Vector3 impulse) {
-        rb.AddForce(impulse, ForceMode.Impulse);
+        rb.AddForce(impulse * knockbackMultiplier[knockbackIndex], ForceMode.Impulse);
     }
 
     // Basic jump - gives the player a slight grace if they have only just started falling
@@ -169,7 +183,8 @@ public class PlayerController : MonoBehaviour
         float dashMagnitude = minChargeForce + maxChargeForce * (dashChargeTimer / maxDashChargeTime);
         dashController.SetForceStrength(dashMagnitude);
         
-        // Push player forward
+        // Push player forward - standardise for mass of player
+        
         AddImpulse(transform.forward * dashMagnitude);
 
         // Reset charge
@@ -206,6 +221,22 @@ public class PlayerController : MonoBehaviour
 
     void BasicAttack() {
         anim.SetTrigger("Attack");
+    }
+
+    void SideDash() {
+
+    }
+
+    // Increment recorded hits against the player, breaking armour if a certain threshold is reached
+    public void DamagePlayer(int damageIncrement) {
+        if(knockbackIndex >= 6) {
+            return;
+        }
+        knockbackDamageCount += damageIncrement;
+        if(knockbackDamageCount > knockbackIncrementThreshold) {
+            // Break armour
+            ++knockbackIndex;
+        }
     }
 
 }

@@ -13,6 +13,7 @@ public class WeaponController : MonoBehaviour
             Vector3 direction = other.transform.position - transform.position;
             direction.y = 0.0f;
             other.GetComponent<PlayerController>().AddImpulse(forceStrength * direction);
+            other.GetComponent<PlayerController>().DamagePlayer(1);
 
             // Hit player audio
         } else {
