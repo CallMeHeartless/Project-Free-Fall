@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     private float sideDashForce;
     [SerializeField]
     private float sideDashCooldown;
+    private float sideDashTimer = 0.0f;
     private Rigidbody rb;
     private Vector3 movement;
 
@@ -82,6 +83,7 @@ public class PlayerController : MonoBehaviour
         MovementInput();
         RotatePlayer();
         Jump();
+        SideDash();
 
         if (Input.GetButtonDown(playerR1Button)) {
             BasicAttack();
@@ -183,9 +185,13 @@ public class PlayerController : MonoBehaviour
         float dashMagnitude = minChargeForce + maxChargeForce * (dashChargeTimer / maxDashChargeTime);
         dashController.SetForceStrength(dashMagnitude);
         
-        // Push player forward - standardise for mass of player
+        // Push player forward 
+        if(Input.GetAxis(playerLeftXAxis) != 0.0f) {
+            AddImpulse(transform.right * dashMagnitude * Input.GetAxisRaw(playerLeftXAxis));
+        } else {
+            AddImpulse(transform.forward * dashMagnitude);
+        }
         
-        AddImpulse(transform.forward * dashMagnitude);
 
         // Reset charge
         dashChargeTimer = 0.0f;
@@ -224,7 +230,20 @@ public class PlayerController : MonoBehaviour
     }
 
     void SideDash() {
+        sideDashTimer += Time.deltaTime;
+        if(Input.GetButtonDown(playerBButton) && sideDashTimer >= sideDashCooldown) {
+            // Dash
+            float direction = Input.GetAxisRaw(playerLeftXAxis);
+            if(direction == 0.0f) {
+                AddImpulse(transform.forward * -1.0f * sideDashForce);
+            } else {
+                AddImpulse(transform.right * sideDashForce * Input.GetAxisRaw(playerLeftXAxis));
+                Debug.Log(transform.right * sideDashForce * Input.GetAxisRaw(playerLeftXAxis));
+            }
+            // Animation?
 
+            sideDashTimer = 0.0f;
+        }
     }
 
     // Increment recorded hits against the player, breaking armour if a certain threshold is reached
