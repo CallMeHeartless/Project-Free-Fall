@@ -16,6 +16,8 @@ public class RoundManager : MonoBehaviour
     private float ringTimer = 0.0f;
     private int ringCount = 1;
     private bool roundWon = false;
+    [SerializeField]
+    private bool EnableVictoryOrb = false;
 
     [SerializeField]
     private float roundOverTimeDelay = 3.0f;
@@ -29,6 +31,9 @@ public class RoundManager : MonoBehaviour
 
         InitialisePlayers();
         InitialiseCameras();
+        if (EnableVictoryOrb) {
+            SpawnVictoryOrb();
+        }
     }
 
     // Update is called once per frame
@@ -134,4 +139,28 @@ public class RoundManager : MonoBehaviour
         ++ringCount;
     }
 
+    public static void SpawnVictoryOrb() {
+        GameObject spawnPoint = GameObject.Find("VictoryOrbSpawnPoint");
+        if (spawnPoint) {
+            GameObject victoryOrb = Instantiate(Resources.Load("VictoryOrb", typeof(GameObject))) as GameObject;
+            if (victoryOrb) {
+                victoryOrb.transform.position = spawnPoint.transform.position;
+            } else {
+                Debug.LogError("ERROR: Path to victory orb does not exist");
+            }
+        } else {
+            Debug.LogError("ERROR: No spawn point was found");
+        }
+    }
+
+    public void VictoryOrbWin(int _playerID) {
+        roundWon = true;
+        Debug.Log("Player " + _playerID + " has won the round with the victory orb");
+        GameManager.AddToPlayerScore(_playerID);
+        StartCoroutine(EndOfRound());
+    }
+
+    public static GameObject GetManager() {
+        return GameObject.Find("RoundManager");
+    }
 }
