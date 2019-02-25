@@ -5,12 +5,13 @@ using UnityEngine;
 public class controlLVL : MonoBehaviour
 {
     public GameObject[] circles;
-    public int timer;
-    public int counter;
+    public float timer;
+    int counter;
     // Start is called before the first frame update
     void Start()
     {
-        timer = 60;
+        counter = circles.Length -1;
+        timer = 10;
     }
 
     // Update is called once per frame
@@ -24,12 +25,14 @@ public class controlLVL : MonoBehaviour
             }
             else
             {
+                
                
                 circles[counter].GetComponent<Drop>().destoying = true;
-               
+             
+                   
+                timer -= Time.deltaTime;
+                timer = 10;
                 counter--;
-                timer = 40;
-
             }
 
         }
