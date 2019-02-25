@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour
     // Moves the player according to the player's basic input
     void MoveBody() {
         if(movement != Vector3.zero) {
-            rb.MovePosition(transform.position + moveSpeed * movement * Time.fixedDeltaTime);
+            rb.MovePosition(transform.position + moveSpeed * movement * Time.fixedDeltaTime * knockbackMultiplier[knockbackIndex]);
         }
     }
 
