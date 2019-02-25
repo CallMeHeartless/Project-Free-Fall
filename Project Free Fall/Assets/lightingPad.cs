@@ -8,6 +8,7 @@ public class lightingPad : MonoBehaviour
     public bool On;
     public float onTimerlimit;
     public float cooldown;
+    public float stunlength;
     public GameObject player;
 
     // Start is called before the first frame update
@@ -91,8 +92,8 @@ public class lightingPad : MonoBehaviour
     void collisioncheck()
     {
         Debug.Log("hte");
-       
-            gameObject.GetComponent<MeshCollider>().enabled = false;
+
+        player.GetComponent<PlayerController>().StunPlayer(stunlength);
             On = false;
             timer = cooldown;
         player = null;

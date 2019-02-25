@@ -33,9 +33,13 @@ public class blast : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
+            
             //gameObject.GetComponent<MeshCollider>().enabled = false;
-            collision.rigidbody.velocity = (transform.forward * thrust) + new Vector3(0, Random.Range(0.5f, 1.0f), 0);
-        }
+            collision.rigidbody.velocity = ((collision.transform.position - transform.position) * thrust) + Quaternion.Euler(0, collision.transform.rotation.y, 0) * -new Vector3(0, Random.Range(0.5f, 1.0f), 0);
+
+
+            }
 
     }
+   //new Vector3( collision.transform.position - gameObject.transform.position);
 }
