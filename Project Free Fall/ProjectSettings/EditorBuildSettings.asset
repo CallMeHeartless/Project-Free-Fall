@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Kerry Test Scene.unity
     guid: 957485e0a08b4f64f91e73365b506d9d
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: c71ab58743a4d9f48b810b5af0e50c0e
   m_configObjects: {}
