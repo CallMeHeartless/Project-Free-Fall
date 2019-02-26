@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class MenuManager : MonoBehaviour
 {
@@ -16,40 +17,12 @@ public class MenuManager : MonoBehaviour
 
     private void Start() {
         mainMenuUI = GameObject.Find("MainMenu");
-        UpdateButtonSelection();
-        //GameObject helpMenu = GameObject.Find("ControlsMenu");
+        mainMenuUI.transform.GetChild(0).GetComponent<Button>().Select();      
+  
     }
 
     private void Update() {
 
-        Debug.Log("Axis: " + Input.GetAxisRaw("Controller_0_Left_Y_Axis"));
-        // Switch between selected buttons
-        if (Input.GetAxisRaw("Controller_0_Left_Y_Axis") == 1.0f && !input) {
-
-            input = true;
-            ++selection;
-            if(selection > maxSelection) {
-                selection = 0;
-            }
-            UpdateButtonSelection();
-        }
-        else if(Input.GetAxisRaw("Controller_0_Left_Y_Axis") == -1.0f && !input) {
-
-            input = true;
-            --selection;
-            if(selection < 0) {
-                selection = maxSelection;
-            }
-            UpdateButtonSelection();
-        } 
-        else {
-            input = false;
-        }
-
-        // User makes a selection
-        if (Input.GetButtonDown("Controller_0_A")) {
-            TriggerSelection();
-        }
     }
 
     public void Play() {
@@ -62,18 +35,21 @@ public class MenuManager : MonoBehaviour
 	}
 
     void UpdateButtonSelection() {
+        Debug.Log("Current selection: " + selection);
         mainMenuUI.transform.GetChild(selection).GetComponent<Button>().Select();
-        //Debug.Log(selection);
+        
         // Audio
     }
 
-    void TriggerSelection() {
-        mainMenuUI.transform.GetChild(selection).GetComponent<Button>().onClick.Invoke();
-        // Audio
-    }
 
     public void ToggleInstructions() {
         helpActive = !helpActive;
-        helpMenu.gameObject.SetActive(helpActive);
+        helpMenu.SetActive(helpActive);
+        mainMenuUI.SetActive(!helpActive);
+        if (helpActive) {
+            helpMenu.GetComponentInChildren<Button>().Select();
+        } else {
+            mainMenuUI.transform.GetChild(1).GetComponent<Button>().Select();
+        }
     }
 }
