@@ -7,33 +7,54 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour
 {
 
-    public GameObject MainMenuUI;
+    public GameObject mainMenuUI;
     private int selection = 0;
+    private int maxSelection = 2;
 
     private void Start() {
-        MainMenuUI = GameObject.Find("MainMenu");
-        MainMenuUI.transform.GetChild(selection).GetComponent<Button>().Select();
+        mainMenuUI = GameObject.Find("MainMenu");
+        UpdateButtonSelection();
     }
 
-    void Update() {
-        if (Input.GetButtonDown("Controller_0_Left_Y_Axis")) {
+    private void Update() {
+        // Switch between selected buttons
+        if(Input.GetAxisRaw("Controller_0_Left_Y_Axis") == 1.0f) {
+            ++selection;
+            if(selection > maxSelection) {
+                selection = 0;
+            }
+            UpdateButtonSelection();
+        }
+        else if(Input.GetAxisRaw("Controller_0_Left_Y_Axis") == -1.0f) {
+            --selection;
+            if(selection < 0) {
+                selection = maxSelection;
+            }
+            UpdateButtonSelection();
+        }
 
+        // User makes a selection
+        if (Input.GetButtonDown("Controller_0_A")) {
+            TriggerSelection();
         }
     }
 
-
-    public void Play()
-    {
-        SceneManager.LoadScene(1);
+    public void Play() {
+        SceneManager.LoadScene("PlayerReadyLobby");
     }
 
-	public void QuitGame()
-	{
+	public void QuitGame() { 
 		Debug.Log("WE QUIT THE GAME!");
 		Application.Quit();
 	}
 
-    private void UpdateSelectButton() {
-        MainMenuUI.transform.GetChild(selection).GetComponent<Button>().Select();
+    void UpdateButtonSelection() {
+        mainMenuUI.transform.GetChild(selection).GetComponent<Button>().Select();
+        // Audio
+    }
+
+    void TriggerSelection() {
+        mainMenuUI.transform.GetChild(selection).GetComponent<Button>().onClick.Invoke();
+        // Audio
     }
 }
