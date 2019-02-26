@@ -327,6 +327,7 @@ public class PlayerController : MonoBehaviour
             GameObject roundManager = RoundManager.GetManager();
             if (roundManager) {
                 roundManager.GetComponent<RoundManager>().VictoryOrbWin(playerID);
+                victoryOrbTimer = -1000.0f;
             }
         }
     }
