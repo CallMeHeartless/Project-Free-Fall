@@ -44,17 +44,23 @@ public class PlayerController : MonoBehaviour
     private float minChargeForce = 2.0f;
     [SerializeField]
     private float dashCooldown = 1.0f;
-    private bool canDash = true;
+    private float dashCooldownTimer = 0.0f;
     //[SerializeField]
     //private float maxKnockbackMultiplier = 4.0f;
     [SerializeField]
     private float[] knockbackMultiplier;
     private int knockbackIndex = 0;
-    [SerializeField]
+    [SerializeField][Tooltip("The number of hits needed to break armour")]
     private int knockbackIncrementThreshold;
     private int knockbackDamageCount = 0;
 
+    [Header("Misc")]
+    [SerializeField]
+    private float victoryOrbWinTime;
+    private float victoryOrbTimer = 0.0f;
+
     private combat.CurrentAction currentState = combat.CurrentAction.move;
+    private bool hasVictoryOrb = false;
 
     // Other components
     private Animator anim;
@@ -66,6 +72,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         dashController = transform.Find("DashHitBox").GetComponent<DashHitboxController>();
+
 
         // DEBUG - assign IDs for test level
         if(GameObject.Find("RoundManager") == null) {
@@ -80,6 +87,10 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        if (hasVictoryOrb) {
+            ProcessVictoryOrb();
+        }
+
         MovementInput();
         RotatePlayer();
         Jump();
@@ -89,6 +100,9 @@ public class PlayerController : MonoBehaviour
             BasicAttack();
         }
 
+        if(dashCooldownTimer > 0) {
+            dashCooldownTimer -= Time.deltaTime;
+        }
         if (Input.GetButton(playerL1Button)) {
             ChargeDash();
             movement *= 0.25f;
@@ -96,8 +110,7 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetButtonUp(playerL1Button)) {
             PerformDash();
         }
-        
-        
+       
     }
 
     void FixedUpdate() {
@@ -140,13 +153,13 @@ public class PlayerController : MonoBehaviour
     // Moves the player according to the player's basic input
     void MoveBody() {
         if(movement != Vector3.zero) {
-            rb.MovePosition(transform.position + moveSpeed * movement * Time.fixedDeltaTime);
+            rb.MovePosition(transform.position + moveSpeed * movement * Time.fixedDeltaTime * knockbackMultiplier[knockbackIndex]);
         }
     }
 
     // Rotates the player (and camera)
     void RotatePlayer() {
-        transform.Rotate(transform.up, turnSpeed * Input.GetAxis(playerRightXAxis));
+        transform.Rotate(transform.up, turnSpeed * Input.GetAxis(playerRightXAxis) * knockbackMultiplier[knockbackIndex]);
     }
 
     // Adds an impulse to the player (such as from a knock back effect)
@@ -163,6 +176,10 @@ public class PlayerController : MonoBehaviour
 
     // Begin dash sequence
     void ChargeDash() {
+        if(dashCooldownTimer > 0.0f) {
+            return;
+        }
+
         // Animation
         if (!anim.GetBool("Dash")) {
             anim.SetBool("Dash", true);
@@ -186,27 +203,31 @@ public class PlayerController : MonoBehaviour
         dashController.SetForceStrength(dashMagnitude);
         
         // Push player forward 
-        if(Input.GetAxis(playerLeftXAxis) != 0.0f) {
-            AddImpulse(transform.right * dashMagnitude * Input.GetAxisRaw(playerLeftXAxis));
-        } else {
-            AddImpulse(transform.forward * dashMagnitude);
-        }
-        
+        //if(Input.GetAxis(playerLeftXAxis) != 0.0f) {
+        //    AddImpulse(transform.right * dashMagnitude * Input.GetAxisRaw(playerLeftXAxis));
+        //} else {
+        //    AddImpulse(transform.forward * dashMagnitude);
+        //}
+        AddImpulse(transform.forward * dashMagnitude);
 
         // Reset charge
         dashChargeTimer = 0.0f;
+        dashCooldownTimer = dashCooldown;
         StopAfterDelay(0.5f);
     }
 
+    // Stops the player after a short delay - used to terminate the charged dash
     IEnumerator StopAfterDelay(float delay) {
         yield return new WaitForSeconds(delay);
         StopPlayer();
     }
     
+    // Makes the velocity of the player's RigidBody component zero
     public void StopPlayer() {
         rb.velocity = Vector3.zero;
     }
 
+    // Sets the player's state to be stunned, forcing it to skip its update step. Auto resolved by coroutine
     public void StunPlayer(float stunDuration) {
         if(currentState == combat.CurrentAction.stun) {
             return;
@@ -216,8 +237,14 @@ public class PlayerController : MonoBehaviour
         currentState = combat.CurrentAction.stun;
         // Visual/Audio
         StartCoroutine(RemoveStun(stunDuration));
+
+        // Drop orb if they have it
+        if (hasVictoryOrb) {
+            RemoveVictoryOrb();
+        }
     }
 
+    // Removes the stun status of the player after a set duration
     IEnumerator RemoveStun(float stunDuration) {
         yield return new WaitForSeconds(stunDuration);
         // Remove stun status 
@@ -225,10 +252,12 @@ public class PlayerController : MonoBehaviour
         // Visual / Audio
     }
 
+    // Triggers the sword attack animation
     void BasicAttack() {
         anim.SetTrigger("Attack");
     }
 
+    // Applies a short impulse to the player, backwards with no input or to either side
     void SideDash() {
         sideDashTimer += Time.deltaTime;
         if(Input.GetButtonDown(playerBButton) && sideDashTimer >= sideDashCooldown) {
@@ -248,13 +277,57 @@ public class PlayerController : MonoBehaviour
 
     // Increment recorded hits against the player, breaking armour if a certain threshold is reached
     public void DamagePlayer(int damageIncrement) {
+        // Drop orb if they have it
+        if (hasVictoryOrb) {
+            RemoveVictoryOrb();
+        }
+
         if(knockbackIndex >= 6) {
             return;
         }
         knockbackDamageCount += damageIncrement;
-        if(knockbackDamageCount > knockbackIncrementThreshold) {
+        Debug.Log(knockbackDamageCount);
+        if(knockbackDamageCount >= knockbackIncrementThreshold) {
             // Break armour
             ++knockbackIndex;
+            knockbackDamageCount = 0;
+            Debug.Log("Player " + playerID.ToString() + " force multiplier: " + knockbackMultiplier[knockbackIndex].ToString());
+        }
+    }
+
+    // Returns true if the player is flagged as possessing the victory orb
+    public bool CheckForVictoryOrb() {
+        return hasVictoryOrb;
+    }
+
+    // Flags the player as having the victory orb
+    public void GiveVictoryOrb() {
+        hasVictoryOrb = true;
+    }
+
+    // Removes the victory orb from the player, spawning a new one and resetting their timer
+    public void RemoveVictoryOrb() {
+        hasVictoryOrb = false;
+        //RoundManager.SpawnVictoryOrb(); // Change this to control where the orb spawns
+        GameObject victoryOrb = Instantiate(Resources.Load("VictoryOrb", typeof(GameObject))) as GameObject;
+        if (victoryOrb) {
+            victoryOrb.transform.position = transform.position + Vector3.up * 7.5f;
+            Vector3 direction = new Vector3(Random.Range(1.5f, 3.5f), Random.Range(3.5f, 6.5f), Random.Range(1.5f, 3.5f));
+            victoryOrb.GetComponent<Rigidbody>().AddForce(3.0f * direction, ForceMode.Impulse);
+        } else {
+            Debug.LogError("ERROR: Path to victory orb could not be found");
+        }
+        victoryOrbTimer = 0.0f;
+    }
+
+    // Tracks the player's progress towards winning with the orb - calling for the round to end if they have won
+    void ProcessVictoryOrb() {
+        victoryOrbTimer += Time.deltaTime;
+        if(victoryOrbTimer >= victoryOrbWinTime) {
+            GameObject roundManager = RoundManager.GetManager();
+            if (roundManager) {
+                roundManager.GetComponent<RoundManager>().VictoryOrbWin(playerID);
+            }
         }
     }
 
