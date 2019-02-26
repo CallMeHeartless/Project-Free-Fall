@@ -25,11 +25,12 @@ public class combat : MonoBehaviour
     public float[] timersForCurrentAction;
     public CurrentAction game = CurrentAction.move;
 
+    public float hp;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
@@ -41,20 +42,20 @@ public class combat : MonoBehaviour
 
         RaycastHit ray;
         Ray groundRay = new Ray(transform.position, Vector3.down);
-        Debug.Log("call");
+        
         if (Physics.Raycast(groundRay, out ray, .55f))
         {
-            Debug.Log("hit");
+           
             grounded = true;
-            Debug.Log("hit1");
+            
             gameObject.GetComponent<Rigidbody>().useGravity = false;
-            Debug.Log("hit22");
+           
             gameObject.transform.parent = ray.transform;
-            Debug.Log("hit333");
+            
         }
         else
         {
-            Debug.Log("bye");
+            
             grounded = false;
             gameObject.GetComponent<Rigidbody>().useGravity = true;
             transform.parent = null;
@@ -65,14 +66,11 @@ public class combat : MonoBehaviour
         //swing
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Vector3 playerPos = transform.position;
-            Vector3 playerDirection = transform.forward;
-            Quaternion playerRotation = transform.rotation;
+          
 
+            Vector3 spawnPos = transform.position + transform.forward * spawnDistance;
 
-            Vector3 spawnPos = playerPos + playerDirection * spawnDistance;
-
-            Instantiate(range, spawnPos, playerRotation);
+            Instantiate(range, spawnPos, transform.rotation);
 
             game = CurrentAction.melee;
             hitDelay = timersForCurrentAction[4];
@@ -162,7 +160,7 @@ public class combat : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if ((game == CurrentAction.dashing) || (game == CurrentAction.preDash))
+            if ((game == CurrentAction.dashing))
             {
                 if (collision.gameObject.GetComponent<combat>().invincablty == false)
                 {
@@ -176,13 +174,14 @@ public class combat : MonoBehaviour
         }
     }
 
-    float randomDamage(float baseKnockback)
+    Vector3 randomDamage(float baseKnockback)
     {
         float dummy = Random.Range(0.5f, 1.0f);
-        if (true)
+        if ((hp<= 0)&& (hp >= 25))
         {
-
+            
+            //(transform.forward * thrust) + new Vector3(0, Random.Range(0.5f, 1.0f), 0);
         }
-        return 0;
+        return (transform.forward * 2) + new Vector3(0, Random.Range(0.5f, 1.0f), 0);
     } 
 }

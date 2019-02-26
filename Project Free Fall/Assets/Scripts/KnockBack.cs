@@ -14,4 +14,8 @@ public class KnockBack : MonoBehaviour
         }
     }
 
+    public void SetForceStrength(float magnitude) {
+        forceStrength = magnitude;
+    }
+
 }

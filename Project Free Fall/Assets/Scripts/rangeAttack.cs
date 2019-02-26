@@ -18,6 +18,7 @@ public class rangeAttack : MonoBehaviour
         if (timer == 0)
         {
             Destroy(gameObject);
+           
         }
         else
         {

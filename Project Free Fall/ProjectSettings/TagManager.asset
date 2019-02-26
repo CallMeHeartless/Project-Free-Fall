@@ -8,6 +8,7 @@ TagManager:
   - ground
   - Swing
   - GameManager
+  - VictoryOrb
   layers:
   - Default
   - TransparentFX
