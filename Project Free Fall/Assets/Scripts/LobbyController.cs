@@ -11,9 +11,7 @@ public class LobbyController : MonoBehaviour
     
 
     // Start is called before the first frame update
-    void Start()
-    {
-        //readyStatus = new bool[4];
+    void Start() {
         lobbyUI = GameObject.Find("LobbyUI");
         joysticks = Input.GetJoystickNames();
     }
@@ -72,8 +70,7 @@ public class LobbyController : MonoBehaviour
 
     void CheckForReturnToMainMenu() {
         if (Input.GetKeyDown(KeyCode.Joystick1Button1)) {
-            Debug.Log("Returning to main menu");
-            //SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene("MainMenu");
         }
     }
 
