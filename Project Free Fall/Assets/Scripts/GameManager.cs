@@ -56,4 +56,8 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
+    public static int[] GetPlayerScores() {
+        return playerScores;
+    }
+
 }

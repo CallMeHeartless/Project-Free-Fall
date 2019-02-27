@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -712,6 +712,21 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2860528041684293927, guid: 32d8b60724f65384788734de5c50a275,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2860528041684293927, guid: 32d8b60724f65384788734de5c50a275,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2860528041684293927, guid: 32d8b60724f65384788734de5c50a275,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.height
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2860528041287600439, guid: 32d8b60724f65384788734de5c50a275,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -766,21 +781,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2860528041684293927, guid: 32d8b60724f65384788734de5c50a275,
-        type: 3}
-      propertyPath: m_NormalizedViewPortRect.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2860528041684293927, guid: 32d8b60724f65384788734de5c50a275,
-        type: 3}
-      propertyPath: m_NormalizedViewPortRect.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2860528041684293927, guid: 32d8b60724f65384788734de5c50a275,
-        type: 3}
-      propertyPath: m_NormalizedViewPortRect.height
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2860528042217344236, guid: 32d8b60724f65384788734de5c50a275,
         type: 3}
@@ -1265,7 +1265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TestMode: 1
   TestPlayerCount: 4
-  ringFallInterval: 25
+  ringFallInterval: 15
   EnableVictoryOrb: 1
   roundOverTimeDelay: 3
 --- !u!4 &1393565099
@@ -1589,6 +1589,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3496392699169292007, guid: 5b1743564d655e44084f97423f2ecf05,
+        type: 3}
+      propertyPath: turnSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2186554800968328609, guid: 5b1743564d655e44084f97423f2ecf05,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.65
+      objectReference: {fileID: 0}
     - target: {fileID: 8461218880005501538, guid: 5b1743564d655e44084f97423f2ecf05,
         type: 3}
       propertyPath: m_LocalScale.y
@@ -1618,16 +1628,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2186554800968328609, guid: 5b1743564d655e44084f97423f2ecf05,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.65
-      objectReference: {fileID: 0}
-    - target: {fileID: 3496392699169292007, guid: 5b1743564d655e44084f97423f2ecf05,
-        type: 3}
-      propertyPath: turnSpeed
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b1743564d655e44084f97423f2ecf05, type: 3}
