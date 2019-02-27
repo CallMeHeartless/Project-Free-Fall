@@ -25,7 +25,7 @@ GameObject:
   m_Layer: 0
   m_Name: CameraFollowPoint
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -37,7 +37,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2186554800968328610}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.65, z: 0}
+  m_LocalPosition: {x: 0, y: 3.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2186554801657640769}
@@ -71,7 +71,7 @@ Transform:
   m_GameObject: {fileID: 2186554801657640770}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 2186554800968328609}
   - {fileID: 5338422971895893335}
@@ -223,13 +223,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7541080714223343194}
-  m_LocalRotation: {x: -0.5242686, y: -0.77568495, z: 0.24780962, w: 0.24909002}
-  m_LocalPosition: {x: 2.6792002, y: -2.5892618, z: 1.8836385}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.18469562, y: -0.22983979, z: -0.11478129, w: -0.9486235}
+  m_LocalPosition: {x: 0.458, y: 1.759, z: 1.012}
+  m_LocalScale: {x: 0.19388, y: 1.0691, z: 0.41693}
   m_Children: []
-  m_Father: {fileID: 18312794330013452}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: -87.351006, y: 68.393005, z: -150.94}
+  m_Father: {fileID: 18312794330013458}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 162.683, y: 210.078, z: -161.51599}
 --- !u!65 &8159598451042261570
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -263,10 +263,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2186554801657640769}
     m_Modifications:
-    - target: {fileID: 100000, guid: 603903957cf170d4cb5094994606ca4b, type: 3}
-      propertyPath: m_Name
-      value: Anim_Idle
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 603903957cf170d4cb5094994606ca4b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -311,6 +307,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 603903957cf170d4cb5094994606ca4b, type: 3}
+      propertyPath: m_Name
+      value: Anim_Idle
+      objectReference: {fileID: 0}
     - target: {fileID: 9500000, guid: 603903957cf170d4cb5094994606ca4b, type: 3}
       propertyPath: m_Controller
       value: 
@@ -337,9 +337,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 18312794330138060}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &18312794330013452 stripped
+--- !u!4 &18312794330013458 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 400064, guid: 603903957cf170d4cb5094994606ca4b,
+  m_CorrespondingSourceObject: {fileID: 400094, guid: 603903957cf170d4cb5094994606ca4b,
     type: 3}
   m_PrefabInstance: {fileID: 18312794330138060}
   m_PrefabAsset: {fileID: 0}

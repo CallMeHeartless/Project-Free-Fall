@@ -265,11 +265,19 @@ public class PlayerController : MonoBehaviour
             float direction = Input.GetAxisRaw(playerLeftXAxis);
             if(direction == 0.0f) {
                 AddImpulse(transform.forward * -1.0f * sideDashForce);
-            } else {
+                // Backdash animation
+            } 
+            else {
                 AddImpulse(transform.right * sideDashForce * Input.GetAxisRaw(playerLeftXAxis));
-                Debug.Log(transform.right * sideDashForce * Input.GetAxisRaw(playerLeftXAxis));
+                if(direction > 0.0f) {
+                    anim.SetTrigger("DodgeRight");
+                } 
+                else {
+                    anim.SetTrigger("DodgeLeft");
+                }
             }
-            // Animation?
+
+            // Dash Audio
 
             sideDashTimer = 0.0f;
         }
