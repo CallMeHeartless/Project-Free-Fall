@@ -58,6 +58,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float victoryOrbWinTime;
     private float victoryOrbTimer = 0.0f;
+    public ParticleSystem[] chargeThrusters;
+    public ParticleSystem[] dashThrusters;
 
     private combat.CurrentAction currentState = combat.CurrentAction.move;
     private bool hasVictoryOrb = false;
@@ -129,6 +131,10 @@ public class PlayerController : MonoBehaviour
         playerL1Button = "Controller_" + _playerID.ToString() + "_L1";
         playerR1Button = "Controller_" + playerID.ToString() + "_R1";
         playerTriggers = "Controller_" + _playerID.ToString() + "_L2R2";
+
+        // Assign texture
+        //transform.Find("Player/cm_PlayerCharacter/PlayerCharacter_Torso").GetComponent<SkinnedMeshRenderer>().material=
+
     }
 
     // Obtain the player ID
@@ -185,6 +191,8 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("Dash", true);
             // Play charge audio
         }
+        // VFX
+        ToggleChargeThrusters(true);
 
         dashChargeTimer += Time.deltaTime;
         if(dashChargeTimer >= maxDashChargeTime) {
@@ -197,6 +205,14 @@ public class PlayerController : MonoBehaviour
         // Animation
         anim.SetBool("Dash", false);
         // Audio - stop charge, play dash
+
+        // VFX
+        ToggleChargeThrusters(false);
+        if(dashThrusters != null) {
+            foreach(ParticleSystem thruster in dashThrusters) {
+                thruster.Play();
+            }
+        }
 
         // Set dash strength
         float dashMagnitude = minChargeForce + maxChargeForce * (dashChargeTimer / maxDashChargeTime);
@@ -225,6 +241,15 @@ public class PlayerController : MonoBehaviour
     // Makes the velocity of the player's RigidBody component zero
     public void StopPlayer() {
         rb.velocity = Vector3.zero;
+
+        // Cull any thruster effects
+        if (dashThrusters != null) {
+            foreach (ParticleSystem thruster in dashThrusters) {
+                if (thruster.isPlaying) {
+                    thruster.Stop();
+                }
+            }
+        }
     }
 
     // Sets the player's state to be stunned, forcing it to skip its update step. Auto resolved by coroutine
@@ -340,4 +365,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    private void ToggleChargeThrusters(bool on) {
+        if (chargeThrusters != null) {
+            foreach (ParticleSystem thruster in chargeThrusters) {
+                if (!thruster.isPlaying && on) {
+                    thruster.Play();
+                }
+                else if(thruster.isPlaying && !on) {
+                    thruster.Stop();
+                }
+            }
+        }
+    }
 }
