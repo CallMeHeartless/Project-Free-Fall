@@ -18,6 +18,7 @@ public class WeaponController : MonoBehaviour
             gameObject.SetActive(false); // Current fix to prevent the damage being triggered twice
 
             // Hit player audio
+            other.GetComponentInChildren<PlayerAudioController>().PlayerHitAudio();
         } else {
             // Hit object audio
         }
