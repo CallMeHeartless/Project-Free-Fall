@@ -27,6 +27,7 @@ public class MenuManager : MonoBehaviour
 
     public void Play() {
         SceneManager.LoadScene("PlayerReadyLobby");
+        GetComponent<AudioSource>().Play(0);
     }
 
 	public void QuitGame() { 
@@ -37,8 +38,9 @@ public class MenuManager : MonoBehaviour
     void UpdateButtonSelection() {
         Debug.Log("Current selection: " + selection);
         mainMenuUI.transform.GetChild(selection).GetComponent<Button>().Select();
-        
+
         // Audio
+       
     }
 
 
@@ -51,5 +53,6 @@ public class MenuManager : MonoBehaviour
         } else {
             mainMenuUI.transform.GetChild(1).GetComponent<Button>().Select();
         }
+        GetComponent<AudioSource>().Play(0);
     }
 }
