@@ -11,8 +11,17 @@ public class spawnScore : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        bool[] activePlayers = GameManager.GetReadyStatus();
+        int total = 0;
+        for (int i = 0; i < activePlayers.Length; i++)
+        {
+            if (activePlayers[i] == true)
+            {
+                total++;
+            }
+        }
         //find player count if 3 then call player3
-        if (true)
+        if (total == 3)
         {
             player3();
         }
