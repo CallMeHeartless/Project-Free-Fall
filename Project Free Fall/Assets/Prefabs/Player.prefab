@@ -142,6 +142,12 @@ MonoBehaviour:
   - 2.75
   knockbackIncrementThreshold: 5
   victoryOrbWinTime: 10
+  chargeThrusters:
+  - {fileID: 8262042997561252542}
+  - {fileID: 7876386600412511525}
+  dashThrusters:
+  - {fileID: 5623334428192186514}
+  - {fileID: 2762400491747956756}
 --- !u!1 &5843925215607413162
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,7 +333,7 @@ PrefabInstance:
     - target: {fileID: 13700002, guid: 603903957cf170d4cb5094994606ca4b, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: c018ef5dbb9d63146b44800d4fc7a50e, type: 2}
+      objectReference: {fileID: 2100000, guid: 49eb43936cfe8d74daf83db136fc2ece, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 603903957cf170d4cb5094994606ca4b, type: 3}
 --- !u!1 &18312794330170220 stripped
@@ -447,6 +453,11 @@ PrefabInstance:
       propertyPath: startDelay.scalar
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3524941285543412167, guid: 28b1469df36f0334e82fc5fd53ed33f5,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9027782635982391747, guid: 28b1469df36f0334e82fc5fd53ed33f5,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -539,6 +550,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28b1469df36f0334e82fc5fd53ed33f5, type: 3}
+--- !u!198 &2762400491747956756 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3524941285543412167, guid: 28b1469df36f0334e82fc5fd53ed33f5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1638500958791850451}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2858245454320029584
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -696,8 +713,19 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d18daf2db4803ea408d484cbed3c7e1f, type: 2}
+    - target: {fileID: 5396452517328794293, guid: c1136a534f1cf4a4d83e5a24f037ebaf,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1136a534f1cf4a4d83e5a24f037ebaf, type: 3}
+--- !u!198 &7876386600412511525 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5396452517328794293, guid: c1136a534f1cf4a4d83e5a24f037ebaf,
+    type: 3}
+  m_PrefabInstance: {fileID: 2858245454320029584}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3479468552730830037
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -935,8 +963,19 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d18daf2db4803ea408d484cbed3c7e1f, type: 2}
+    - target: {fileID: 5396452517328794293, guid: c1136a534f1cf4a4d83e5a24f037ebaf,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1136a534f1cf4a4d83e5a24f037ebaf, type: 3}
+--- !u!198 &8262042997561252542 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5396452517328794293, guid: c1136a534f1cf4a4d83e5a24f037ebaf,
+    type: 3}
+  m_PrefabInstance: {fileID: 4056794025116657675}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9142592782642323797
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1022,6 +1061,11 @@ PrefabInstance:
     - target: {fileID: 3524941285543412167, guid: 28b1469df36f0334e82fc5fd53ed33f5,
         type: 3}
       propertyPath: startDelay.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3524941285543412167, guid: 28b1469df36f0334e82fc5fd53ed33f5,
+        type: 3}
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9027782635982391747, guid: 28b1469df36f0334e82fc5fd53ed33f5,
@@ -1116,3 +1160,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28b1469df36f0334e82fc5fd53ed33f5, type: 3}
+--- !u!198 &5623334428192186514 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3524941285543412167, guid: 28b1469df36f0334e82fc5fd53ed33f5,
+    type: 3}
+  m_PrefabInstance: {fileID: 9142592782642323797}
+  m_PrefabAsset: {fileID: 0}
