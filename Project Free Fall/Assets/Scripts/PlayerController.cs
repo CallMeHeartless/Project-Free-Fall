@@ -53,11 +53,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField][Tooltip("The number of hits needed to break armour")]
     private int knockbackIncrementThreshold;
     private int knockbackDamageCount = 0;
-    [SerializeField]
-    [Tooltip("The components (in order) that break off")]
+    [SerializeField][Tooltip(" ")]
     GameObject[] armourComponents;
-    [SerializeField]
-    private List<GameObject[]> armour;
+
 
     [Header("Misc")]
     [SerializeField]
@@ -322,6 +320,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log(knockbackDamageCount);
         if(knockbackDamageCount >= knockbackIncrementThreshold) {
             // Break armour
+            DetachArmour();
             ++knockbackIndex;
             knockbackDamageCount = 0;
             Debug.Log("Player " + playerID.ToString() + " force multiplier: " + knockbackMultiplier[knockbackIndex].ToString());
@@ -389,5 +388,110 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void DetachArmour() {
+        /* Add to prefab in this order
+         * Left shin + left thigh (0, 1)
+         * Left Shoulder (2)
+         * Right shin + right thigh (3, 4)
+         * Right Arm (5, 6, 7)
+         * Chest (8)
+         * Crest (9)
+         */
+
+        // Skip this if all armour is lost or no armour exists
+        if (knockbackIndex > 5 || armourComponents == null) {
+            return;
+        }
+
+        // Remove armour accordingly
+        switch (knockbackIndex) {
+            case 0: {
+                GameObject leftThigh = armourComponents[0];
+                if (leftThigh) {
+                    DetachSingleArmourPiece(leftThigh);
+                }
+                GameObject leftShin = armourComponents[1];
+                if (leftShin) {
+                    DetachSingleArmourPiece(leftShin);
+                }
+                    
+                break;
+            }
+
+            case 1: {
+                GameObject leftShoulder = armourComponents[2];
+                if (leftShoulder) {
+                    DetachSingleArmourPiece(leftShoulder);
+                }
+                break;
+            }
+
+            case 2: {
+                GameObject rightShin = armourComponents[3];
+                if (rightShin) {
+                    DetachSingleArmourPiece(rightShin);
+                }
+                GameObject rightThigh = armourComponents[4];
+                if (rightThigh) {
+                    DetachSingleArmourPiece(rightThigh);
+                }
+                break;
+            }
+
+            case 3: {
+                GameObject rightShoulder = armourComponents[5];
+                if (rightShoulder) {
+                    DetachSingleArmourPiece(rightShoulder);
+                }
+
+                GameObject rightArm = armourComponents[6];
+                if (rightArm) {
+                    DetachSingleArmourPiece(rightArm);
+                }
+                GameObject rightBracer = armourComponents[7];
+                if (rightBracer) {
+                    DetachSingleArmourPiece(rightBracer);
+                }
+                break;
+            }
+
+            case 4: {
+                GameObject chest = armourComponents[8];
+                if (chest) {
+                    DetachSingleArmourPiece(chest);
+                }
+                break;
+            }
+
+            case 5: {
+                GameObject crest = armourComponents[9];
+                if (crest) {
+                    DetachSingleArmourPiece(crest);
+                }
+                break;
+            }
+
+            default:break;
+        }
+    }
+
+    private void DetachSingleArmourPiece(GameObject armour) {
+        // Remove from character
+        armour.transform.SetParent(null);
+
+        // Add collider
+        armour.AddComponent<MeshCollider>();
+
+        // Add rigidbody
+        Rigidbody armourRB = armour.AddComponent<Rigidbody>();
+        Vector3 detachForce = new Vector3(Random.Range(1.0f, 3.0f), Random.Range(2.0f, 5.0f), Random.Range(1.0f, 3.0f));
+        Vector3 spinForce = new Vector3(Random.Range(1.0f, 3.0f), Random.Range(2.0f, 5.0f), Random.Range(1.0f, 3.0f));
+        armourRB.AddForce(detachForce);
+        armourRB.AddTorque(spinForce);
+
+        // Trigger self-destruct timer on armour
+        armour.GetComponent<ArmourController>().StartSelfDestructTimer();
     }
 }
