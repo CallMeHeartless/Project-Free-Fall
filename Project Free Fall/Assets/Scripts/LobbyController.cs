@@ -8,7 +8,7 @@ public class LobbyController : MonoBehaviour
 {
     public GameObject lobbyUI;
     private string[] joysticks;
-    
+    bool readyToStart = false;
 
     // Start is called before the first frame update
     void Start() {
@@ -45,26 +45,27 @@ public class LobbyController : MonoBehaviour
         if (GameManager.readyStatus[playerID]){
             // Player has readied up, change their text
             playerUI.GetComponentInChildren<Text>().text = "READY";
+            // Display character
+            playerUI.GetChild(0).gameObject.SetActive(true);
         }
         else{
             // Player has cancelled ready
             playerUI.GetComponentInChildren<Text>().text = "Press A to ready up";
+            // Hide character
+            playerUI.GetChild(0).gameObject.SetActive(false);
+        }
+
+        // Adjust UI
+        if (CheckIfReady()) {
+            lobbyUI.transform.GetChild(1).gameObject.SetActive(true);
+        } else {
+            lobbyUI.transform.GetChild(1).gameObject.SetActive(false);
         }
     }
 
     void CheckForGameStart() {
-        if (Input.GetKeyDown(KeyCode.Joystick1Button7)) {
-            int readyCount = 0;
-            bool[] playersReady = GameManager.GetReadyStatus();
-            for(int i = 0; i < 4; ++i) {
-                if (playersReady[i]) {
-                    ++readyCount;
-                }
-            }
-            if(readyCount > 1) {
-                // Start game
+        if (Input.GetKeyDown(KeyCode.Joystick1Button7) && CheckIfReady()) {
                 SceneManager.LoadScene("lvl_Arena_One");
-            }
         }
     }
 
@@ -72,6 +73,18 @@ public class LobbyController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Joystick1Button1)) {
             SceneManager.LoadScene("MainMenu");
         }
+    }
+
+    bool CheckIfReady() {
+        int readyCount = 0;
+        bool[] playersReady = GameManager.GetReadyStatus();
+        for (int i = 0; i < 4; ++i) {
+            if (playersReady[i]) {
+                ++readyCount;
+            }
+        }
+
+        return readyCount > 1;
     }
 
 }
