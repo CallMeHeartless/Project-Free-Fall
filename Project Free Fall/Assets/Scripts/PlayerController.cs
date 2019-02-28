@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private string playerL1Button;
     private string playerR1Button;
     private string playerTriggers;
+    private string playerBackButton;
 
     
     [Header("Movement")] // Player movement variables
@@ -70,6 +71,7 @@ public class PlayerController : MonoBehaviour
     // Other components
     private Animator anim;
     private DashHitboxController dashController;
+    private spawnScore scoreReference;
 
     #endregion
 
@@ -77,6 +79,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         dashController = transform.Find("DashHitBox").GetComponent<DashHitboxController>();
+        scoreReference = GameObject.Find("InGameScoreUI").GetComponent<spawnScore>();
 
 
         // DEBUG - assign IDs for test level
@@ -84,37 +87,50 @@ public class PlayerController : MonoBehaviour
             AssignPlayerID(playerID); // Change this later
         }
 
-        UpdateCrestColour();
+        //UpdateCrestColour();
     }
 
     void Update() {
         movement = Vector3.zero;
+
+        // Check for stun
         if(currentState == combat.CurrentAction.stun) {
             return;
         }
 
+        // Check for victory orb progress
         if (hasVictoryOrb) {
             ProcessVictoryOrb();
         }
 
+        // Process player input commands
         MovementInput();
         RotatePlayer();
         Jump();
         SideDash();
 
+        // Handle basic attack
         if (Input.GetButtonDown(playerR1Button)) {
             BasicAttack();
         }
 
+        // Handle dash cooldown
         if(dashCooldownTimer > 0) {
             dashCooldownTimer -= Time.deltaTime;
         }
+
+        // Handle charge dash
         if (Input.GetButton(playerL1Button)) {
             ChargeDash();
             movement *= 0.25f;
         }
         else if (Input.GetButtonUp(playerL1Button)) {
             PerformDash();
+        }
+
+        // Toggle score
+        if(Input.GetButtonDown(playerBackButton) || Input.GetButtonUp(playerBackButton)) {
+            ToggleInGameScore();
         }
        
     }
@@ -135,10 +151,7 @@ public class PlayerController : MonoBehaviour
         playerL1Button = "Controller_" + _playerID.ToString() + "_L1";
         playerR1Button = "Controller_" + playerID.ToString() + "_R1";
         playerTriggers = "Controller_" + _playerID.ToString() + "_L2R2";
-
-        // Assign texture
-        //transform.Find("Player/cm_PlayerCharacter/PlayerCharacter_Torso").GetComponent<SkinnedMeshRenderer>().material=
-
+        playerBackButton = "Controller_" + _playerID.ToString() + "_Back";
     }
 
     // Obtain the player ID
@@ -507,5 +520,9 @@ public class PlayerController : MonoBehaviour
         //crestColour = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
         //armourComponents[9].GetComponent<MeshRenderer>().material.color = crestColour;
         
+    }
+
+    private void ToggleInGameScore() {
+        scoreReference.seeScore(playerID);
     }
 }
