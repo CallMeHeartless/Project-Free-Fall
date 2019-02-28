@@ -53,6 +53,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField][Tooltip("The number of hits needed to break armour")]
     private int knockbackIncrementThreshold;
     private int knockbackDamageCount = 0;
+    [SerializeField]
+    [Tooltip("The components (in order) that break off")]
+    GameObject[] armourComponents;
+    [SerializeField]
+    private List<GameObject[]> armour;
 
     [Header("Misc")]
     [SerializeField]
@@ -208,22 +213,13 @@ public class PlayerController : MonoBehaviour
 
         // VFX
         ToggleChargeThrusters(false);
-        if(dashThrusters != null) {
-            foreach(ParticleSystem thruster in dashThrusters) {
-                thruster.Play();
-            }
-        }
+        ToggleDashThrusters(true);
 
         // Set dash strength
         float dashMagnitude = minChargeForce + maxChargeForce * (dashChargeTimer / maxDashChargeTime);
         dashController.SetForceStrength(dashMagnitude);
         
         // Push player forward 
-        //if(Input.GetAxis(playerLeftXAxis) != 0.0f) {
-        //    AddImpulse(transform.right * dashMagnitude * Input.GetAxisRaw(playerLeftXAxis));
-        //} else {
-        //    AddImpulse(transform.forward * dashMagnitude);
-        //}
         AddImpulse(transform.forward * dashMagnitude);
 
         // Reset charge
@@ -243,13 +239,7 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector3.zero;
 
         // Cull any thruster effects
-        if (dashThrusters != null) {
-            foreach (ParticleSystem thruster in dashThrusters) {
-                if (thruster.isPlaying) {
-                    thruster.Stop();
-                }
-            }
-        }
+        ToggleDashThrusters(false);
     }
 
     // Sets the player's state to be stunned, forcing it to skip its update step. Auto resolved by coroutine
@@ -304,8 +294,18 @@ public class PlayerController : MonoBehaviour
 
             // Dash Audio
 
+            // VFX
+            ToggleDashThrusters(true);
+            StartCoroutine(CullSideDashParticles());
+
             sideDashTimer = 0.0f;
+            
         }
+    }
+
+    IEnumerator CullSideDashParticles() {
+        yield return new WaitForSeconds(0.5f);
+        ToggleDashThrusters(false);
     }
 
     // Increment recorded hits against the player, breaking armour if a certain threshold is reached
@@ -365,7 +365,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
+    // Plays the charge thruster particle system if true, stops if false
     private void ToggleChargeThrusters(bool on) {
         if (chargeThrusters != null) {
             foreach (ParticleSystem thruster in chargeThrusters) {
@@ -373,6 +373,18 @@ public class PlayerController : MonoBehaviour
                     thruster.Play();
                 }
                 else if(thruster.isPlaying && !on) {
+                    thruster.Stop();
+                }
+            }
+        }
+    }
+
+    private void ToggleDashThrusters(bool on) {
+        if (dashThrusters != null) {
+            foreach (ParticleSystem thruster in dashThrusters) {
+                if (!thruster.isPlaying && on) {
+                    thruster.Play();
+                } else if (thruster.isPlaying && !on) {
                     thruster.Stop();
                 }
             }
