@@ -19,8 +19,15 @@ public class DashHitboxController : MonoBehaviour
         if(other.CompareTag("Player") && other != this) {
             Vector3 direction = other.transform.position - transform.position;
             direction.y = 0; // Remove vertical component to knock back
+            Debug.Log("playerhit");
             other.GetComponent<PlayerController>().AddImpulse(forceStrength * direction);
             other.GetComponent<PlayerController>().DamagePlayer(3);
+        }
+        if (other.CompareTag("wall"))
+        {
+            Debug.Log("hit");
+            gameObject.transform.parent.GetComponent<PlayerController>().AddImpulse(new Vector3(0,0,0));
+            gameObject.transform.parent.GetComponent<PlayerController>().StunPlayer(3);
         }
     }
 
