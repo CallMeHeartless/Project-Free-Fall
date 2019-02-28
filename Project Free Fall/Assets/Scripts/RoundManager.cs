@@ -34,6 +34,8 @@ public class RoundManager : MonoBehaviour
         if (EnableVictoryOrb) {
             SpawnVictoryOrb();
         }
+
+        GameObject.Find("InGameScoreUI").GetComponent<spawnScore>().setScore();
     }
 
     // Update is called once per frame
