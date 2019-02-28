@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
             AssignPlayerID(playerID); // Change this later
         }
 
+        UpdateCrestColour();
     }
 
     void Update() {
@@ -391,7 +392,6 @@ public class PlayerController : MonoBehaviour
     }
 
     private void DetachArmour() {
-        
         /* Add to prefab in this order
          * Left shin + left thigh (0, 1)
          * Left Shoulder (2)
@@ -401,14 +401,11 @@ public class PlayerController : MonoBehaviour
          * Crest (9)
          */
 
-        Debug.Log("Detaching armour");
-
         // Skip this if all armour is lost or no armour exists
         if (knockbackIndex > 5) {
             return;
         }
 
-        Debug.Log("valid configuration");
         // Remove armour accordingly
         switch (knockbackIndex) {
             case 0: {
@@ -497,5 +494,18 @@ public class PlayerController : MonoBehaviour
 
         // Trigger self-destruct timer on armour
         armour.GetComponent<ArmourController>().StartSelfDestructTimer();
+    }
+
+    private void UpdateCrestColour() {
+        if(armourComponents[9] == null) {
+            Debug.LogError("ERROR: Crest null reference");
+            return;
+        }
+
+        //Color crestColour = armourComponents[9].GetComponent<MeshRenderer>().materials[0].color;
+        //Debug.Log(crestColour);
+        //crestColour = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+        //armourComponents[9].GetComponent<MeshRenderer>().material.color = crestColour;
+        
     }
 }
