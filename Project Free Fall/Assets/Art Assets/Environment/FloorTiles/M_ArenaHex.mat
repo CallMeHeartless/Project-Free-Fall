@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_ArenaHex_Blue
+  m_Name: M_ArenaHex
   m_Shader: {fileID: 4800000, guid: 4c20d768a9c0e3045b93de5d3ac38a82, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -79,7 +79,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_36A71E25: {r: 0, g: 0.1422945, b: 0.6901961, a: 1}
+    - Color_36A71E25: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
