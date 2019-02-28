@@ -317,13 +317,13 @@ public class PlayerController : MonoBehaviour
             return;
         }
         knockbackDamageCount += damageIncrement;
-        Debug.Log(knockbackDamageCount);
+
         if(knockbackDamageCount >= knockbackIncrementThreshold) {
             // Break armour
             DetachArmour();
             ++knockbackIndex;
             knockbackDamageCount = 0;
-            Debug.Log("Player " + playerID.ToString() + " force multiplier: " + knockbackMultiplier[knockbackIndex].ToString());
+            //Debug.Log("Player " + playerID.ToString() + " force multiplier: " + knockbackMultiplier[knockbackIndex].ToString());
         }
     }
 
@@ -391,6 +391,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void DetachArmour() {
+        
         /* Add to prefab in this order
          * Left shin + left thigh (0, 1)
          * Left Shoulder (2)
@@ -400,11 +401,14 @@ public class PlayerController : MonoBehaviour
          * Crest (9)
          */
 
+        Debug.Log("Detaching armour");
+
         // Skip this if all armour is lost or no armour exists
-        if (knockbackIndex > 5 || armourComponents == null) {
+        if (knockbackIndex > 5) {
             return;
         }
 
+        Debug.Log("valid configuration");
         // Remove armour accordingly
         switch (knockbackIndex) {
             case 0: {
@@ -482,14 +486,14 @@ public class PlayerController : MonoBehaviour
         armour.transform.SetParent(null);
 
         // Add collider
-        armour.AddComponent<MeshCollider>();
+        armour.AddComponent<BoxCollider>();
 
         // Add rigidbody
         Rigidbody armourRB = armour.AddComponent<Rigidbody>();
         Vector3 detachForce = new Vector3(Random.Range(1.0f, 3.0f), Random.Range(2.0f, 5.0f), Random.Range(1.0f, 3.0f));
         Vector3 spinForce = new Vector3(Random.Range(1.0f, 3.0f), Random.Range(2.0f, 5.0f), Random.Range(1.0f, 3.0f));
-        armourRB.AddForce(detachForce);
-        armourRB.AddTorque(spinForce);
+        armourRB.AddForce(detachForce * 4.0f, ForceMode.Impulse);
+        armourRB.AddTorque(spinForce * 20.0f, ForceMode.Impulse);
 
         // Trigger self-destruct timer on armour
         armour.GetComponent<ArmourController>().StartSelfDestructTimer();
