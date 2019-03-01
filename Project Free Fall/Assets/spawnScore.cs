@@ -36,7 +36,7 @@ public class spawnScore : MonoBehaviour
         }
     }
     //call to make menu show up
-    void seeScore(int playerID)
+    public void seeScore(int playerID)
     {
         if (playercount == 2)
         {
@@ -50,7 +50,7 @@ public class spawnScore : MonoBehaviour
 
     }
     //call at the start of the next round
-    void setScore()
+    public void setScore()
     {
         int[] data = GameManager.GetPlayerScores();
 

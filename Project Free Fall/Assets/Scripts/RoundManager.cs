@@ -34,6 +34,8 @@ public class RoundManager : MonoBehaviour
         if (EnableVictoryOrb) {
             SpawnVictoryOrb();
         }
+
+        GameObject.Find("InGameScoreUI").GetComponent<spawnScore>().setScore();
     }
 
     // Update is called once per frame
@@ -127,6 +129,12 @@ public class RoundManager : MonoBehaviour
         if(ringTimer >= ringFallInterval) {
             ringTimer = 0.0f;
             DetachRing();
+        }
+        else if(ringTimer >= ringFallInterval - 2.5f) {
+            ParticleSystem steam = GameObject.Find("VFX_ArenaStage0" + ringCount.ToString()).GetComponent<ParticleSystem>();
+            if (!steam.isPlaying) {
+                steam.Play();
+            }
         }
         ringTimer += Time.deltaTime;
         // Update countdown text or other visual effects
