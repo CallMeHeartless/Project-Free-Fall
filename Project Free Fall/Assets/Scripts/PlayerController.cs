@@ -80,6 +80,7 @@ public class PlayerController : MonoBehaviour
     void Start(){
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
+        UpdateCrestColour();
         // DEBUG - assign IDs for test level
         if (GameObject.Find("RoundManager") == null) {
             AssignPlayerID(playerID); // Change this later
@@ -91,7 +92,7 @@ public class PlayerController : MonoBehaviour
             Debug.LogError("ERROR: InGameScoreUI null reference exception");
         }
 
-        //UpdateCrestColour();
+        
     }
 
     void Update() {
@@ -119,19 +120,20 @@ public class PlayerController : MonoBehaviour
         }
 
         // Handle dash cooldown
-        if(dashCooldownTimer > 0) {
-            dashCooldownTimer -= Time.deltaTime;
-        } else {
-            ToggleCooldownLight(0, true);
-        }
+        if(dashCooldownTimer < dashCooldown) {
+            dashCooldownTimer += Time.deltaTime;
 
-        // Handle charge dash
-        if (Input.GetButton(playerL1Button)) {
-            ChargeDash();
-            movement *= 0.25f;
-        }
-        else if (Input.GetButtonUp(playerL1Button)) {
-            PerformDash();
+        } 
+        else {
+            // Handle charge dash
+            if (Input.GetButton(playerL1Button)) {
+                ChargeDash();
+                movement *= 0.25f;
+            } 
+            else if (Input.GetButtonUp(playerL1Button)) {
+                PerformDash();
+            }
+            ToggleCooldownLight(0, true);
         }
 
         // Toggle score
@@ -206,7 +208,7 @@ public class PlayerController : MonoBehaviour
 
     // Begin dash sequence
     void ChargeDash() {
-        if(dashCooldownTimer > 0.0f) {
+        if(dashCooldownTimer < dashCooldown) {
             return;
         }
 
@@ -246,7 +248,7 @@ public class PlayerController : MonoBehaviour
 
         // Reset charge
         dashChargeTimer = 0.0f;
-        dashCooldownTimer = dashCooldown;
+        dashCooldownTimer = 0.0f;
         StartCoroutine(StopAfterDelay(0.5f));
     }
 
@@ -260,7 +262,6 @@ public class PlayerController : MonoBehaviour
     // Makes the velocity of the player's RigidBody component zero
     public void StopPlayer() {
         rb.velocity = Vector3.zero;
-        Debug.Log("player stopped");
         // Cull any thruster effects
         ToggleDashThrusters(false);
     }
@@ -432,6 +433,9 @@ public class PlayerController : MonoBehaviour
          * Crest (9)
          */
 
+        // Update crest colour
+        UpdateCrestColour();
+
         // Skip this if all armour is lost or no armour exists
         if (knockbackIndex > 5) {
             return;
@@ -528,17 +532,16 @@ public class PlayerController : MonoBehaviour
         armour.GetComponent<ArmourController>().StartSelfDestructTimer();
     }
 
+    // Updates the colour of the crest to visually represent how vulnerable the player is
     private void UpdateCrestColour() {
         if(armourComponents[9] == null) {
             Debug.LogError("ERROR: Crest null reference");
             return;
         }
 
-        //Color crestColour = armourComponents[9].GetComponent<MeshRenderer>().materials[0].color;
-        //Debug.Log(crestColour);
-        //crestColour = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-        //armourComponents[9].GetComponent<MeshRenderer>().material.color = crestColour;
-        
+        Material crestMaterial = armourComponents[9].GetComponent<MeshRenderer>().material;
+        float damageRatio = 1.0f - ((float)knockbackIndex / 6.0f);
+        crestMaterial.SetFloat("_HealthLevel", damageRatio);        
     }
 
     // Turns the in game score UI for that player on or off
