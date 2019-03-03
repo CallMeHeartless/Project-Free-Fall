@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1247213289}
-  m_IndirectSpecularColor: {r: 0.2594766, g: 0.14602952, b: 0.041700196, a: 1}
+  m_IndirectSpecularColor: {r: 0.25947523, g: 0.14602947, b: 0.04170015, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -167,7 +167,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: -84.829, y: 0, z: 0}
 --- !u!1001 &94276988
 PrefabInstance:
@@ -219,7 +219,7 @@ PrefabInstance:
     - target: {fileID: 4517934143302687961, guid: 52282f4b5cae0db4e9343c305be4b570,
         type: 3}
       propertyPath: m_RootOrder
-      value: 24
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 4517934143302687961, guid: 52282f4b5cae0db4e9343c305be4b570,
         type: 3}
@@ -440,6 +440,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 260496735}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &301804147
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 972518768}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 301804148}
+  m_Layer: 0
+  m_Name: VFX_ArenaStage04 (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &301804148
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 972518768}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301804147}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &338244823
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,7 +525,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!1001 &533581880
 PrefabInstance:
@@ -547,7 +577,7 @@ PrefabInstance:
     - target: {fileID: 2414612971337446117, guid: 25a5d4b571336bc418669d8a4e95bbe6,
         type: 3}
       propertyPath: m_RootOrder
-      value: 26
+      value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 2414612971337446117, guid: 25a5d4b571336bc418669d8a4e95bbe6,
         type: 3}
@@ -661,7 +691,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ba4971f7e6984ed4caeb4b79c74639d2, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ba4971f7e6984ed4caeb4b79c74639d2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -856,7 +886,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!1001 &972518768
 PrefabInstance:
@@ -865,11 +895,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6136007176729350519, guid: 1d3f9294e8cb9af4391d7cec29948c32,
-        type: 3}
-      propertyPath: m_Name
-      value: VFX_ArenaStage04
-      objectReference: {fileID: 0}
     - target: {fileID: 6136007176729350514, guid: 1d3f9294e8cb9af4391d7cec29948c32,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -930,6 +955,11 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6136007176729350519, guid: 1d3f9294e8cb9af4391d7cec29948c32,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX_ArenaStage04
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d3f9294e8cb9af4391d7cec29948c32, type: 3}
 --- !u!1 &1009054987
@@ -960,7 +990,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1113622357
 PrefabInstance:
@@ -1226,7 +1256,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 43.503002, y: 0, z: 0}
 --- !u!1 &1393565097
 GameObject:
@@ -1275,7 +1305,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1393565100
 AudioSource:
@@ -1506,7 +1536,7 @@ Transform:
   m_LocalScale: {x: 0.01, y: 0.016, z: 0.01}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1450528314
 PrefabInstance:
@@ -1729,6 +1759,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 797281894697282279, guid: eb6346f9658e5f648aa2196e1f570085,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX_ArenaStage02
+      objectReference: {fileID: 0}
     - target: {fileID: 6244380341627105910, guid: eb6346f9658e5f648aa2196e1f570085,
         type: 3}
       propertyPath: m_Name
@@ -1794,6 +1829,11 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 797281894697282274, guid: eb6346f9658e5f648aa2196e1f570085,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 23
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb6346f9658e5f648aa2196e1f570085, type: 3}
 --- !u!1 &1730132170
@@ -1826,7 +1866,7 @@ Transform:
   - {fileID: 1247213290}
   - {fileID: 1970210029}
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1734600137
 GameObject:
@@ -1883,7 +1923,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1844452894
 GameObject:
@@ -2066,7 +2106,7 @@ Transform:
   m_LocalScale: {x: 22.101501, y: 22.101501, z: 0.44203}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 6.728, y: 0, z: 0}
 --- !u!1 &1970210027
 GameObject:
@@ -2144,6 +2184,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6136007176729350519, guid: e9fabba6003a6d74aa96859a17c13cd0,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX_ArenaStage03
+      objectReference: {fileID: 0}
     - target: {fileID: 797281894697282279, guid: e9fabba6003a6d74aa96859a17c13cd0,
         type: 3}
       propertyPath: m_Name
@@ -2209,6 +2254,11 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6136007176729350514, guid: e9fabba6003a6d74aa96859a17c13cd0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 24
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9fabba6003a6d74aa96859a17c13cd0, type: 3}
 --- !u!4 &2008743134 stripped
@@ -2272,7 +2322,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: -84.829, y: 0, z: 0}
 --- !u!1 &2129325661
 GameObject:
@@ -2416,7 +2466,7 @@ PrefabInstance:
     - target: {fileID: 1837778911638635140, guid: 2114edf44d9b1de43852237c660f5b07,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1837778911638635140, guid: 2114edf44d9b1de43852237c660f5b07,
         type: 3}
@@ -3215,7 +3265,7 @@ PrefabInstance:
     - target: {fileID: 2199363026726362028, guid: fbdae519b5484e94faff1b7d67739112,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2199363026726362028, guid: fbdae519b5484e94faff1b7d67739112,
         type: 3}
@@ -4683,7 +4733,7 @@ PrefabInstance:
     - target: {fileID: 3803536083737566380, guid: 93c16ed52f0ce2344843ddb36f8382dd,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3803536083737566380, guid: 93c16ed52f0ce2344843ddb36f8382dd,
         type: 3}
@@ -8131,7 +8181,7 @@ PrefabInstance:
     - target: {fileID: 5776510347566466275, guid: 63e71574518103940bfcdf5e4d424c7d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5776510347566466275, guid: 63e71574518103940bfcdf5e4d424c7d,
         type: 3}
@@ -10030,7 +10080,7 @@ PrefabInstance:
     - target: {fileID: 7000256725610017825, guid: 6d1ad55f897aedf46a46d2cd8f2efc0c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7000256725610017825, guid: 6d1ad55f897aedf46a46d2cd8f2efc0c,
         type: 3}
@@ -15488,7 +15538,7 @@ PrefabInstance:
     - target: {fileID: 7779462370168959253, guid: e6e5cd68242a1d740b02ee0d5364fbfd,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7779462370168959253, guid: e6e5cd68242a1d740b02ee0d5364fbfd,
         type: 3}
