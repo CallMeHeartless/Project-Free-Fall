@@ -64,7 +64,7 @@ public class LobbyController : MonoBehaviour
     }
 
     void CheckForGameStart() {
-        if (Input.GetKeyDown(KeyCode.Joystick1Button7) && CheckIfReady()) {
+        if (Input.GetKeyDown(KeyCode.JoystickButton7) && CheckIfReady()) {
                 SceneManager.LoadScene("lvl_Arena_One");
         }
     }
