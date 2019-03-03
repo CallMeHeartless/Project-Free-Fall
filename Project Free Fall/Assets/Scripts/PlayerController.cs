@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float sideDashCooldown;
     private float sideDashTimer = 0.0f;
+    [SerializeField][Tooltip("Coefficient for speed bonus from losing armour: 1.0f for same as force knockback")]
+    private float armourLossSpeedDamping = 0.3f;
     private Rigidbody rb;
     private Vector3 movement;
 
@@ -46,8 +48,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float dashCooldown = 1.0f;
     private float dashCooldownTimer = 0.0f;
-    //[SerializeField]
-    //private float maxKnockbackMultiplier = 4.0f;
     [SerializeField]
     private float[] knockbackMultiplier;
     private int knockbackIndex = 0;
@@ -85,9 +85,6 @@ public class PlayerController : MonoBehaviour
 
         dashController = transform.Find("DashHitBox").GetComponent<DashHitboxController>();
         scoreReference = GameObject.Find("InGameScoreUI").GetComponent<spawnScore>();
-
-
-
 
         //UpdateCrestColour();
     }
@@ -178,7 +175,8 @@ public class PlayerController : MonoBehaviour
     // Moves the player according to the player's basic input
     void MoveBody() {
         if(movement != Vector3.zero) {
-            rb.MovePosition(transform.position + moveSpeed * movement * Time.fixedDeltaTime * knockbackMultiplier[knockbackIndex]);
+            float moveModifier = Mathf.Max(1.0f, armourLossSpeedDamping * knockbackMultiplier[knockbackIndex]);
+            rb.MovePosition(transform.position + moveSpeed * movement * moveModifier * Time.fixedDeltaTime);
         }
     }
 
