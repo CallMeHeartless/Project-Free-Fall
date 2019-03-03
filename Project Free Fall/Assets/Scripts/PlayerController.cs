@@ -78,14 +78,16 @@ public class PlayerController : MonoBehaviour
     void Start(){
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
+        // DEBUG - assign IDs for test level
+        if (GameObject.Find("RoundManager") == null) {
+            AssignPlayerID(playerID); // Change this later
+        }
+
         dashController = transform.Find("DashHitBox").GetComponent<DashHitboxController>();
         scoreReference = GameObject.Find("InGameScoreUI").GetComponent<spawnScore>();
 
 
-        // DEBUG - assign IDs for test level
-        if(GameObject.Find("RoundManager") == null) {
-            AssignPlayerID(playerID); // Change this later
-        }
+
 
         //UpdateCrestColour();
     }
