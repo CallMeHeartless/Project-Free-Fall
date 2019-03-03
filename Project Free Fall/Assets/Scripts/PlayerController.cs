@@ -230,7 +230,8 @@ public class PlayerController : MonoBehaviour
         // Animation
         anim.SetBool("Dash", false);
         // Audio - stop charge, play dash
-
+        transform.GetChild(2).gameObject.SetActive(true);
+        //Debug.Log(transform.GetChild(2).gameObject.name);
         // VFX
         ToggleChargeThrusters(false);
         ToggleDashThrusters(true);
@@ -252,6 +253,7 @@ public class PlayerController : MonoBehaviour
     // Stops the player after a short delay - used to terminate the charged dash
     IEnumerator StopAfterDelay(float delay) {
         yield return new WaitForSeconds(delay);
+        transform.GetChild(2).gameObject.SetActive(false);
         StopPlayer();
     }
     
