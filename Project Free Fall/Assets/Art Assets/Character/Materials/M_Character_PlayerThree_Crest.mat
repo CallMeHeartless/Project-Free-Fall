@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Character_PlayerOne_Crest
+  m_Name: M_Character_PlayerOne_Crest 2
   m_Shader: {fileID: 4800000, guid: 26adb1495ca415446b0878a79c4d6267, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
