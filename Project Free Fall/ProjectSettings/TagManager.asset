@@ -9,6 +9,7 @@ TagManager:
   - Swing
   - GameManager
   - VictoryOrb
+  - wall
   layers:
   - Default
   - TransparentFX

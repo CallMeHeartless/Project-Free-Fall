@@ -21,7 +21,10 @@ public class RoundManager : MonoBehaviour
 
     [SerializeField]
     private float roundOverTimeDelay = 3.0f;
+    private bool warning = false;
 
+    [SerializeField]
+    AudioSource[] sounds;
     // Start is called before the first frame update
     void Start(){
         // To force testing the arena without going through the full loop
@@ -127,20 +130,40 @@ public class RoundManager : MonoBehaviour
     // Updates the ring timer, dropping and resetting as needed
     void ProcessRingTimer() {
         ringTimer += Time.deltaTime;
-        if (ringTimer >= ringFallInterval) {
+        if (ringTimer >= ringFallInterval)
+        {
             ringTimer = 0.0f;
+            warning = false;
             DetachRing();
         }
-        else if(ringTimer >= ringFallInterval - 2.5f) {
+        else if (ringTimer >= ringFallInterval - 2.5f)
+        {
             ParticleSystem steam = GameObject.Find("VFX_ArenaStage0" + ringCount.ToString()).GetComponent<ParticleSystem>();
-            if (steam) {
-                if (!steam.isPlaying) {
+            if (steam)
+            {
+                if (!steam.isPlaying)
+                {
                     steam.Play();
+                   
+                    sounds[1].Play(0);
+                    sounds[2].PlayDelayed(2);
+                    //gameObject.GetComponentInChildren<AudioSource>().Play(0);
                 }
             }
+           
+        }
+        else if (ringTimer >= ringFallInterval - 5.5f)
+        {
+            if (warning != true)
+            {
+                Debug.Log("hot");
+                warning = true;
+               
+                sounds[0].Play(0);
+            }
+            
 
         }
-        
         // Update countdown text or other visual effects
     }
 
