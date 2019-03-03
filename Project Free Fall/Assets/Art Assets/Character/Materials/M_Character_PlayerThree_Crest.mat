@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Character_PlayerOne_Crest 2
+  m_Name: M_Character_PlayerThree_Crest
   m_Shader: {fileID: 4800000, guid: 26adb1495ca415446b0878a79c4d6267, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -69,7 +69,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_57EFDBAE: 0
-    - Vector1_79CC3BFB: 0
+    - Vector1_79CC3BFB: 1
     - Vector1_86414131: 0
     - Vector1_B130D1BF: 0
     - Vector1_DDBB980F: 0.306
@@ -93,6 +93,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_26149208: {r: 0, g: 0.43311167, b: 1, a: 0}
+    - Color_337232D3: {r: 0.22352943, g: 0.25490198, b: 0.4784314, a: 1}
     - Color_87B4D9BE: {r: 1, g: 0.026395835, b: 0, a: 0}
     - Color_CABD1B39: {r: 0.19215688, g: 0.43529415, b: 0.1254902, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}

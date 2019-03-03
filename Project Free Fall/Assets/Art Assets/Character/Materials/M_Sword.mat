@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Character_PlayerOne_Crest
-  m_Shader: {fileID: 4800000, guid: 26adb1495ca415446b0878a79c4d6267, type: 3}
+  m_Name: M_Sword
+  m_Shader: {fileID: 4800000, guid: 262307d2d788a8e418fd27a44d79ce19, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,28 +19,8 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_159D7E6:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_2E8F4882:
-        m_Texture: {fileID: 8400000, guid: 125b206b1fd7b5d4c8289030e9023c4b, type: 2}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_2EB59613:
-        m_Texture: {fileID: 2800000, guid: 3b1dbddf5721c464d9e6b6ffaedd3881, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_57919AA6:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_EA840E7B:
-        m_Texture: {fileID: 10305, guid: 0000000000000000f000000000000000, type: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_F88510D4:
-        m_Texture: {fileID: 2800000, guid: d7d0e9cc68542ad4bb65b48b15ef8d0e, type: 3}
+    - Texture2D_6BF760B5:
+        m_Texture: {fileID: 2800000, guid: df1aeab461cde2445b8113c90a3c93c4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -68,11 +48,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_57EFDBAE: 0
-    - Vector1_79CC3BFB: 1
-    - Vector1_86414131: 0
-    - Vector1_B130D1BF: 0
-    - Vector1_DDBB980F: 0.306
+    - Vector1_90965F55: 0
+    - Vector1_C1034BB5: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -92,10 +69,6 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_26149208: {r: 0, g: 0.43311167, b: 1, a: 0}
-    - Color_337232D3: {r: 0.22352943, g: 0.45882356, b: 0.16078432, a: 1}
-    - Color_87B4D9BE: {r: 1, g: 0.026395835, b: 0, a: 0}
-    - Color_CABD1B39: {r: 0.19215688, g: 0.43529415, b: 0.1254902, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
