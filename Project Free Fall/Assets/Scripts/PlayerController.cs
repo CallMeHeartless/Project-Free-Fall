@@ -64,6 +64,8 @@ public class PlayerController : MonoBehaviour
     private float victoryOrbTimer = 0.0f;
     public ParticleSystem[] chargeThrusters;
     public ParticleSystem[] dashThrusters;
+    public Light[] cooldownLights;
+    public ParticleSystem victoryOrbLight;
 
     private combat.CurrentAction currentState = combat.CurrentAction.move;
     private bool hasVictoryOrb = false;
@@ -85,6 +87,9 @@ public class PlayerController : MonoBehaviour
 
         dashController = transform.Find("DashHitBox").GetComponent<DashHitboxController>();
         scoreReference = GameObject.Find("InGameScoreUI").GetComponent<spawnScore>();
+        if(scoreReference == null) {
+            Debug.LogError("ERROR: InGameScoreUI null reference exception");
+        }
 
         //UpdateCrestColour();
     }
@@ -116,6 +121,8 @@ public class PlayerController : MonoBehaviour
         // Handle dash cooldown
         if(dashCooldownTimer > 0) {
             dashCooldownTimer -= Time.deltaTime;
+        } else {
+            ToggleCooldownLight(0, true);
         }
 
         // Handle charge dash
@@ -226,6 +233,7 @@ public class PlayerController : MonoBehaviour
         // VFX
         ToggleChargeThrusters(false);
         ToggleDashThrusters(true);
+        ToggleCooldownLight(0, false);
 
         // Set dash strength
         float dashMagnitude = minChargeForce + maxChargeForce * (dashChargeTimer / maxDashChargeTime);
@@ -524,5 +532,14 @@ public class PlayerController : MonoBehaviour
 
     private void ToggleInGameScore() {
         scoreReference.seeScore(playerID);
+    }
+
+    private void ToggleCooldownLight(int abilityIndex, bool state) {
+        if (cooldownLights != null && cooldownLights.Length > abilityIndex) {
+            if (cooldownLights[abilityIndex].gameObject.activeSelf == state) {
+                return;
+            }
+            cooldownLights[abilityIndex].gameObject.SetActive(state);
+        }
     }
 }
