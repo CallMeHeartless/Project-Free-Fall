@@ -62,6 +62,7 @@ public class RoundManager : MonoBehaviour
         }
     }
 
+    // Removes players characters with no corresponding player
     void InitialisePlayers() {
         // Iterate through registered ready players and ready prefab instances for them
         bool[] readyStatus = GameManager.GetReadyStatus();
@@ -79,6 +80,7 @@ public class RoundManager : MonoBehaviour
         }
     }
 
+    // Ensure the correct camera display for the number of players 
     void InitialiseCameras() {
         // Obtain number of ready players
         int playerCount = 0;
@@ -144,6 +146,7 @@ public class RoundManager : MonoBehaviour
         // Update countdown text or other visual effects
     }
 
+    // Issue drop command to ring
     void DetachRing() {
         Debug.Log("Detaching ring: " + ringCount.ToString());
         GameObject ring = GameObject.Find("ArenaFloor_Stage0" + ringCount.ToString());
@@ -151,6 +154,7 @@ public class RoundManager : MonoBehaviour
         ++ringCount;
     }
 
+    // Creates a victory orb at the designated spawn point
     public static void SpawnVictoryOrb() {
         GameObject spawnPoint = GameObject.Find("VictoryOrbSpawnPoint");
         if (spawnPoint) {
@@ -165,6 +169,7 @@ public class RoundManager : MonoBehaviour
         }
     }
 
+    // Handles the event that a player wins via victory orb
     public void VictoryOrbWin(int _playerID) {
         roundWon = true;
         Debug.Log("Player " + _playerID + " has won the round with the victory orb");
@@ -172,6 +177,7 @@ public class RoundManager : MonoBehaviour
         StartCoroutine(EndOfRound());
     }
 
+    // Returns an instance of round manager (there should only ever be one in scene, singleton not enforced)
     public static GameObject GetManager() {
         return GameObject.Find("RoundManager");
     }
