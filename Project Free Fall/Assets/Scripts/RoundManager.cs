@@ -124,7 +124,7 @@ public class RoundManager : MonoBehaviour
     // Checks to see if only one player remains alive
     private bool CheckForLastStanding() {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        return players.Length == 1;
+        return players.Length <= 1;
     }
 
     // Performs end of round checks, starting a new round or returning to main menu
@@ -209,6 +209,7 @@ public class RoundManager : MonoBehaviour
     public void VictoryOrbWin(int _playerID) {
         roundWon = true;
         Debug.Log("Player " + _playerID + " has won the round with the victory orb");
+        SetRoundOverText(_playerID);
         GameManager.AddToPlayerScore(_playerID);
         StartCoroutine(EndOfRound());
     }
