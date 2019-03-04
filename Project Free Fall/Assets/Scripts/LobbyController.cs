@@ -14,6 +14,9 @@ public class LobbyController : MonoBehaviour
     void Start() {
         lobbyUI = GameObject.Find("LobbyUI");
         joysticks = Input.GetJoystickNames();
+        // Clear old data
+        GameManager.ClearPlayerScores();
+        GameManager.ClearReadyStatus();
     }
 
     // Update is called once per frame

@@ -276,6 +276,7 @@ public class PlayerController : MonoBehaviour
         currentState = combat.CurrentAction.stun;
         // Visual/Audio
         StartCoroutine(RemoveStun(stunDuration));
+        anim.SetTrigger("Damage");
 
         // Drop orb if they have it
         if (hasVictoryOrb) {
@@ -342,6 +343,9 @@ public class PlayerController : MonoBehaviour
         if (hasVictoryOrb) {
             RemoveVictoryOrb();
         }
+
+        // Animation
+        anim.SetTrigger("Damage");
 
         if(knockbackIndex >= 6) {
             return;
