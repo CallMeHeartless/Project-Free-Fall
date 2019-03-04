@@ -6,6 +6,7 @@ public class WeaponController : MonoBehaviour
 {
     [SerializeField]
     private float forceStrength = 1.0f;
+    public GameObject master;
 
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Player")) {
@@ -19,10 +20,10 @@ public class WeaponController : MonoBehaviour
             gameObject.SetActive(false); // Current fix to prevent the damage being triggered twice
 
             // Hit player audio
-            other.GetComponentInChildren<PlayerAudioController>().PlayerHitAudio();
+            master.GetComponentInChildren<PlayerAudioController>().PlayerHitAudio();
         } else {
             gameObject.SetActive(false);
-            other.GetComponentInChildren<PlayerAudioController>().PlayerHitAudio();
+            master.GetComponentInChildren<PlayerAudioController>().PlayerHitAudio();
             // Hit object audio
         }
 
