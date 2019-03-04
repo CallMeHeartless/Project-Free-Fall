@@ -14,6 +14,9 @@ public class LobbyController : MonoBehaviour
     void Start() {
         lobbyUI = GameObject.Find("LobbyUI");
         joysticks = Input.GetJoystickNames();
+        // Clear old data
+        GameManager.ClearPlayerScores();
+        GameManager.ClearReadyStatus();
     }
 
     // Update is called once per frame
@@ -23,6 +26,7 @@ public class LobbyController : MonoBehaviour
         CheckForGameStart();
     }
 
+    // Checks for input from each controller signalling that player is ready / not ready
     void CheckReadyStatus() {
         if (Input.GetButtonDown("Controller_0_A")) {
             ToggleReady(0);
@@ -38,6 +42,7 @@ public class LobbyController : MonoBehaviour
         }
     }
 
+    // Toggle a player's ready status
     void ToggleReady(int playerID) {
         
         Transform playerUI = lobbyUI.transform.Find("Player"+playerID.ToString());
@@ -63,18 +68,21 @@ public class LobbyController : MonoBehaviour
         }
     }
 
+    // Starts the game if at least two players are ready and one presses start
     void CheckForGameStart() {
         if (Input.GetKeyDown(KeyCode.JoystickButton7) && CheckIfReady()) {
                 SceneManager.LoadScene("lvl_Arena_One");
         }
     }
 
+    // Checks for input to return to the main menu
     void CheckForReturnToMainMenu() {
         if (Input.GetKeyDown(KeyCode.Joystick1Button1)) {
             SceneManager.LoadScene("MainMenu");
         }
     }
 
+    // Checks if at least two players are ready, returning true or false accordingly
     bool CheckIfReady() {
         int readyCount = 0;
         bool[] playersReady = GameManager.GetReadyStatus();

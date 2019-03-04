@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem[] chargeThrusters;
     public ParticleSystem[] dashThrusters;
     public Light[] cooldownLights;
-    public ParticleSystem victoryOrbLight;
+    public GameObject victoryOrbLight;
 
     private combat.CurrentAction currentState = combat.CurrentAction.move;
     private bool hasVictoryOrb = false;
@@ -80,6 +80,7 @@ public class PlayerController : MonoBehaviour
     void Start(){
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
+        UpdateCrestColour();
         // DEBUG - assign IDs for test level
         if (GameObject.Find("RoundManager") == null) {
             AssignPlayerID(playerID); // Change this later
@@ -91,7 +92,7 @@ public class PlayerController : MonoBehaviour
             Debug.LogError("ERROR: InGameScoreUI null reference exception");
         }
 
-        //UpdateCrestColour();
+        
     }
 
     void Update() {
@@ -119,19 +120,20 @@ public class PlayerController : MonoBehaviour
         }
 
         // Handle dash cooldown
-        if(dashCooldownTimer > 0) {
-            dashCooldownTimer -= Time.deltaTime;
-        } else {
-            ToggleCooldownLight(0, true);
-        }
+        if(dashCooldownTimer < dashCooldown) {
+            dashCooldownTimer += Time.deltaTime;
 
-        // Handle charge dash
-        if (Input.GetButton(playerL1Button)) {
-            ChargeDash();
-            movement *= 0.25f;
-        }
-        else if (Input.GetButtonUp(playerL1Button)) {
-            PerformDash();
+        } 
+        else {
+            // Handle charge dash
+            if (Input.GetButton(playerL1Button)) {
+                ChargeDash();
+                movement *= 0.25f;
+            } 
+            else if (Input.GetButtonUp(playerL1Button)) {
+                PerformDash();
+            }
+            ToggleCooldownLight(0, true);
         }
 
         // Toggle score
@@ -206,7 +208,7 @@ public class PlayerController : MonoBehaviour
 
     // Begin dash sequence
     void ChargeDash() {
-        if(dashCooldownTimer > 0.0f) {
+        if(dashCooldownTimer < dashCooldown) {
             return;
         }
 
@@ -214,10 +216,13 @@ public class PlayerController : MonoBehaviour
         if (!anim.GetBool("Dash")) {
             anim.SetBool("Dash", true);
             // Play charge audio
+            transform.GetChild(4).gameObject.GetComponent<PlayerAudioController>().PlayerChargingAudio();
+
         }
         // VFX
         ToggleChargeThrusters(true);
 
+        // Add time to the charge up, triggering it if maximum charge has been reached
         dashChargeTimer += Time.deltaTime;
         if(dashChargeTimer >= maxDashChargeTime) {
             PerformDash();
@@ -229,7 +234,11 @@ public class PlayerController : MonoBehaviour
         // Animation
         anim.SetBool("Dash", false);
         // Audio - stop charge, play dash
+        transform.GetChild(4).gameObject.GetComponent<PlayerAudioController>().StopPlayerChargingAudio();
+        transform.GetChild(4).gameObject.GetComponent<PlayerAudioController>().PlayerdashingAudio();
 
+        transform.GetChild(2).gameObject.SetActive(true);
+        //Debug.Log(transform.GetChild(2).gameObject.name);
         // VFX
         ToggleChargeThrusters(false);
         ToggleDashThrusters(true);
@@ -244,20 +253,20 @@ public class PlayerController : MonoBehaviour
 
         // Reset charge
         dashChargeTimer = 0.0f;
-        dashCooldownTimer = dashCooldown;
-        StopAfterDelay(0.5f);
+        dashCooldownTimer = 0.0f;
+        StartCoroutine(StopAfterDelay(0.5f));
     }
 
     // Stops the player after a short delay - used to terminate the charged dash
     IEnumerator StopAfterDelay(float delay) {
         yield return new WaitForSeconds(delay);
+        transform.GetChild(2).gameObject.SetActive(false);
         StopPlayer();
     }
     
     // Makes the velocity of the player's RigidBody component zero
     public void StopPlayer() {
         rb.velocity = Vector3.zero;
-
         // Cull any thruster effects
         ToggleDashThrusters(false);
     }
@@ -272,6 +281,7 @@ public class PlayerController : MonoBehaviour
         currentState = combat.CurrentAction.stun;
         // Visual/Audio
         StartCoroutine(RemoveStun(stunDuration));
+        anim.SetTrigger("Damage");
 
         // Drop orb if they have it
         if (hasVictoryOrb) {
@@ -295,31 +305,35 @@ public class PlayerController : MonoBehaviour
     // Applies a short impulse to the player, backwards with no input or to either side
     void SideDash() {
         sideDashTimer += Time.deltaTime;
-        if(Input.GetButtonDown(playerBButton) && sideDashTimer >= sideDashCooldown) {
-            // Dash
-            float direction = Input.GetAxisRaw(playerLeftXAxis);
-            if(direction == 0.0f) {
-                AddImpulse(transform.forward * -1.0f * sideDashForce);
-                // Backdash animation
+        if(sideDashTimer >= sideDashCooldown) {
+            if (Input.GetButtonDown(playerBButton)) {
+                // Dash
+                float direction = Input.GetAxisRaw(playerLeftXAxis);
+                if (direction == 0.0f) {
+                    AddImpulse(transform.forward * -1.0f * sideDashForce);
+                    // Backdash animation
+                } else {
+                    AddImpulse(transform.right * sideDashForce * Input.GetAxisRaw(playerLeftXAxis));
+                    if (direction > 0.0f) {
+                        anim.SetTrigger("DodgeRight");
+                    } else {
+                        anim.SetTrigger("DodgeLeft");
+                    }
+                }
+
+                // Dash Audio
+
+                // VFX
+                ToggleDashThrusters(true);
+                ToggleCooldownLight(1, false);
+                StartCoroutine(CullSideDashParticles());
+
+                sideDashTimer = 0.0f;
+
             } 
             else {
-                AddImpulse(transform.right * sideDashForce * Input.GetAxisRaw(playerLeftXAxis));
-                if(direction > 0.0f) {
-                    anim.SetTrigger("DodgeRight");
-                } 
-                else {
-                    anim.SetTrigger("DodgeLeft");
-                }
+                ToggleCooldownLight(1, true);
             }
-
-            // Dash Audio
-
-            // VFX
-            ToggleDashThrusters(true);
-            StartCoroutine(CullSideDashParticles());
-
-            sideDashTimer = 0.0f;
-            
         }
     }
 
@@ -334,6 +348,9 @@ public class PlayerController : MonoBehaviour
         if (hasVictoryOrb) {
             RemoveVictoryOrb();
         }
+
+        // Animation
+        anim.SetTrigger("Damage");
 
         if(knockbackIndex >= 6) {
             return;
@@ -357,12 +374,13 @@ public class PlayerController : MonoBehaviour
     // Flags the player as having the victory orb
     public void GiveVictoryOrb() {
         hasVictoryOrb = true;
+        ToggleVictoryOrbLight(true);
     }
 
     // Removes the victory orb from the player, spawning a new one and resetting their timer
     public void RemoveVictoryOrb() {
         hasVictoryOrb = false;
-        //RoundManager.SpawnVictoryOrb(); // Change this to control where the orb spawns
+        ToggleVictoryOrbLight(false);
         GameObject victoryOrb = Instantiate(Resources.Load("VictoryOrb", typeof(GameObject))) as GameObject;
         if (victoryOrb) {
             victoryOrb.transform.position = transform.position + Vector3.up * 7.5f;
@@ -400,6 +418,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Plays the dash thrusters if true, stops them if false
     private void ToggleDashThrusters(bool on) {
         if (dashThrusters != null) {
             foreach (ParticleSystem thruster in dashThrusters) {
@@ -412,6 +431,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Handles the series of armour being removed
     private void DetachArmour() {
         /* Add to prefab in this order
          * Left shin + left thigh (0, 1)
@@ -421,6 +441,9 @@ public class PlayerController : MonoBehaviour
          * Chest (8)
          * Crest (9)
          */
+
+        // Update crest colour
+        UpdateCrestColour();
 
         // Skip this if all armour is lost or no armour exists
         if (knockbackIndex > 5) {
@@ -499,6 +522,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Removes a single piece of armour, giving it a collider and rigidbody
     private void DetachSingleArmourPiece(GameObject armour) {
         // Remove from character
         armour.transform.SetParent(null);
@@ -517,29 +541,40 @@ public class PlayerController : MonoBehaviour
         armour.GetComponent<ArmourController>().StartSelfDestructTimer();
     }
 
+    // Updates the colour of the crest to visually represent how vulnerable the player is
     private void UpdateCrestColour() {
         if(armourComponents[9] == null) {
             Debug.LogError("ERROR: Crest null reference");
             return;
         }
 
-        //Color crestColour = armourComponents[9].GetComponent<MeshRenderer>().materials[0].color;
-        //Debug.Log(crestColour);
-        //crestColour = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-        //armourComponents[9].GetComponent<MeshRenderer>().material.color = crestColour;
-        
+        Material crestMaterial = armourComponents[9].GetComponent<MeshRenderer>().material;
+        float damageRatio = 1.0f - ((float)knockbackIndex / 6.0f);
+        crestMaterial.SetFloat("_HealthLevel", damageRatio);        
     }
 
+    // Turns the in game score UI for that player on or off
     private void ToggleInGameScore() {
         scoreReference.seeScore(playerID);
     }
 
+    // Turns a light corresponding to the cooldown for player abilities on or off
     private void ToggleCooldownLight(int abilityIndex, bool state) {
-        if (cooldownLights != null && cooldownLights.Length > abilityIndex) {
+        if (cooldownLights[abilityIndex] != null && cooldownLights.Length > abilityIndex) {
             if (cooldownLights[abilityIndex].gameObject.activeSelf == state) {
                 return;
             }
             cooldownLights[abilityIndex].gameObject.SetActive(state);
+        }
+    }
+
+    // Turns on the effects that show a player has the victor orb
+    private void ToggleVictoryOrbLight(bool on) {
+        if(victoryOrbLight != null) {
+            if(victoryOrbLight.gameObject.activeSelf == on) {
+                return;
+            }
+            victoryOrbLight.gameObject.SetActive(on);
         }
     }
 }
