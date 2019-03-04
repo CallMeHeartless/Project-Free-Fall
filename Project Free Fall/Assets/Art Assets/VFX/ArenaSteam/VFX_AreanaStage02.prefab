@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &797281894697282279
+--- !u!1 &6634290641236470155
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,37 +8,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 797281894697282274}
-  - component: {fileID: 797281894697282277}
-  - component: {fileID: 797281894697282276}
+  - component: {fileID: 8216215556172427334}
+  - component: {fileID: 473993674739434132}
+  - component: {fileID: 4367739540290106413}
   m_Layer: 0
-  m_Name: VFX_AreanaStage03
+  m_Name: VFX_AreanaStage02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &797281894697282274
+--- !u!4 &8216215556172427334
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 797281894697282279}
+  m_GameObject: {fileID: 6634290641236470155}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.27645192, y: 0.3009254, z: -0.3828368}
+  m_LocalPosition: {x: 0.45091486, y: 3.6820352, z: 1.0565381}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!198 &797281894697282277
+--- !u!198 &473993674739434132
 ParticleSystem:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 797281894697282279}
+  m_GameObject: {fileID: 6634290641236470155}
   serializedVersion: 6
   lengthInSec: 3
   simulationSpeed: 1
@@ -727,7 +727,7 @@ ParticleSystem:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-    m_Mesh: {fileID: 4300000, guid: ba5f1cc2ce8534145bc188e72b5aed8f, type: 3}
+    m_Mesh: {fileID: 4300000, guid: 660951e8295b1c84e811c2f592bc8d21, type: 3}
     m_MeshRenderer: {fileID: 0}
     m_SkinnedMeshRenderer: {fileID: 0}
     m_Sprite: {fileID: 0}
@@ -4636,14 +4636,14 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!199 &797281894697282276
+--- !u!199 &4367739540290106413
 ParticleSystemRenderer:
   serializedVersion: 6
   m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 797281894697282279}
+  m_GameObject: {fileID: 6634290641236470155}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
