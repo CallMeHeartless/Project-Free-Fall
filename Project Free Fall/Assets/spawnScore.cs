@@ -7,9 +7,13 @@ public class spawnScore : MonoBehaviour
 {
    public GameObject[] player2s;
    public GameObject[] player4s;
-   public int playercount;
+   int playercount;
     // Start is called before the first frame update
     void Start()
+    {
+        Invoke("starting", .3f);
+    }
+    void starting()
     {
         bool[] activePlayers = GameManager.GetReadyStatus();
         int total = 0;
@@ -25,6 +29,7 @@ public class spawnScore : MonoBehaviour
         {
             player3();
         }
+        playercount = total;
     }
 
     // Update is called once per frame
@@ -38,6 +43,7 @@ public class spawnScore : MonoBehaviour
     //call to make menu show up
     public void seeScore(int playerID)
     {
+        Debug.Log(playercount);
         if (playercount == 2)
         {
             player2s[playerID].gameObject.active = !player2s[playerID].gameObject.active;
