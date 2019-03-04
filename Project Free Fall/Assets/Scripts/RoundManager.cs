@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RoundManager : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class RoundManager : MonoBehaviour
     private bool roundWon = false;
     [SerializeField]
     private bool EnableVictoryOrb = false;
+    [SerializeField]
+    GameObject endUI;
 
     [SerializeField]
     private float roundOverTimeDelay = 3.0f;
@@ -39,6 +42,7 @@ public class RoundManager : MonoBehaviour
         }
 
         GameObject.Find("InGameScoreUI").GetComponent<spawnScore>().setScore();
+        //endUI = GameObject.Find("EndOfRoundUI");
 
         // Start music (triggers once)
         GameObject music = GameObject.Find("GameMusic");
@@ -62,10 +66,12 @@ public class RoundManager : MonoBehaviour
         if (CheckForLastStanding()) {
             roundWon = true;
             // Award the player one point
-            GameManager.AddToPlayerScore(GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().GetPlayerID());
-
-            // Round over text
-
+            GameObject winner = GameObject.FindGameObjectWithTag("Player");
+            if(winner != null) {
+                GameManager.AddToPlayerScore(winner.GetComponent<PlayerController>().GetPlayerID());
+                // Show round over
+                SetRoundOverText(winner.GetComponent<PlayerController>().GetPlayerID());
+            }
             // End of Round check
             StartCoroutine(EndOfRound());
         }
@@ -110,25 +116,24 @@ public class RoundManager : MonoBehaviour
             cameras.GetChild(2).GetComponent<Camera>().rect = new Rect(new Vector2(-0.5f, -0.5f), new Vector2(1.0f, 1.0f));
             cameras.GetChild(3).GetComponent<Camera>().rect = new Rect(new Vector2(0.5f, -0.5f), new Vector2(1.0f, 1.0f));
         } else {
-            Destroy(cameras.GetChild(2).GetComponent<GameObject>());
-            Destroy(cameras.GetChild(3).GetComponent<GameObject>());
+            Destroy(cameras.GetChild(2).gameObject);
+            Destroy(cameras.GetChild(3).gameObject);
         }
     }
 
     // Checks to see if only one player remains alive
     private bool CheckForLastStanding() {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        return players.Length == 1;
+        return players.Length <= 1;
     }
 
     // Performs end of round checks, starting a new round or returning to main menu
     IEnumerator EndOfRound() {
         yield return new WaitForSeconds(roundOverTimeDelay);
+        endUI.SetActive(false);
 
         if (GameManager.CheckForGameOver()) {
             // Move these to be resolved after a 'game over' screen?
-            //GameManager.ClearReadyStatus();
-            //GameManager.ClearPlayerScores();
             SceneManager.LoadScene("EndGameMenu");
         } else {
             SceneManager.LoadScene("lvl_Arena_One");
@@ -177,7 +182,9 @@ public class RoundManager : MonoBehaviour
 
     // Issue drop command to ring
     void DetachRing() {
-        Debug.Log("Detaching ring: " + ringCount.ToString());
+        //Debug.Log("Detaching ring: " + ringCount.ToString());
+        GameObject steamBurst = GameObject.Find("VFX_ArenaStage0" + ringCount.ToString()).transform.GetChild(0).gameObject;
+        steamBurst.GetComponent<ParticleSystem>().Play();
         GameObject ring = GameObject.Find("ArenaFloor_Stage0" + ringCount.ToString());
         ring.GetComponent<ArenaRingController>().DropRing();
         ++ringCount;
@@ -202,6 +209,7 @@ public class RoundManager : MonoBehaviour
     public void VictoryOrbWin(int _playerID) {
         roundWon = true;
         Debug.Log("Player " + _playerID + " has won the round with the victory orb");
+        SetRoundOverText(_playerID);
         GameManager.AddToPlayerScore(_playerID);
         StartCoroutine(EndOfRound());
     }
@@ -209,5 +217,17 @@ public class RoundManager : MonoBehaviour
     // Returns an instance of round manager (there should only ever be one in scene, singleton not enforced)
     public static GameObject GetManager() {
         return GameObject.Find("RoundManager");
+    }
+
+    public void SetRoundOverText(int winningPlayerID) {
+        
+        if(endUI == null) {
+            Debug.LogError("ERROR: EndOfRoundUI null reference exception");
+            return;
+        }
+        // turn text on 
+        endUI.SetActive(true);
+        endUI.GetComponentInChildren<Text>().text = "PLAYER " + (winningPlayerID + 1).ToString() + " WINS THE ROUND";
+
     }
 }
