@@ -32,7 +32,8 @@ public class MenuManager : MonoBehaviour
 
 	public void QuitGame() { 
 		Debug.Log("WE QUIT THE GAME!");
-		Application.Quit();
+        GetComponent<AudioSource>().Play(0);
+        Application.Quit();
 	}
 
     void UpdateButtonSelection() {
