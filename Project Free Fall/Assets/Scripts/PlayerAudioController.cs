@@ -29,21 +29,21 @@ public class PlayerAudioController : AudioController
 
     public void PlayerdashingAudio()
     {
-        PlaySingleSound("jetpack 4sec");
+        PlaySingleSound("jetpack 2.5s");
     }
 
     public void PlayerMissing()
     {
-        switch (Random.Range(1, 3))
+        switch (Random.Range(1, 2))
         {
             case 1:
                 PlaySingleSound("melee miss");
                 break;
             case 2:
-                PlaySingleSound("melee miss 2");
+                PlaySingleSound("melee miss Vup");
                 break;
             case 3:
-                PlaySingleSound("melee hit 3");
+               // PlaySingleSound("melee hit 3");
                 break;
             default:
                 break;
