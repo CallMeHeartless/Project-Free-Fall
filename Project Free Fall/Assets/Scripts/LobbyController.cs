@@ -24,6 +24,9 @@ public class LobbyController : MonoBehaviour
         CheckReadyStatus();
         CheckForReturnToMainMenu();
         CheckForGameStart();
+        if (Input.GetButtonDown("StartGame")) {
+            Debug.Log("the start button is fucking working");
+        }
     }
 
     // Checks for input from each controller signalling that player is ready / not ready
@@ -70,7 +73,7 @@ public class LobbyController : MonoBehaviour
 
     // Starts the game if at least two players are ready and one presses start
     void CheckForGameStart() {
-        if (Input.GetKeyDown(KeyCode.JoystickButton7) && CheckIfReady()) {
+        if (Input.GetButtonDown("StartGame") && CheckIfReady()) {
                 SceneManager.LoadScene("lvl_Arena_One");
         }
     }
