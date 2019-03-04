@@ -127,9 +127,9 @@ public class RoundManager : MonoBehaviour
 
         if (GameManager.CheckForGameOver()) {
             // Move these to be resolved after a 'game over' screen?
-            GameManager.ClearReadyStatus();
-            GameManager.ClearPlayerScores();
-            SceneManager.LoadScene(0);
+            //GameManager.ClearReadyStatus();
+            //GameManager.ClearPlayerScores();
+            SceneManager.LoadScene("EndGameMenu");
         } else {
             SceneManager.LoadScene("lvl_Arena_One");
         }
@@ -164,7 +164,7 @@ public class RoundManager : MonoBehaviour
         {
             if (warning != true)
             {
-                Debug.Log("hot");
+                //Debug.Log("hot");
                 warning = true;
                
                 sounds[0].Play(0);

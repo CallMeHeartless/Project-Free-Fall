@@ -7,7 +7,7 @@ public class GameMusicController : MonoBehaviour
     private AudioSource music;
 
     private void Awake() {
-        GameObject[] instances = GameObject.FindGameObjectsWithTag("Music");
+        GameObject[] instances = GameObject.FindGameObjectsWithTag("GameMusic");
         if(instances.Length > 1) {
             Destroy(this.gameObject);
         }

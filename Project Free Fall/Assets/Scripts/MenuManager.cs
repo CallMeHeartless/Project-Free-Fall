@@ -16,7 +16,7 @@ public class MenuManager : MonoBehaviour
     private bool input = false;
 
     private void Start() {
-        mainMenuUI = GameObject.Find("MainMenu");
+        //mainMenuUI = GameObject.Find("MainMenu");
         mainMenuUI.transform.GetChild(0).GetComponent<Button>().Select();      
   
     }
@@ -31,7 +31,6 @@ public class MenuManager : MonoBehaviour
     }
 
 	public void QuitGame() { 
-		Debug.Log("WE QUIT THE GAME!");
         GetComponent<AudioSource>().Play(0);
         Application.Quit();
 	}
@@ -55,5 +54,9 @@ public class MenuManager : MonoBehaviour
             mainMenuUI.transform.GetChild(1).GetComponent<Button>().Select();
         }
         GetComponent<AudioSource>().Play(0);
+    }
+
+    public void ReturnToMainMenu() {
+        SceneManager.LoadScene(0);
     }
 }
