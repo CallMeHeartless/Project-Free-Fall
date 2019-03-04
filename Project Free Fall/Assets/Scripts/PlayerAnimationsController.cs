@@ -29,5 +29,6 @@ public class PlayerAnimationsController : MonoBehaviour
 
     public void SwordBoxOff() {
         swordBox.gameObject.SetActive(false);
+        transform.parent.transform.GetChild(4).gameObject.GetComponent<PlayerAudioController>().PlayerMissing();
     }
 }
