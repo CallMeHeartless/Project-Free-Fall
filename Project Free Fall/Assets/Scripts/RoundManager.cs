@@ -39,6 +39,12 @@ public class RoundManager : MonoBehaviour
         }
 
         GameObject.Find("InGameScoreUI").GetComponent<spawnScore>().setScore();
+
+        // Start music (triggers once)
+        GameObject music = GameObject.Find("GameMusic");
+        if(music != null) {
+            music.GetComponent<GameMusicController>().StartMusic();
+        }
     }
 
     // Update is called once per frame
