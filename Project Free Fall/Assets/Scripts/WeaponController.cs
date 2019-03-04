@@ -21,6 +21,8 @@ public class WeaponController : MonoBehaviour
             // Hit player audio
             other.GetComponentInChildren<PlayerAudioController>().PlayerHitAudio();
         } else {
+            gameObject.SetActive(false);
+            other.GetComponentInChildren<PlayerAudioController>().PlayerHitAudio();
             // Hit object audio
         }
 

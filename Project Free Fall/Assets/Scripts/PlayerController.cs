@@ -216,6 +216,8 @@ public class PlayerController : MonoBehaviour
         if (!anim.GetBool("Dash")) {
             anim.SetBool("Dash", true);
             // Play charge audio
+            transform.GetChild(4).gameObject.GetComponent<PlayerAudioController>().PlayerChargingAudio();
+
         }
         // VFX
         ToggleChargeThrusters(true);
@@ -232,6 +234,9 @@ public class PlayerController : MonoBehaviour
         // Animation
         anim.SetBool("Dash", false);
         // Audio - stop charge, play dash
+        transform.GetChild(4).gameObject.GetComponent<PlayerAudioController>().StopPlayerChargingAudio();
+        transform.GetChild(4).gameObject.GetComponent<PlayerAudioController>().PlayerdashingAudio();
+
         transform.GetChild(2).gameObject.SetActive(true);
         //Debug.Log(transform.GetChild(2).gameObject.name);
         // VFX
