@@ -7,6 +7,7 @@ public class DashHitboxController : MonoBehaviour
     float forceStrength = 5.0f;
     [SerializeField]
     AudioSource[] sounds;
+    public float stunlength;
 
     private void OnTriggerEnter(Collider other) {
 
@@ -23,7 +24,7 @@ public class DashHitboxController : MonoBehaviour
             Vector3 direction = other.transform.position - transform.position;
             direction.y = 0; // Remove vertical component to knock back
             other.GetComponent<PlayerController>().AddImpulse(forceStrength * direction);
-            other.GetComponent<PlayerController>().DamagePlayer(3);
+            other.GetComponent<PlayerController>().DamagePlayer(stunlength);
             gameObject.SetActive(false); // Disable on hit
         }
         else if (other.CompareTag("wall"))
