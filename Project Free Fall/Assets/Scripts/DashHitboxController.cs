@@ -24,14 +24,14 @@ public class DashHitboxController : MonoBehaviour
             Vector3 direction = other.transform.position - transform.position;
             direction.y = 0; // Remove vertical component to knock back
             other.GetComponent<PlayerController>().AddImpulse(forceStrength * direction);
-            other.GetComponent<PlayerController>().DamagePlayer(stunlength);
+            other.GetComponent<PlayerController>().DamagePlayer(3);
             gameObject.SetActive(false); // Disable on hit
         }
         else if (other.CompareTag("wall"))
         {
             //Debug.Log("hit");
             gameObject.transform.parent.GetComponent<PlayerController>().AddImpulse(new Vector3(0,0,0));
-            gameObject.transform.parent.GetComponent<PlayerController>().StunPlayer(3);
+            gameObject.transform.parent.GetComponent<PlayerController>().StunPlayer(stunlength);
             sounds[Random.Range(0, 1)].Play(0);
         }
     }
