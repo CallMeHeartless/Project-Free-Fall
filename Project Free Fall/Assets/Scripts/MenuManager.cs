@@ -30,9 +30,10 @@ public class MenuManager : MonoBehaviour
         GetComponent<AudioSource>().Play(0);
     }
 
-	public void QuitGame() { 
-        GetComponent<AudioSource>().Play(0);
+	public void QuitGame() {
         Application.Quit();
+        GetComponent<AudioSource>().Play(0);
+        
 	}
 
     void UpdateButtonSelection() {
