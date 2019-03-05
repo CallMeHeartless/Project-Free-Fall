@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour
     private float armourLossSpeedDamping = 0.3f;
     private Rigidbody rb;
     private Vector3 movement;
+    [SerializeField]
+    private float victoryOrbSpeedPenalty = 0.9f;
 
     [Header("Combat")]
     [SerializeField]
@@ -125,15 +127,17 @@ public class PlayerController : MonoBehaviour
 
         } 
         else {
-            // Handle charge dash
-            if (Input.GetButton(playerL1Button)) {
-                ChargeDash();
-                movement *= 0.25f;
-            } 
-            else if (Input.GetButtonUp(playerL1Button)) {
-                PerformDash();
+            if (!hasVictoryOrb) {
+                // Handle charge dash
+                if (Input.GetButton(playerL1Button)) {
+                    ChargeDash();
+                    movement *= 0.25f;
+                } else if (Input.GetButtonUp(playerL1Button)) {
+                    PerformDash();
+                }
+                ToggleCooldownLight(0, true);
             }
-            ToggleCooldownLight(0, true);
+
         }
 
         // Toggle score
@@ -184,8 +188,12 @@ public class PlayerController : MonoBehaviour
     // Moves the player according to the player's basic input
     void MoveBody() {
         if(movement != Vector3.zero) {
+            if (hasVictoryOrb) {
+                movement *= victoryOrbSpeedPenalty;
+            }
             float moveModifier = Mathf.Max(1.0f, armourLossSpeedDamping * knockbackMultiplier[knockbackIndex]);
             rb.MovePosition(transform.position + moveSpeed * movement * moveModifier * Time.fixedDeltaTime);
+            
         }
     }
 
@@ -195,7 +203,6 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(transform.up, turnSpeed * turnMultiplier * Input.GetAxis(playerRightXAxis));
     } 
         
-
     // Adds an impulse to the player (such as from a knock back effect)
     public void AddImpulse(Vector3 impulse) {
         rb.AddForce(impulse * knockbackMultiplier[knockbackIndex], ForceMode.Impulse);
@@ -269,6 +276,7 @@ public class PlayerController : MonoBehaviour
     // Makes the velocity of the player's RigidBody component zero
     public void StopPlayer() {
         rb.velocity = Vector3.zero;
+        movement = Vector3.zero;
         // Cull any thruster effects
         ToggleDashThrusters(false);
     }
