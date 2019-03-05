@@ -195,7 +195,6 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(transform.up, turnSpeed * turnMultiplier * Input.GetAxis(playerRightXAxis));
     } 
         
-
     // Adds an impulse to the player (such as from a knock back effect)
     public void AddImpulse(Vector3 impulse) {
         rb.AddForce(impulse * knockbackMultiplier[knockbackIndex], ForceMode.Impulse);
@@ -269,6 +268,7 @@ public class PlayerController : MonoBehaviour
     // Makes the velocity of the player's RigidBody component zero
     public void StopPlayer() {
         rb.velocity = Vector3.zero;
+        movement = Vector3.zero;
         // Cull any thruster effects
         ToggleDashThrusters(false);
     }
