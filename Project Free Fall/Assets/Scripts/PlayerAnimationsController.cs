@@ -7,6 +7,7 @@ public class PlayerAnimationsController : MonoBehaviour
 
     private Transform dashBox;
     public Transform swordBox;
+    public GameObject swordTrail;
 
     private void Start() {
         dashBox = transform.parent.Find("DashHitBox");
@@ -25,10 +26,17 @@ public class PlayerAnimationsController : MonoBehaviour
 
     public void SwordBoxOn() {
         swordBox.gameObject.SetActive(true);
+        if(swordTrail != null) {
+            swordTrail.SetActive(true);
+        }
     }
 
     public void SwordBoxOff() {
         swordBox.gameObject.SetActive(false);
         transform.parent.transform.GetChild(4).gameObject.GetComponent<PlayerAudioController>().PlayerMissing();
+        if(swordTrail != null) {
+            swordTrail.SetActive(false);
+        }
+
     }
 }

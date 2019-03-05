@@ -7,6 +7,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField]
     private float forceStrength = 1.0f;
     public GameObject master;
+    public GameObject sparks;
 
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Player")) {
@@ -18,6 +19,11 @@ public class WeaponController : MonoBehaviour
             other.GetComponent<PlayerController>().DamagePlayer(1);
 
             gameObject.SetActive(false); // Current fix to prevent the damage being triggered twice
+
+            // VFX
+            if(sparks != null) {
+                sparks.GetComponent<ParticleSystem>().Play();
+            }
 
             // Hit player audio
             master.GetComponentInChildren<PlayerAudioController>().PlayerHitAudio();
