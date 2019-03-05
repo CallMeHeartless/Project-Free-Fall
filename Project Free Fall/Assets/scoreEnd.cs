@@ -12,15 +12,28 @@ public class scoreEnd : MonoBehaviour
     {
         Debug.Log("hello");
         int[] data = GameManager.GetPlayerScores();
-        for (int i = 0; i < menus.AddComponent<spawnScore>().playercount; i++)
+
+
+        bool[] activePlayers = GameManager.GetReadyStatus();
+        int total = 0;
+        for (int i = 0; i < activePlayers.Length; i++)
         {
-            player4s[i*2].GetComponent<Text>().text = data[0].ToString();
+            if (activePlayers[i] == true)
+            {
+                total++;
+            }
+        }
+
+
+        for (int i = 0; i < total; i++)
+        {
+            player4s[i*2+1].GetComponent<Text>().text = data[i].ToString();
 
 
 
         }
         Debug.Log("show");
-        switch (menus.AddComponent<spawnScore>().playercount)
+        switch (total)
         {
             case 2:
                 player4s[0].gameObject.SetActive(true);

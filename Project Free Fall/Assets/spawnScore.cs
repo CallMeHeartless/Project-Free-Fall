@@ -7,7 +7,7 @@ public class spawnScore : MonoBehaviour
 {
    public GameObject[] player2s;
    public GameObject[] player4s;
-    public int playercount;
+    public int playercount = 0;
     // Start is called before the first frame update
     void Start()
     {
