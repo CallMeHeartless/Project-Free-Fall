@@ -191,8 +191,10 @@ public class PlayerController : MonoBehaviour
 
     // Rotates the player (and camera)
     void RotatePlayer() {
-        transform.Rotate(transform.up, turnSpeed * Input.GetAxis(playerRightXAxis) * knockbackMultiplier[knockbackIndex]);
-    }
+        float turnMultiplier = Mathf.Max(1.0f, armourLossSpeedDamping * knockbackMultiplier[knockbackIndex]);
+        transform.Rotate(transform.up, turnSpeed * turnMultiplier * Input.GetAxis(playerRightXAxis));
+    } 
+        
 
     // Adds an impulse to the player (such as from a knock back effect)
     public void AddImpulse(Vector3 impulse) {
