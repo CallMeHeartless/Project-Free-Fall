@@ -46,7 +46,15 @@ public class RoundManager : MonoBehaviour
 
         InitialisePlayers();
         InitialiseCameras();
-        if (EnableVictoryOrb) {
+
+        int PlayerCount = 0;
+        bool[] players = GameManager.GetReadyStatus();
+        for(int i = 0; i < 4; ++i) {
+            if (players[i]) {
+                ++PlayerCount;
+            }
+        }
+        if (EnableVictoryOrb || PlayerCount > 2) {
             SpawnVictoryOrb();
         }
 
@@ -139,8 +147,22 @@ public class RoundManager : MonoBehaviour
             cameras.GetChild(2).GetComponent<Camera>().rect = new Rect(new Vector2(-0.5f, -0.5f), new Vector2(1.0f, 1.0f));
             cameras.GetChild(3).GetComponent<Camera>().rect = new Rect(new Vector2(0.5f, -0.5f), new Vector2(1.0f, 1.0f));
         } else {
-            Destroy(cameras.GetChild(2).gameObject);
-            Destroy(cameras.GetChild(3).gameObject);
+            // Delete cameras that are not in use
+            int[] camerasUsed = { 4, 4 };
+            for(int i = 0; i < 4; ++i) {
+                if (!playersReady[i]) {
+                    Destroy(cameras.GetChild(i).gameObject);
+                } else {
+                    if(camerasUsed[0] == 4) {
+                        camerasUsed[0] = i;
+                    }else {
+                        camerasUsed[1] = i;
+                    }
+                }
+            }
+
+            cameras.GetChild(camerasUsed[0]).GetComponent<Camera>().rect = new Rect(new Vector2(0.0f, 0.5f), new Vector2(1.0f, 1.0f));
+            cameras.GetChild(camerasUsed[1]).GetComponent<Camera>().rect = new Rect(new Vector2(0.0f, -0.5f), new Vector2(1.0f, 1.0f));
         }
     }
 
@@ -251,7 +273,7 @@ public class RoundManager : MonoBehaviour
         // turn text on 
         endUI.SetActive(true);
         endUI.GetComponentInChildren<Text>().text = "PLAYER " + (winningPlayerID + 1).ToString() + " WINS THE ROUND";
-
+        endUI.transform.GetChild(0).GetComponentInChildren<scoreEnd>().endscore();
     }
     void screenshake()
     {

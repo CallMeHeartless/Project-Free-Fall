@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ArenaCamRenderTexture
+  m_Name: M_ArenaCamRender04
   m_Shader: {fileID: 4800000, guid: ce0a702dfff5d2746928ff221e223878, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_593FF5C0:
-        m_Texture: {fileID: 8400000, guid: 125b206b1fd7b5d4c8289030e9023c4b, type: 2}
+        m_Texture: {fileID: 8400000, guid: 269f9e49c3121cd46a2fed841f1505dc, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:

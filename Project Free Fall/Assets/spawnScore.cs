@@ -7,11 +7,11 @@ public class spawnScore : MonoBehaviour
 {
    public GameObject[] player2s;
    public GameObject[] player4s;
-   int playercount;
+    public int playercount;
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("starting", .3f);
+        Invoke("starting", .1f);
     }
     void starting()
     {
@@ -30,6 +30,8 @@ public class spawnScore : MonoBehaviour
             player3();
         }
         playercount = total;
+
+        setScore();
     }
 
     // Update is called once per frame
@@ -59,20 +61,21 @@ public class spawnScore : MonoBehaviour
     public void setScore()
     {
         int[] data = GameManager.GetPlayerScores();
-
+       
         switch (playercount)
         {
             case 2:
-
+               
                 player2s[0].transform.GetChild(1).GetComponent<Text>().text = data[0].ToString();
                 player2s[0].transform.GetChild(3).GetComponent<Text>().text = data[1].ToString();
 
                 player2s[1].transform.GetChild(1).GetComponent<Text>().text = data[0].ToString();
                 player2s[1].transform.GetChild(3).GetComponent<Text>().text = data[1].ToString();
+               
                 break;
 
             case 3:
-
+               
                 player4s[0].transform.GetChild(1).GetComponent<Text>().text = data[0].ToString();
                 player4s[0].transform.GetChild(3).GetComponent<Text>().text = data[1].ToString();
                 player4s[0].transform.GetChild(5).GetComponent<Text>().text = data[2].ToString();
@@ -87,7 +90,7 @@ public class spawnScore : MonoBehaviour
                 break;
 
             case 4:
-
+               
                 player4s[0].transform.GetChild(1).GetComponent<Text>().text = data[0].ToString();
                 player4s[0].transform.GetChild(3).GetComponent<Text>().text = data[1].ToString();
                 player4s[0].transform.GetChild(5).GetComponent<Text>().text = data[2].ToString();
@@ -109,8 +112,10 @@ public class spawnScore : MonoBehaviour
                 player4s[3].transform.GetChild(7).GetComponent<Text>().text = data[3].ToString();
                 break;
             default:
+               
                 break;
         }
+        
     }
     //call if their is only 3 players
     void player3()
