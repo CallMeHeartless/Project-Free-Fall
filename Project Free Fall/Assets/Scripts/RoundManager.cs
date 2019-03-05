@@ -37,7 +37,15 @@ public class RoundManager : MonoBehaviour
 
         InitialisePlayers();
         InitialiseCameras();
-        if (EnableVictoryOrb) {
+
+        int PlayerCount = 0;
+        bool[] players = GameManager.GetReadyStatus();
+        for(int i = 0; i < 4; ++i) {
+            if (players[i]) {
+                ++PlayerCount;
+            }
+        }
+        if (EnableVictoryOrb || PlayerCount > 2) {
             SpawnVictoryOrb();
         }
 
