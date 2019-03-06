@@ -49,7 +49,7 @@ AnimatorController:
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 0
+    m_DefaultBool: 1
     m_Controller: {fileID: 0}
   - m_Name: DodgeBack
     m_Type: 9
@@ -210,8 +210,8 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.038620174
-  m_TransitionOffset: 0
+  m_TransitionDuration: 0.21784723
+  m_TransitionOffset: 0.18870576
   m_ExitTime: 0.75
   m_HasExitTime: 0
   m_HasFixedDuration: 1
@@ -257,9 +257,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.25
+  m_TransitionDuration: 0.23492748
+  m_TransitionOffset: 0.33502415
+  m_ExitTime: 0.488281
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -631,7 +631,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 0d3ac9dcd81b4774eb2e00044638c915, type: 3}
+  m_Motion: {fileID: 7400000, guid: 091fc81f682161c4397b8ece2d9cf2f7, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -658,7 +658,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f65aa8b071822d542b6ea8ec7c9917ba, type: 3}
+  m_Motion: {fileID: 7400000, guid: d3ed1672340945148998f9e6d6744853, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
