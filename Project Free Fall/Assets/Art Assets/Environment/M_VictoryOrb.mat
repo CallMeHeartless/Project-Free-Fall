@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_MoltenMetal
-  m_Shader: {fileID: 4800000, guid: 4d95aa01b43c518419794d384698a0ad, type: 3}
+  m_Name: M_VictoryOrb
+  m_Shader: {fileID: 4800000, guid: abb7d89169905584da0ecb7c41a903b1, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -43,12 +43,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Texture2DAsset_77520EFB_Out:
-        m_Texture: {fileID: 2800000, guid: 6518f246f77c0064da1ee6a724d58411, type: 3}
+    - _Texture2DAsset_6619914C_Out:
+        m_Texture: {fileID: 2800000, guid: ef1da074ef37b004f897a0a4d6c9531f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Texture2DAsset_FA3F999C_Out:
-        m_Texture: {fileID: 2800000, guid: 6518f246f77c0064da1ee6a724d58411, type: 3}
+    - _Texture2DAsset_71018628_Out:
+        m_Texture: {fileID: 2800000, guid: e4fdffc554bdd1c4fb85f1e1e049eae1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
