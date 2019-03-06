@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem[] chargeThrusters;
     public ParticleSystem[] dashThrusters;
     public GameObject[] velocityTracers;
-    public Light[] cooldownLights;
+    public GameObject[] cooldownLights;
     public GameObject victoryOrbLight;
 
     private combat.CurrentAction currentState = combat.CurrentAction.move;
@@ -407,6 +407,7 @@ public class PlayerController : MonoBehaviour
             victoryOrb.transform.position = transform.position + Vector3.up * 7.5f;
             Vector3 direction = new Vector3(Random.Range(1.5f, 3.5f), Random.Range(3.5f, 6.5f), Random.Range(1.5f, 3.5f));
             victoryOrb.GetComponent<Rigidbody>().AddForce(3.0f * direction, ForceMode.Impulse);
+            
         } else {
             Debug.LogError("ERROR: Path to victory orb could not be found");
         }

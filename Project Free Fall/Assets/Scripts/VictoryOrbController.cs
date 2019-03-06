@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class VictoryOrbController : MonoBehaviour
 {
-    static bool isCollected = false;
+    public static bool isCollected = false;
+
+    private void Start() {
+        isCollected = false;
+    }
 
     // The orb can be picked up when the player runs into it
     private void OnCollisionEnter(Collision collision) {
