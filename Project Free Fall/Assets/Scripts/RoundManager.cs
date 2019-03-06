@@ -56,6 +56,7 @@ public class RoundManager : MonoBehaviour
         }
         if (EnableVictoryOrb || PlayerCount > 2) {
             SpawnVictoryOrb();
+            VictoryOrbController.isCollected = false;
         }
 
         GameObject.Find("InGameScoreUI").GetComponent<spawnScore>().setScore();
@@ -273,6 +274,7 @@ public class RoundManager : MonoBehaviour
         // turn text on 
         endUI.SetActive(true);
         endUI.GetComponentInChildren<Text>().text = "PLAYER " + (winningPlayerID + 1).ToString() + " WINS THE ROUND";
+
         endUI.transform.GetChild(0).GetComponentInChildren<scoreEnd>().endscore();
     }
     void screenshake()
