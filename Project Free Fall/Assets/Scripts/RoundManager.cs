@@ -47,6 +47,7 @@ public class RoundManager : MonoBehaviour
         }
         if (EnableVictoryOrb || PlayerCount > 2) {
             SpawnVictoryOrb();
+            VictoryOrbController.isCollected = false;
         }
 
         GameObject.Find("InGameScoreUI").GetComponent<spawnScore>().setScore();
