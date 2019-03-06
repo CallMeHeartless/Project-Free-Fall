@@ -9,7 +9,7 @@ public class VictoryOrbController : MonoBehaviour
         if (collision.gameObject.CompareTag("Player")) {
             collision.gameObject.GetComponent<PlayerController>().GiveVictoryOrb();
             // Audio
-            DestroyImmediate(gameObject);
+            Destroy(gameObject);
         }
     }
 }
