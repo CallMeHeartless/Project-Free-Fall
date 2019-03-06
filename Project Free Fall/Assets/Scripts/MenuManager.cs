@@ -10,10 +10,7 @@ public class MenuManager : MonoBehaviour
 
     public GameObject mainMenuUI;
     public GameObject helpMenu;
-    private int selection = 0;
-    private int maxSelection = 2;
     private bool helpActive = false;
-    private bool input = false;
 
     private void Start() {
         //mainMenuUI = GameObject.Find("MainMenu");
@@ -36,13 +33,6 @@ public class MenuManager : MonoBehaviour
         
 	}
 
-    void UpdateButtonSelection() {
-        Debug.Log("Current selection: " + selection);
-        mainMenuUI.transform.GetChild(selection).GetComponent<Button>().Select();
-
-        // Audio
-       
-    }
 
 
     public void ToggleInstructions() {
@@ -58,6 +48,11 @@ public class MenuManager : MonoBehaviour
     }
 
     public void ReturnToMainMenu() {
+        GameObject gameMusic = GameObject.Find("GameMusic");
+        if (gameMusic) {
+            gameMusic.GetComponent<GameMusicController>().Stop();
+            DestroyImmediate(gameMusic);
+        }
         SceneManager.LoadScene(0);
     }
 }

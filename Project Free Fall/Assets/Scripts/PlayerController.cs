@@ -1,4 +1,4 @@
-﻿    using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,6 +38,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 movement;
     [SerializeField]
     private float victoryOrbSpeedPenalty = 0.9f;
+    [SerializeField][Tooltip("The speed ^ 2 the player must be moving at to trigger their dash trails")]
+    private float trailSpeedThreshold = 64.0f;
 
     [Header("Combat")]
     [SerializeField]
@@ -66,7 +68,8 @@ public class PlayerController : MonoBehaviour
     private float victoryOrbTimer = 0.0f;
     public ParticleSystem[] chargeThrusters;
     public ParticleSystem[] dashThrusters;
-    public Light[] cooldownLights;
+    public GameObject[] velocityTracers;
+    public GameObject[] cooldownLights;
     public GameObject victoryOrbLight;
 
     private combat.CurrentAction currentState = combat.CurrentAction.move;
@@ -89,9 +92,12 @@ public class PlayerController : MonoBehaviour
         }
 
         dashController = transform.Find("DashHitBox").GetComponent<DashHitboxController>();
-        scoreReference = GameObject.Find("InGameScoreUI").GetComponent<spawnScore>();
-        if(scoreReference == null) {
+        GameObject inGameScore = GameObject.Find("InGameScoreUI");
+        
+        if(inGameScore == null) {
             Debug.LogError("ERROR: InGameScoreUI null reference exception");
+        } else {
+            scoreReference = inGameScore.GetComponent<spawnScore>();
         }
 
         
@@ -113,7 +119,7 @@ public class PlayerController : MonoBehaviour
         // Process player input commands
         MovementInput();
         RotatePlayer();
-        Jump();
+        //Jump();
         SideDash();
 
         // Handle basic attack
@@ -138,6 +144,12 @@ public class PlayerController : MonoBehaviour
                 ToggleCooldownLight(0, true);
             }
 
+        }
+
+        if(rb.velocity.sqrMagnitude > trailSpeedThreshold) {
+            ToggleVelocityTracer(true);
+        } else {
+            ToggleVelocityTracer(false);
         }
 
         // Toggle score
@@ -246,8 +258,6 @@ public class PlayerController : MonoBehaviour
         transform.GetChild(4).gameObject.GetComponent<PlayerAudioController>().StopPlayerChargingAudio();
         transform.GetChild(4).gameObject.GetComponent<PlayerAudioController>().PlayerdashingAudio();
 
-        transform.GetChild(2).gameObject.SetActive(true);
-        //Debug.Log(transform.GetChild(2).gameObject.name);
         // VFX
         ToggleChargeThrusters(false);
         ToggleDashThrusters(true);
@@ -385,6 +395,7 @@ public class PlayerController : MonoBehaviour
     public void GiveVictoryOrb() {
         hasVictoryOrb = true;
         ToggleVictoryOrbLight(true);
+
     }
 
     // Removes the victory orb from the player, spawning a new one and resetting their timer
@@ -396,6 +407,7 @@ public class PlayerController : MonoBehaviour
             victoryOrb.transform.position = transform.position + Vector3.up * 7.5f;
             Vector3 direction = new Vector3(Random.Range(1.5f, 3.5f), Random.Range(3.5f, 6.5f), Random.Range(1.5f, 3.5f));
             victoryOrb.GetComponent<Rigidbody>().AddForce(3.0f * direction, ForceMode.Impulse);
+            
         } else {
             Debug.LogError("ERROR: Path to victory orb could not be found");
         }
@@ -585,6 +597,16 @@ public class PlayerController : MonoBehaviour
                 return;
             }
             victoryOrbLight.gameObject.SetActive(on);
+        }
+    }
+
+    private void ToggleVelocityTracer(bool on) {
+        if(velocityTracers != null) {
+            foreach(GameObject tracer in velocityTracers) {
+                if(tracer.activeSelf != on) {
+                    tracer.SetActive(on);
+                }
+            }
         }
     }
 }
