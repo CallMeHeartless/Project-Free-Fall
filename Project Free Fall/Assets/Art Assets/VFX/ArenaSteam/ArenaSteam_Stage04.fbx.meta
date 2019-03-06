@@ -1,15 +1,14 @@
 fileFormatVersion: 2
-guid: 660951e8295b1c84e811c2f592bc8d21
+guid: f697e295b80f81943b7b387c6579743e
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: ArenaOutlines_Green
-    2100002: ArenaOutlines_Cyan
+    2100000: ArenaOutlines_Orange
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Stage02
+    4300000: Stage04
   externalObjects: {}
   materials:
     importMaterials: 1
