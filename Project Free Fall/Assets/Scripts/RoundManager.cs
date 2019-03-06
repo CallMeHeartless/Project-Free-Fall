@@ -251,5 +251,6 @@ public class RoundManager : MonoBehaviour
         endUI.SetActive(true);
         endUI.GetComponentInChildren<Text>().text = "PLAYER " + (winningPlayerID + 1).ToString() + " WINS THE ROUND";
 
+        endUI.transform.GetChild(0).GetComponentInChildren<scoreEnd>().endscore();
     }
 }
