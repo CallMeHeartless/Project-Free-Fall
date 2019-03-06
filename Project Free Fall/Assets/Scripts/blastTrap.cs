@@ -38,6 +38,7 @@ public class blastTrap : MonoBehaviour
                     On = true;
                     timer = cooldown;
                     Instantiate(prefab, transform.position, Quaternion.identity);
+                    gameObject.GetComponent<Animator>.bounce = true;
                // prefab.transform.parent = gameObject.transform;
                     prefab.GetComponent<blast>().speed = speed;
                     prefab.GetComponent<blast>().Range = Range;
