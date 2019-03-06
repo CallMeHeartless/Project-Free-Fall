@@ -38,8 +38,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 movement;
     [SerializeField]
     private float victoryOrbSpeedPenalty = 0.9f;
-    [SerializeField][Tooltip("The speed the player must be moving at to trigger their dash trails")]
-    private float trailSpeedThreshold = 10.0f;
+    [SerializeField][Tooltip("The speed ^ 2 the player must be moving at to trigger their dash trails")]
+    private float trailSpeedThreshold = 64.0f;
 
     [Header("Combat")]
     [SerializeField]
@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
     private float victoryOrbTimer = 0.0f;
     public ParticleSystem[] chargeThrusters;
     public ParticleSystem[] dashThrusters;
+    public GameObject[] velocityTracers;
     public Light[] cooldownLights;
     public GameObject victoryOrbLight;
 
@@ -143,6 +144,12 @@ public class PlayerController : MonoBehaviour
                 ToggleCooldownLight(0, true);
             }
 
+        }
+
+        if(rb.velocity.sqrMagnitude > trailSpeedThreshold) {
+            ToggleVelocityTracer(true);
+        } else {
+            ToggleVelocityTracer(false);
         }
 
         // Toggle score
@@ -251,8 +258,6 @@ public class PlayerController : MonoBehaviour
         transform.GetChild(4).gameObject.GetComponent<PlayerAudioController>().StopPlayerChargingAudio();
         transform.GetChild(4).gameObject.GetComponent<PlayerAudioController>().PlayerdashingAudio();
 
-        transform.GetChild(2).gameObject.SetActive(true);
-        //Debug.Log(transform.GetChild(2).gameObject.name);
         // VFX
         ToggleChargeThrusters(false);
         ToggleDashThrusters(true);
@@ -591,6 +596,16 @@ public class PlayerController : MonoBehaviour
                 return;
             }
             victoryOrbLight.gameObject.SetActive(on);
+        }
+    }
+
+    private void ToggleVelocityTracer(bool on) {
+        if(velocityTracers != null) {
+            foreach(GameObject tracer in velocityTracers) {
+                if(tracer.activeSelf != on) {
+                    tracer.SetActive(on);
+                }
+            }
         }
     }
 }
