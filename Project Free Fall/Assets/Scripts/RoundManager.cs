@@ -28,8 +28,17 @@ public class RoundManager : MonoBehaviour
 
     [SerializeField]
     AudioSource[] sounds;
+
+    [SerializeField]
+    bool shake = true;
+    bool CurrentShake = false;
+    public float scale;
+    private Vector3 changes = new Vector3(0, 0, 0);
+    public GameObject[] cameras = null;
+    public float shakeLength;
+
     // Start is called before the first frame update
-    void Start(){
+    void Start() {
         // To force testing the arena without going through the full loop
         if (TestMode) {
             GameManager.SetPlayerCount(TestPlayerCount);
@@ -55,10 +64,19 @@ public class RoundManager : MonoBehaviour
 
         // Start music (triggers once)
         GameObject music = GameObject.Find("GameMusic");
-        if(music != null) {
+        if (music != null) {
             music.GetComponent<GameMusicController>().StartMusic();
+
+
         }
+        Invoke("starting", .3f);
+
+        
     }
+
+    void starting(){
+        cameras = GameObject.FindGameObjectsWithTag("cam");   
+}
 
     // Update is called once per frame
     void Update(){
@@ -83,6 +101,11 @@ public class RoundManager : MonoBehaviour
             }
             // End of Round check
             StartCoroutine(EndOfRound());
+        }
+
+        if (shake)
+        {
+            screenshake();
         }
     }
 
@@ -254,4 +277,45 @@ public class RoundManager : MonoBehaviour
 
         endUI.transform.GetChild(0).GetComponentInChildren<scoreEnd>().endscore();
     }
+    void screenshake()
+    {
+        StartCoroutine(Shaking());
+
+    }
+    private IEnumerator Shaking() {
+
+        yield return null;
+
+        CurrentShake = true;
+        Debug.Log("herre");
+        int same = cameras.Length;
+        if (shakeLength <= 0)
+        {
+
+            for (int i = 0; i < same; i++)
+            {
+                cameras[i].gameObject.transform.localPosition -= changes;
+                Debug.Log("finish");
+            }
+            changes = new Vector3(0, 0, 0);
+            shake = false;
+        }
+        else
+        {
+            if (shakeLength > 0)
+            {
+                changes = changes + new Vector3(Random.Range(-100, 100), Random.Range(-100, 1000), Random.Range(-100, 100));
+                for (int i = 0; i < same; i++)
+                {
+                    cameras[i].gameObject.transform.localPosition += changes;
+                    Debug.Log("move");
+                }
+
+                shakeLength -= Time.deltaTime;
+            }
+        }
+        CurrentShake = false;
+       
+    }
+
 }

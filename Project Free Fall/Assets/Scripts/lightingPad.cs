@@ -40,7 +40,7 @@ public class lightingPad : MonoBehaviour
               //gameObject.GetComponent<MeshCollider>().enabled = true;
                 On = true;
                 timer = onTimerlimit;
-              
+                gameObject.transform.GetChild(0).gameObject.active = true;
             }
         }
         else
@@ -58,7 +58,8 @@ public class lightingPad : MonoBehaviour
                // gameObject.GetComponent<MeshCollider>().enabled = false;
                 On = false;
                 timer = cooldown;
-                
+                gameObject.transform.GetChild(0).gameObject.active = false;
+
             }
             if (player!= null)
             {
@@ -92,7 +93,7 @@ public class lightingPad : MonoBehaviour
     void collisioncheck()
     {
         Debug.Log("hte");
-
+        gameObject.transform.GetChild(0).gameObject.active = false;
         player.GetComponent<PlayerController>().StunPlayer(stunlength);
             On = false;
             timer = cooldown;
