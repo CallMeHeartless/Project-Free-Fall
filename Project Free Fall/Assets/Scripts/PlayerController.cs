@@ -385,6 +385,7 @@ public class PlayerController : MonoBehaviour
     public void GiveVictoryOrb() {
         hasVictoryOrb = true;
         ToggleVictoryOrbLight(true);
+
     }
 
     // Removes the victory orb from the player, spawning a new one and resetting their timer
