@@ -1,4 +1,4 @@
-﻿    using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,6 +38,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 movement;
     [SerializeField]
     private float victoryOrbSpeedPenalty = 0.9f;
+    [SerializeField][Tooltip("The speed the player must be moving at to trigger their dash trails")]
+    private float trailSpeedThreshold = 10.0f;
 
     [Header("Combat")]
     [SerializeField]
@@ -89,9 +91,12 @@ public class PlayerController : MonoBehaviour
         }
 
         dashController = transform.Find("DashHitBox").GetComponent<DashHitboxController>();
-        scoreReference = GameObject.Find("InGameScoreUI").GetComponent<spawnScore>();
-        if(scoreReference == null) {
+        GameObject inGameScore = GameObject.Find("InGameScoreUI");
+        
+        if(inGameScore == null) {
             Debug.LogError("ERROR: InGameScoreUI null reference exception");
+        } else {
+            scoreReference = inGameScore.GetComponent<spawnScore>();
         }
 
         
@@ -113,7 +118,7 @@ public class PlayerController : MonoBehaviour
         // Process player input commands
         MovementInput();
         RotatePlayer();
-        Jump();
+        //Jump();
         SideDash();
 
         // Handle basic attack
