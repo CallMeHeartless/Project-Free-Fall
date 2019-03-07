@@ -8,7 +8,6 @@ public class LobbyController : MonoBehaviour
 {
     public GameObject lobbyUI;
     private string[] joysticks;
-    bool readyToStart = false;
 
     // Start is called before the first frame update
     void Start() {
