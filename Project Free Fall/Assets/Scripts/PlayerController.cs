@@ -407,6 +407,8 @@ public class PlayerController : MonoBehaviour
         hasVictoryOrb = true;
         ToggleVictoryOrbLight(true);
 
+        // Audio
+        transform.GetChild(4).GetComponent<PlayerAudioController>().PlayerHasCollectedOrb();
     }
 
     // Removes the victory orb from the player, spawning a new one and resetting their timer

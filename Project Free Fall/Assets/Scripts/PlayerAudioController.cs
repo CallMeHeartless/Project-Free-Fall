@@ -41,6 +41,10 @@ public class PlayerAudioController : AudioController
         PlaySingleSound("jetpack 2.5s");
     }
 
+    public void PlayerHasCollectedOrb() {
+        PlaySingleSound("OrbPickedUp");
+    }
+
     public void PlayerMissing()
     {
         if (playerHit == false)
