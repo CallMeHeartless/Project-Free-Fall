@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
     public GameObject[] cooldownUI;
     public GameObject victoryOrbLight;
     public GameObject stunEffect;
+    
 
     private combat.CurrentAction currentState = combat.CurrentAction.move;
     private bool hasVictoryOrb = false;
