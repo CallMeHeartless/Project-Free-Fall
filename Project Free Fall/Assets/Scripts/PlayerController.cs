@@ -345,11 +345,13 @@ public class PlayerController : MonoBehaviour
                     AddImpulse(transform.forward * -1.0f * sideDashForce);
                     // Backdash animation
                 } else {
-                    AddImpulse(transform.right * sideDashForce * Input.GetAxisRaw(playerLeftXAxis));
+                    
                     if (direction > 0.0f) {
                         anim.SetTrigger("DodgeRight");
+                        AddImpulse(transform.right * sideDashForce);
                     } else {
                         anim.SetTrigger("DodgeLeft");
+                        AddImpulse(-transform.right * sideDashForce);
                     }
                 }
 
