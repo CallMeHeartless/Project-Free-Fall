@@ -283,7 +283,6 @@ MonoBehaviour:
   cooldownUI: []
   victoryOrbLight: {fileID: 1433011280}
   stunEffect: {fileID: 6409556745799224636}
-  chargeImpactEffect: {fileID: 0}
 --- !u!1 &4158718954531698031
 GameObject:
   m_ObjectHideFlags: 0
@@ -3236,14 +3235,28 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1525973578, guid: 5b214c27376a61040a45ff07bb9b3ac1, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8151058431576556937, guid: 5b214c27376a61040a45ff07bb9b3ac1,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8151058431576556937, guid: 5b214c27376a61040a45ff07bb9b3ac1,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8086500191069932580, guid: 5b214c27376a61040a45ff07bb9b3ac1,
         type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8086500191069932580, guid: 5b214c27376a61040a45ff07bb9b3ac1,
         type: 3}
-      propertyPath: playOnAwake
+      propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
