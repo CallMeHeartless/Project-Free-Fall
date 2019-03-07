@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
     public GameObject[] cooldownUI;
     public GameObject victoryOrbLight;
     public GameObject stunEffect;
+    
 
     private combat.CurrentAction currentState = combat.CurrentAction.move;
     private bool hasVictoryOrb = false;
@@ -344,11 +345,13 @@ public class PlayerController : MonoBehaviour
                     AddImpulse(transform.forward * -1.0f * sideDashForce);
                     // Backdash animation
                 } else {
-                    AddImpulse(transform.right * sideDashForce * Input.GetAxisRaw(playerLeftXAxis));
+                    
                     if (direction > 0.0f) {
                         anim.SetTrigger("DodgeRight");
+                        AddImpulse(transform.right * sideDashForce);
                     } else {
                         anim.SetTrigger("DodgeLeft");
+                        AddImpulse(-transform.right * sideDashForce);
                     }
                 }
 
@@ -406,6 +409,9 @@ public class PlayerController : MonoBehaviour
     public void GiveVictoryOrb() {
         hasVictoryOrb = true;
         ToggleVictoryOrbLight(true);
+
+        anim.SetTrigger("Orb");
+        dashChargeTimer = 0.0f;
 
         // Audio
         transform.GetChild(4).GetComponent<PlayerAudioController>().PlayerHasCollectedOrb();
