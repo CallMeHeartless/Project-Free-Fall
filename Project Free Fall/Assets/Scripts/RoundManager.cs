@@ -51,6 +51,8 @@ public class RoundManager : MonoBehaviour
         if (EnableVictoryOrb || playerCount > 2) {
             SpawnVictoryOrb();
             VictoryOrbController.isCollected = false;
+
+            GameObject.Find("InGameScoreUI").GetComponent<spawnScore>().setScore();
         }
 
         if(cooldownUI != null) {
@@ -254,7 +256,7 @@ public class RoundManager : MonoBehaviour
         // turn text on 
         endUI.SetActive(true);
         endUI.GetComponentInChildren<Text>().text = "PLAYER " + (winningPlayerID + 1).ToString() + " WINS THE ROUND";
-        //endUI.transform.GetChild(0).GetComponentInChildren<scoreEnd>().endscore();
+        endUI.transform.GetChild(0).GetComponentInChildren<scoreEnd>().endscore();
     }
 
     // Decides which cooldown UI should be used, assigning it to the players in the scene
