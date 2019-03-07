@@ -41,6 +41,11 @@ public class PlayerAudioController : AudioController
         PlaySingleSound("jetpack 2.5s");
     }
 
+    public void StopdashingAudio()
+    {
+        StopSingleSound("jetpack 2.5s");
+    }
+
     public void PlayerHasCollectedOrb() {
         PlaySingleSound("OrbPickedUp");
     }

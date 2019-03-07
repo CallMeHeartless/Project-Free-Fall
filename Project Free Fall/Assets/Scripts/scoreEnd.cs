@@ -25,16 +25,21 @@ public class scoreEnd : MonoBehaviour
 
 
 
-
+        int j = 0;
         for (int i = 0; i < PlayerCount; i++)
         {
-            player4s[i * 2+1].GetComponent<Text>().text = data[i].ToString();
+            if (players[i] == true)
+            {
+                player4s[j * 2 + 1].GetComponent<Text>().text = data[i].ToString();
+                j++;
+            }
+            
 
 
 
         }
 
-        int j = 0;
+        j = 0;
         switch (PlayerCount)
         {
             case 2:

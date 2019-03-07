@@ -29,12 +29,13 @@ public class DashHitboxController : MonoBehaviour
             if (chargeImpactEffect) {
                 chargeImpactEffect.GetComponent<ParticleSystem>().Play();
             }
-
+            parent.transform.GetChild(4).gameObject.GetComponent<PlayerAudioController>().StopdashingAudio();
             gameObject.SetActive(false); // Disable on hit
         }
         else if (other.CompareTag("wall"))
         {
             gameObject.transform.parent.GetComponent<PlayerController>().StunPlayer(stunlength);
+            parent.transform.GetChild(4).gameObject.GetComponent<PlayerAudioController>().StopdashingAudio();
             sounds[Random.Range(0, 1)].Play(0);
         }
     }
