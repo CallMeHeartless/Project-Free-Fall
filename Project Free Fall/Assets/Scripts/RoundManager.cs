@@ -157,6 +157,10 @@ public class RoundManager : MonoBehaviour
 
     // Performs end of round checks, starting a new round or returning to main menu
     IEnumerator EndOfRound() {
+        GameObject score = GameObject.Find("InGameScoreUI");
+        if (score) {
+            score.GetComponent<spawnScore>().setScore();
+        }
         yield return new WaitForSeconds(roundOverTimeDelay);
         endUI.SetActive(false);
 
