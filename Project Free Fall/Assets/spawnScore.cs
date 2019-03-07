@@ -11,11 +11,8 @@ public class spawnScore : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-<<<<<<< HEAD
-        Invoke("starting", .01f);
-=======
+
         Invoke("starting", .1f);
->>>>>>> ae1c6829b80ec9630fd010f833049cac4f9cc6f8
     }
     void starting()
     {

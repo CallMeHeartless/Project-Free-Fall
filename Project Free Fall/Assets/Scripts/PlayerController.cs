@@ -69,8 +69,9 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem[] chargeThrusters;
     public ParticleSystem[] dashThrusters;
     public GameObject[] velocityTracers;
-    public GameObject[] cooldownLights;
+    public GameObject[] cooldownUI;
     public GameObject victoryOrbLight;
+    public GameObject stunEffect;
 
     private combat.CurrentAction currentState = combat.CurrentAction.move;
     private bool hasVictoryOrb = false;
@@ -141,7 +142,7 @@ public class PlayerController : MonoBehaviour
                 } else if (Input.GetButtonUp(playerL1Button)) {
                     PerformDash();
                 }
-                ToggleCooldownLight(0, true);
+                ToggleCooldownUI(0, true);
             }
 
         }
@@ -156,7 +157,11 @@ public class PlayerController : MonoBehaviour
         if(Input.GetButtonDown(playerBackButton) || Input.GetButtonUp(playerBackButton)) {
             ToggleInGameScore();
         }
-       
+
+        if (cooldownUI[1]) {
+            cooldownUI[1].SetActive(true);
+        }
+
     }
 
     void FixedUpdate() {
@@ -261,7 +266,7 @@ public class PlayerController : MonoBehaviour
         // VFX
         ToggleChargeThrusters(false);
         ToggleDashThrusters(true);
-        ToggleCooldownLight(0, false);
+        ToggleCooldownUI(0, false);
 
         // Set dash strength
         float dashMagnitude = minChargeForce + maxChargeForce * (dashChargeTimer / maxDashChargeTime);
@@ -301,7 +306,10 @@ public class PlayerController : MonoBehaviour
         currentState = combat.CurrentAction.stun;
         // Visual/Audio
         StartCoroutine(RemoveStun(stunDuration));
-        anim.SetTrigger("Damage");
+        anim.SetTrigger("Stun");
+        if (stunEffect) {
+            stunEffect.SetActive(true);
+        }
 
         // Drop orb if they have it
         if (hasVictoryOrb) {
@@ -315,6 +323,9 @@ public class PlayerController : MonoBehaviour
         // Remove stun status 
         currentState = combat.CurrentAction.move;
         // Visual / Audio
+        if (stunEffect) {
+            stunEffect.SetActive(false);
+        }
     }
 
     // Triggers the sword attack animation
@@ -345,14 +356,14 @@ public class PlayerController : MonoBehaviour
 
                 // VFX
                 ToggleDashThrusters(true);
-                ToggleCooldownLight(1, false);
+                ToggleCooldownUI(1, false);
                 StartCoroutine(CullSideDashParticles());
 
                 sideDashTimer = 0.0f;
 
             } 
             else {
-                ToggleCooldownLight(1, true);
+                ToggleCooldownUI(1, true);
             }
         }
     }
@@ -370,7 +381,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Animation
-        anim.SetTrigger("Damage");
+        anim.SetTrigger("Stun");
 
         if(knockbackIndex >= 6) {
             return;
@@ -581,12 +592,12 @@ public class PlayerController : MonoBehaviour
     }
 
     // Turns a light corresponding to the cooldown for player abilities on or off
-    private void ToggleCooldownLight(int abilityIndex, bool state) {
-        if (cooldownLights[abilityIndex] != null && cooldownLights.Length > abilityIndex) {
-            if (cooldownLights[abilityIndex].gameObject.activeSelf == state) {
+    private void ToggleCooldownUI(int abilityIndex, bool state) {
+        if (cooldownUI[abilityIndex] != null && cooldownUI.Length > abilityIndex) {
+            if (cooldownUI[abilityIndex].gameObject.activeSelf == state) {
                 return;
             }
-            cooldownLights[abilityIndex].gameObject.SetActive(state);
+            cooldownUI[abilityIndex].gameObject.SetActive(state);
         }
     }
 
@@ -608,5 +619,9 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SetCooldownUIReference(GameObject[] ui) {
+        cooldownUI = ui;
     }
 }

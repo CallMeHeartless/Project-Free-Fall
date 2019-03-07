@@ -29,8 +29,6 @@ public class DashHitboxController : MonoBehaviour
         }
         else if (other.CompareTag("wall"))
         {
-            //Debug.Log("hit");
-            gameObject.transform.parent.GetComponent<PlayerController>().AddImpulse(new Vector3(0,0,0));
             gameObject.transform.parent.GetComponent<PlayerController>().StunPlayer(stunlength);
             sounds[Random.Range(0, 1)].Play(0);
         }

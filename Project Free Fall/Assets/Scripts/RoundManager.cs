@@ -19,8 +19,14 @@ public class RoundManager : MonoBehaviour
     private bool roundWon = false;
     [SerializeField]
     private bool EnableVictoryOrb = false;
+    private bool[] readyPlayers;
+    private int playerCount;
+
+    // User Interface
     [SerializeField]
     GameObject endUI;
+    [SerializeField]
+    private GameObject cooldownUI;
 
     [SerializeField]
     private float roundOverTimeDelay = 3.0f;
@@ -35,22 +41,26 @@ public class RoundManager : MonoBehaviour
             GameManager.SetPlayerCount(TestPlayerCount);
         }
 
+        readyPlayers = GameManager.GetReadyStatus();
+        playerCount = GameManager.GetPlayerCount();
+
         InitialisePlayers();
         InitialiseCameras();
+        //InitialiseCooldownUI(); // Disabled
 
-        int PlayerCount = 0;
-        bool[] players = GameManager.GetReadyStatus();
-        for(int i = 0; i < 4; ++i) {
-            if (players[i]) {
-                ++PlayerCount;
-            }
-        }
-        if (EnableVictoryOrb || PlayerCount > 2) {
+        if (EnableVictoryOrb || playerCount > 2) {
             SpawnVictoryOrb();
             VictoryOrbController.isCollected = false;
         }
 
-        GameObject.Find("InGameScoreUI").GetComponent<spawnScore>().setScore();
+        if(cooldownUI != null) {
+            InitialiseCooldownUI();
+        }
+
+        GameObject score = GameObject.Find("InGameScoreUI");
+        if (score) {
+            score.GetComponent<spawnScore>().setScore();
+        }
         //endUI = GameObject.Find("EndOfRoundUI");
 
         // Start music (triggers once)
@@ -89,11 +99,11 @@ public class RoundManager : MonoBehaviour
     // Removes players characters with no corresponding player
     void InitialisePlayers() {
         // Iterate through registered ready players and ready prefab instances for them
-        bool[] readyStatus = GameManager.GetReadyStatus();
+        
         for (int i = 0; i < 4; ++i) {
             // Currently assuming players exist in level prior to game
             GameObject player = GameObject.Find("Player" + i.ToString());
-            if (readyStatus[i]) {
+            if (readyPlayers[i]) {
                 // Assign id to player instance
                 player.GetComponent<PlayerController>().AssignPlayerID(i);
             } else {
@@ -107,13 +117,6 @@ public class RoundManager : MonoBehaviour
     // Ensure the correct camera display for the number of players 
     void InitialiseCameras() {
         // Obtain number of ready players
-        int playerCount = 0;
-        bool[] playersReady = GameManager.GetReadyStatus();
-        for(int i = 0; i < 4; ++i) {
-            if (playersReady[i]) {
-                ++playerCount;
-            }
-        }
 
         Debug.Log("Player count: " + playerCount);
 
@@ -128,7 +131,7 @@ public class RoundManager : MonoBehaviour
             // Delete cameras that are not in use
             int[] camerasUsed = { 4, 4 };
             for(int i = 0; i < 4; ++i) {
-                if (!playersReady[i]) {
+                if (!readyPlayers[i]) {
                     Destroy(cameras.GetChild(i).gameObject);
                 } else {
                     if(camerasUsed[0] == 4) {
@@ -251,10 +254,56 @@ public class RoundManager : MonoBehaviour
         // turn text on 
         endUI.SetActive(true);
         endUI.GetComponentInChildren<Text>().text = "PLAYER " + (winningPlayerID + 1).ToString() + " WINS THE ROUND";
-<<<<<<< HEAD
-
-=======
->>>>>>> ae1c6829b80ec9630fd010f833049cac4f9cc6f8
-        endUI.transform.GetChild(0).GetComponentInChildren<scoreEnd>().endscore();
+        //endUI.transform.GetChild(0).GetComponentInChildren<scoreEnd>().endscore();
     }
+
+    // Decides which cooldown UI should be used, assigning it to the players in the scene
+    private void InitialiseCooldownUI() {
+        // Determine player count
+        if(GameManager.GetPlayerCount() > 2) {
+            // Set up for 4 players
+            Destroy(cooldownUI.transform.GetChild(0).gameObject);
+            for (int i = 0; i < 4; ++i) {
+                if (readyPlayers[i]) {
+                    GameObject[] ui = { null, null };
+                    ui[0] = cooldownUI.transform.GetChild(1).GetChild(4* i + 1).gameObject;
+                    ui[1] = cooldownUI.transform.GetChild(1).GetChild(4 * i + 3).gameObject;
+                    GameObject player = GameObject.Find("Player" + i);
+                    if (player) {
+                        player.GetComponent<PlayerController>().SetCooldownUIReference(ui);
+                    } else {
+                        Debug.LogError("ERROR: Player does not exist to have cooldown ui assigned");
+                    }
+                }
+            }
+        } else {
+            // Two players only
+            Destroy(cooldownUI.transform.GetChild(1).gameObject);
+            // Iterate through ready players and assign their UI
+            bool assignedFirst = false;
+            for(int i = 0; i < 4; ++i) {
+                if (readyPlayers[i]) {
+                    GameObject[] ui = { null, null };
+                    if (assignedFirst) {
+                        ui[0] = cooldownUI.transform.GetChild(0).GetChild(1).gameObject;
+                        ui[0] = cooldownUI.transform.GetChild(0).GetChild(3).gameObject;
+                    } else {
+                        ui[0] = cooldownUI.transform.GetChild(0).GetChild(5).gameObject;
+                        ui[0] = cooldownUI.transform.GetChild(0).GetChild(7).gameObject;
+                    }
+                    GameObject player = GameObject.Find("Player" + i);
+                    if (player) {
+                        player.GetComponent<PlayerController>().SetCooldownUIReference(ui);
+                    } else {
+                        Debug.LogError("ERROR: Player does not exist to have cooldown ui assigned");
+                    }
+                }
+            }
+
+        }
+
+
+
+    }
+
 }
