@@ -23,6 +23,9 @@ public class scoreEnd : MonoBehaviour
             }
         }
 
+
+
+
         for (int i = 0; i < PlayerCount; i++)
         {
             player4s[i * 2+1].GetComponent<Text>().text = data[i].ToString();
@@ -30,17 +33,36 @@ public class scoreEnd : MonoBehaviour
 
 
         }
-      
+
+        int j = 0;
         switch (PlayerCount)
         {
             case 2:
+                for (int i = 0; i < players.Length; i++)
+                {
+                    if (players[i] == true)
+                    {
+                        player4s[j * 2].GetComponent<Text>().text = "player " + (i + 1);
+                        j++;
+
+                    }
+                }
                 player4s[0].gameObject.SetActive(true);
                 player4s[1].gameObject.SetActive(true);
                 player4s[2].gameObject.SetActive(true);
                 player4s[3].gameObject.SetActive(true);
                 break;
             case 3:
-                
+
+                for (int i = 0; i < players.Length; i++)
+                {
+                    if (players[i] == true)
+                    {
+                        player4s[j*2].GetComponent<Text>().text = "player " + (i + 1);
+                        j++;
+
+                    }
+                }
                 player4s[0].gameObject.SetActive(true);
                 player4s[1].gameObject.SetActive(true);
                 player4s[2].gameObject.SetActive(true);
