@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class spawnScore : MonoBehaviour
 {
-   public GameObject[] player2s;
-   public GameObject[] player4s;
+    public GameObject[] player2s;
+    public GameObject[] player4s;
     public int playercount = 0;
+    public bool[] activePlayers = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,15 +16,19 @@ public class spawnScore : MonoBehaviour
     }
     void starting()
     {
-        bool[] activePlayers = GameManager.GetReadyStatus();
+        activePlayers = GameManager.GetReadyStatus();
         int total = 0;
+        
         for (int i = 0; i < activePlayers.Length; i++)
         {
             if (activePlayers[i] == true)
             {
                 total++;
+                
             }
         }
+
+        
         //find player count if 3 then call player3
         if (total == 3)
         {
@@ -61,11 +66,20 @@ public class spawnScore : MonoBehaviour
     public void setScore()
     {
         int[] data = GameManager.GetPlayerScores();
-       
+        int j = 0;
         switch (playercount)
         {
             case 2:
                
+                for (int i = 0; i < activePlayers.Length; i++)
+                {
+                    if (activePlayers[i] == true)
+                    {
+                        player2s[0].transform.GetChild(j).GetComponent<Text>().text = "player "+ (i+1);
+                        player2s[1].transform.GetChild(j).GetComponent<Text>().text = "player " + (i + 1);
+                        j++;
+                    }
+                }
                 player2s[0].transform.GetChild(1).GetComponent<Text>().text = data[0].ToString();
                 player2s[0].transform.GetChild(3).GetComponent<Text>().text = data[1].ToString();
 
@@ -75,7 +89,19 @@ public class spawnScore : MonoBehaviour
                 break;
 
             case 3:
+
                
+                for (int i = 0; i < activePlayers.Length; i++)
+                {
+                    if (activePlayers[i] == true)
+                    {
+                        player4s[0].transform.GetChild(j).GetComponent<Text>().text = "player " + (i + 1);
+                        player4s[1].transform.GetChild(j).GetComponent<Text>().text = "player " + (i + 1);
+                        player4s[2].transform.GetChild(j).GetComponent<Text>().text = "player " + (i + 1);
+                        j++;
+
+                    }
+                }
                 player4s[0].transform.GetChild(1).GetComponent<Text>().text = data[0].ToString();
                 player4s[0].transform.GetChild(3).GetComponent<Text>().text = data[1].ToString();
                 player4s[0].transform.GetChild(5).GetComponent<Text>().text = data[2].ToString();
