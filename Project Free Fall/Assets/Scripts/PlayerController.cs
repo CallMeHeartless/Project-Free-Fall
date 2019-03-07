@@ -410,6 +410,9 @@ public class PlayerController : MonoBehaviour
         hasVictoryOrb = true;
         ToggleVictoryOrbLight(true);
 
+        anim.SetTrigger("Orb");
+        dashChargeTimer = 0.0f;
+
         // Audio
         transform.GetChild(4).GetComponent<PlayerAudioController>().PlayerHasCollectedOrb();
     }
